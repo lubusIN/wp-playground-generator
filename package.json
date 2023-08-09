@@ -1,0 +1,35 @@
+{
+  "name": "wp-playground-generator",
+  "version": "1.0.0",
+  "description": "UI Tool to generate WordPress Playgrounds",
+  "main": "index.js",
+  "scripts": {
+    "build": "wp-scripts build --webpack-no-externals",
+    "check-engines": "wp-scripts check-engines",
+    "check-licenses": "wp-scripts check-licenses",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "lint:md:docs": "wp-scripts lint-md-docs",
+    "lint:pkg-json": "wp-scripts lint-pkg-json",
+    "packages-update": "wp-scripts packages-update",
+    "start": "wp-scripts start --webpack-no-externals"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lubusIN/wp-playground-generator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lubusIN/wp-playground-generator/issues"
+  },
+  "homepage": "https://github.com/lubusIN/wp-playground-generator#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^26.9.0"
+  },
+  "dependencies": {
+    "@wordpress/dom-ready": "^3.38.0",
+    "@wordpress/element": "^5.15.0"
+  }
+}
