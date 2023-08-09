@@ -1,19 +1,10 @@
 import { createRoot, render } from '@wordpress/element';
+import App from './app';
 
 const root = document.getElementById( 'root' );
 
-function App( props ) {
-    return (
-        <span> {`Hello ${props.msg}!`} </span>
-    );
-}
-
-const uiElement = (
-    <App msg="WordPress Playground"/>
-);
-
 if ( createRoot ) {
-    createRoot( root ).render( uiElement );
+    createRoot( root ).render( <App/> );
 } else {
-    render( uiElement, root );
+    render( <App/>, root );
 }    
