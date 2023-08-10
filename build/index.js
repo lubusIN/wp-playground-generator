@@ -20843,55 +20843,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const phpOptions = [{
-  key: '5.6',
-  name: '5.6'
-}, {
-  key: '7.0',
-  name: '7.0'
-}, {
-  key: '7.1',
-  name: '7.1'
-}, {
-  key: '7.2',
-  name: '7.2'
-}, {
-  key: '7.3',
-  name: '7.3'
-}, {
-  key: '7.4',
-  name: '7.4'
-}, {
-  key: '8.0',
-  name: '8.0'
-}, {
-  key: '8.1',
-  name: '8.1'
+  key: 'latest',
+  name: 'latest'
 }, {
   key: '8.2',
   name: '8.2'
 }, {
-  key: 'latest',
-  name: 'latest'
+  key: '8.1',
+  name: '8.1'
+}, {
+  key: '8.0',
+  name: '8.0'
+}, {
+  key: '7.4',
+  name: '7.4'
+}, {
+  key: '7.3',
+  name: '7.3'
+}, {
+  key: '7.2',
+  name: '7.2'
+}, {
+  key: '7.1',
+  name: '7.1'
+}, {
+  key: '7.0',
+  name: '7.0'
+}, {
+  key: '5.6',
+  name: '5.6'
 }];
 const wpOptions = [{
-  key: '5.9',
-  name: '5.6'
-}, {
-  key: '6.0',
-  name: '6.0'
-}, {
-  key: '6.1',
-  name: '6.1'
+  key: 'latest',
+  name: 'latest'
 }, {
   key: '6.2',
   name: '6.2'
 }, {
-  key: 'latest',
-  name: 'latest'
+  key: '6.1',
+  name: '6.1'
+}, {
+  key: '6.0',
+  name: '6.0'
+}, {
+  key: '5.9',
+  name: '5.6'
 }];
 function App() {
-  const [phpVersion, setPhpVersion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(phpOptions[6]);
-  const [wpVersion, setWpVersion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(phpOptions[4]);
+  const [phpVersion, setPhpVersion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(phpOptions[3]);
+  const [wpVersion, setWpVersion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(phpOptions[0]);
   const [selectedPlugins, setSelectedPlugins] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [selectedThemes, setSelectedThemes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [Url, setUrl] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/wp-admin/');
