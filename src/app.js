@@ -3,11 +3,14 @@ import {
     CustomSelectControl,
     FormTokenField,
     TextControl,
+    TextareaControl,
     ToggleControl,
     __experimentalToggleGroupControl as ToggleGroupControl,
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
+    SandBox,
 } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import { addQueryArgs } from '@wordpress/url';
 
 const phpOptions = [
     {
@@ -77,15 +80,62 @@ const wpOptions = [
 ];
 
 function App() {
-    const [phpVersion, setPhpVersion] = useState(phpOptions[3]);
-    const [wpVersion, setWpVersion] = useState(phpOptions[0]);
+    const [phpVersion, setPhpVersion] = useState(phpOptions[3].key);
+    const [wpVersion, setWpVersion] = useState(phpOptions[0].key);
     const [selectedPlugins, setSelectedPlugins] = useState([]);
-    const [selectedThemes, setSelectedThemes] = useState([]);
+    const [selectedTheme, setSelectedTheme] = useState([]);
     const [Url, setUrl] = useState('/wp-admin/');
     const [hasSeamlessMode, setSeamlessMode] = useState(false);
     const [hasLazyLoading, setLazyLoading] = useState(false);
     const [hasAutoLogin, setAutoLogin] = useState(true);
     const [selectedStorage, setStorage] = useState('temporary');
+
+    const baseUrl = 'https://playground.wordpress.net';
+    const args = {
+        php: phpVersion,
+        wp: wpVersion,
+        theme: selectedTheme ? selectedTheme : '',
+        url: Url,
+        storage: selectedStorage
+    };
+
+    hasLazyLoading && (args.lazy = true);
+    hasSeamlessMode && (args.mode = 'seamless');
+    hasAutoLogin && (args.login = 1);
+
+    const plugins = selectedPlugins.map((plugin) => `plugin=${plugin}`);
+
+    let playgroundUrl = addQueryArgs(baseUrl, args);
+    playgroundUrl = playgroundUrl + '&' + plugins.join('&');
+
+    const embedCode = `<iframe src="${playgroundUrl}"></iframe>`;
+    
+    // For download
+    const htmlContent = `<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Playground</title>
+    </head>
+    <body>
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+            iframe {
+                width: 100vw;
+                height: 100vh;
+                border: none;
+            }
+        </style>
+        ${embedCode}
+    </body>
+    </html>`;
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const downloadUrl = URL.createObjectURL(blob);
+  
 
     return (
         <>
@@ -93,16 +143,16 @@ function App() {
                 __nextUnconstrainedWidth
                 label="Php"
                 options={phpOptions}
-                onChange={({ selectedItem }) => setPhpVersion(selectedItem)}
-                value={phpOptions.find((option) => option.key === phpVersion.key)}
+                onChange={({ selectedItem }) => setPhpVersion(selectedItem.key)}
+                value={phpOptions.find((option) => option.key === phpVersion)}
             />
 
             <CustomSelectControl
                 __nextUnconstrainedWidth
                 label="WP"
                 options={wpOptions}
-                onChange={({ selectedItem }) => setWpVersion(selectedItem)}
-                value={wpOptions.find((option) => option.key === wpVersion.key)}
+                onChange={({ selectedItem }) => setWpVersion(selectedItem.key)}
+                value={wpOptions.find((option) => option.key === wpVersion)}
             />
 
             <FormTokenField
@@ -111,10 +161,10 @@ function App() {
                 onChange={(tokens) => setSelectedPlugins(tokens)}
             />
 
-            <FormTokenField
-                label="Themes"
-                value={selectedThemes}
-                onChange={(tokens) => setSelectedThemes(tokens)}
+            <TextControl
+                label="Theme"
+                value={selectedTheme}
+                onChange={(tokens) => setSelectedTheme(tokens)}
             />
 
             <TextControl
@@ -145,14 +195,24 @@ function App() {
                 }}
             />
 
-            <ToggleGroupControl label="Storage" value={selectedStorage} isBlock onChange={() => {
-                setStorage((state) => !state);
+            <ToggleGroupControl label="Storage" value={selectedStorage} isBlock onChange={(storage) => {
+                setStorage(storage);
             }}>
                 <ToggleGroupControlOption value="temporary" label="Temporary" />
-                <ToggleGroupControlOption value="browser" label="Browser" />
-                <ToggleGroupControlOption value="host" label="Host" />
+                <ToggleGroupControlOption value="opfs-browser" label="Browser" />
+                <ToggleGroupControlOption value="opfs-host" label="Host" />
             </ToggleGroupControl>
-            <Button variant="primary">Launch!</Button>
+            <Button href={playgroundUrl} target="_blank" variant="primary">Launch 🚀</Button>
+            <TextControl label="Playground Url" value={playgroundUrl} />
+            <TextareaControl
+                help="use this to embed playground in your html"
+                label="Embed Code"
+                value={embedCode}
+            />
+            <Button href={downloadUrl} download="my-playground.html" variant="primary">Download ⬇</Button>
+
+            <SandBox html={`<iframe width="100%" height="800" src="${playgroundUrl}"> </iframe>`} title="Playground" type="embed" />
+
         </>
     );
 }
