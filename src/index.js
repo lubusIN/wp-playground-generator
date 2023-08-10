@@ -1,5 +1,8 @@
 import { createRoot, render } from '@wordpress/element';
+import '@wordpress/components/build-style/style.css';
+
 import App from './app';
+
 
 const root = document.getElementById( 'root' );
 
