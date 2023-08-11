@@ -22563,18 +22563,42 @@ const wpOptions = [{
 function App() {
   const [phpVersion, setPhpVersion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(phpOptions[3].key);
   const [wpVersion, setWpVersion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(phpOptions[0].key);
+  const [pluginSuggestion, setPluginSuggestion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [pluginsData, setPluginsData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [selectedPlugins, setSelectedPlugins] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [themeSuggestion, setThemeSuggestion] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [themesData, setThemesData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [selectedTheme, setSelectedTheme] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [Url, setUrl] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/wp-admin/');
   const [hasSeamlessMode, setSeamlessMode] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [hasLazyLoading, setLazyLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [hasAutoLogin, setAutoLogin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [selectedStorage, setStorage] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('temporary');
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+
+  // Similar to componentDidMount and componentDidUpdate:
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    fetch(`https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[search]=${themeSuggestion}`, requestOptions).then(response => response.json()).then(result => {
+      const pluck = (arr, key) => arr.map(i => i[key]);
+      const themesSuggestion = pluck(result.themes, 'slug');
+      setThemesData(themesSuggestion);
+    }).catch(error => console.log('error', error));
+  }, [themeSuggestion]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    fetch(`https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[search]=${pluginSuggestion}`, requestOptions).then(response => response.json()).then(result => {
+      const pluck = (arr, key) => arr.map(i => i[key]);
+      const pluginsSuggestion = pluck(result.plugins, 'slug');
+      setPluginsData(pluginsSuggestion);
+    }).catch(error => console.log('error', error));
+  }, [pluginSuggestion]);
   const baseUrl = 'https://playground.wordpress.net';
   const args = {
     php: phpVersion,
     wp: wpVersion,
-    theme: selectedTheme ? selectedTheme : '',
+    theme: selectedTheme ? selectedTheme : [],
     url: Url,
     storage: selectedStorage
   };
@@ -22632,11 +22656,16 @@ function App() {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Plugins",
     value: selectedPlugins,
-    onChange: tokens => setSelectedPlugins(tokens)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    onChange: tokens => setSelectedPlugins(tokens),
+    onInputChange: tokens => setPluginSuggestion(tokens),
+    suggestions: pluginsData
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["default"], {
     label: "Theme",
+    maxLength: 1,
     value: selectedTheme,
-    onChange: tokens => setSelectedTheme(tokens)
+    onChange: tokens => setSelectedTheme(tokens),
+    onInputChange: tokens => setThemeSuggestion(tokens),
+    suggestions: themesData
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["default"], {
     label: "Url",
     value: Url,

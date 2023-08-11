@@ -9,7 +9,7 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
     SandBox,
 } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 
 const phpOptions = [
@@ -82,19 +82,56 @@ const wpOptions = [
 function App() {
     const [phpVersion, setPhpVersion] = useState(phpOptions[3].key);
     const [wpVersion, setWpVersion] = useState(phpOptions[0].key);
+    
+    const [pluginSuggestion, setPluginSuggestion] = useState([]);
+    const [pluginsData, setPluginsData] = useState([]);
     const [selectedPlugins, setSelectedPlugins] = useState([]);
+    
+    const [themeSuggestion, setThemeSuggestion] = useState([]);
+    const [themesData, setThemesData] = useState([]);
     const [selectedTheme, setSelectedTheme] = useState([]);
+    
     const [Url, setUrl] = useState('/wp-admin/');
     const [hasSeamlessMode, setSeamlessMode] = useState(false);
     const [hasLazyLoading, setLazyLoading] = useState(false);
     const [hasAutoLogin, setAutoLogin] = useState(true);
     const [selectedStorage, setStorage] = useState('temporary');
 
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    fetch(`https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[search]=${themeSuggestion}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            const pluck = (arr, key) => arr.map(i => i[key]);
+            const themesSuggestion = pluck(result.themes, 'slug');
+            setThemesData(themesSuggestion);
+        })
+        .catch(error => console.log('error', error));
+  }, [themeSuggestion]);
+
+  useEffect(() => {
+    fetch(`https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[search]=${pluginSuggestion}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            const pluck = (arr, key) => arr.map(i => i[key]);
+            const pluginsSuggestion = pluck(result.plugins, 'slug');
+            setPluginsData(pluginsSuggestion);
+        })
+        .catch(error => console.log('error', error));
+  }, [pluginSuggestion]);
+
+    
+
     const baseUrl = 'https://playground.wordpress.net';
     const args = {
         php: phpVersion,
         wp: wpVersion,
-        theme: selectedTheme ? selectedTheme : '',
+        theme: selectedTheme ? selectedTheme : [],
         url: Url,
         storage: selectedStorage
     };
@@ -109,7 +146,7 @@ function App() {
     playgroundUrl = playgroundUrl + '&' + plugins.join('&');
 
     const embedCode = `<iframe src="${playgroundUrl}"></iframe>`;
-    
+
     // For download
     const htmlContent = `<!DOCTYPE html>
     <html lang="en">
@@ -135,7 +172,7 @@ function App() {
     </html>`;
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const downloadUrl = URL.createObjectURL(blob);
-  
+
 
     return (
         <>
@@ -159,12 +196,17 @@ function App() {
                 label="Plugins"
                 value={selectedPlugins}
                 onChange={(tokens) => setSelectedPlugins(tokens)}
+                onInputChange={(tokens) => setPluginSuggestion(tokens)}
+                suggestions={ pluginsData }
             />
 
-            <TextControl
+            <FormTokenField
                 label="Theme"
+                maxLength={1}
                 value={selectedTheme}
                 onChange={(tokens) => setSelectedTheme(tokens)}
+                onInputChange={(tokens) => setThemeSuggestion(tokens)}
+                suggestions={ themesData }
             />
 
             <TextControl
