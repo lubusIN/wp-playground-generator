@@ -6873,6 +6873,305 @@ const Suffix = (0,_emotion_styled_base__WEBPACK_IMPORTED_MODULE_0__["default"])(
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/components/build-module/panel/body.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/panel/body.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PanelBody: () => (/* binding */ PanelBody),
+/* harmony export */   UnforwardedPanelBody: () => (/* binding */ UnforwardedPanelBody),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/compose */ "./node_modules/@wordpress/compose/build-module/hooks/use-reduced-motion/index.js");
+/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/compose */ "./node_modules/@wordpress/compose/build-module/hooks/use-merge-refs/index.js");
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/chevron-up.js");
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/chevron-down.js");
+/* harmony import */ var _button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../button */ "./node_modules/@wordpress/components/build-module/button/index.js");
+/* harmony import */ var _icon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../icon */ "./node_modules/@wordpress/components/build-module/icon/index.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./node_modules/@wordpress/components/build-module/utils/hooks/use-controlled-state.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils */ "./node_modules/@wordpress/components/build-module/utils/hooks/use-update-effect.js");
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+const noop = () => {};
+
+function UnforwardedPanelBody(props, ref) {
+  const {
+    buttonProps = {},
+    children,
+    className,
+    icon,
+    initialOpen,
+    onToggle = noop,
+    opened,
+    title,
+    scrollAfterOpen = true
+  } = props;
+  const [isOpened, setIsOpened] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__["default"])(opened, {
+    initial: initialOpen === undefined ? true : initialOpen,
+    fallback: false
+  });
+  const nodeRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useRef)(null); // Defaults to 'smooth' scrolling
+  // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+
+  const scrollBehavior = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["default"])() ? 'auto' : 'smooth';
+
+  const handleOnToggle = event => {
+    event.preventDefault();
+    const next = !isOpened;
+    setIsOpened(next);
+    onToggle(next);
+  }; // Ref is used so that the effect does not re-run upon scrollAfterOpen changing value.
+
+
+  const scrollAfterOpenRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  scrollAfterOpenRef.current = scrollAfterOpen; // Runs after initial render.
+
+  (0,_utils__WEBPACK_IMPORTED_MODULE_4__["default"])(() => {
+    if (isOpened && scrollAfterOpenRef.current && nodeRef.current?.scrollIntoView) {
+      /*
+       * Scrolls the content into view when visible.
+       * This improves the UX when there are multiple stacking <PanelBody />
+       * components in a scrollable container.
+       */
+      nodeRef.current.scrollIntoView({
+        inline: 'nearest',
+        block: 'nearest',
+        behavior: scrollBehavior
+      });
+    }
+  }, [isOpened, scrollBehavior]);
+  const classes = classnames__WEBPACK_IMPORTED_MODULE_0___default()('components-panel__body', className, {
+    'is-opened': isOpened
+  });
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("div", {
+    className: classes,
+    ref: (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_5__["default"])([nodeRef, ref])
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(PanelBodyTitle, {
+    icon: icon,
+    isOpened: Boolean(isOpened),
+    onClick: handleOnToggle,
+    title: title,
+    ...buttonProps
+  }), typeof children === 'function' ? children({
+    opened: Boolean(isOpened)
+  }) : isOpened && children);
+}
+const PanelBodyTitle = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.forwardRef)(({
+  isOpened,
+  icon,
+  title,
+  ...props
+}, ref) => {
+  if (!title) return null;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("h2", {
+    className: "components-panel__body-title"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    className: "components-panel__body-toggle",
+    "aria-expanded": isOpened,
+    ref: ref,
+    ...props
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)("span", {
+    "aria-hidden": "true"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_icon__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    className: "components-panel__arrow",
+    icon: isOpened ? _wordpress_icons__WEBPACK_IMPORTED_MODULE_8__["default"] : _wordpress_icons__WEBPACK_IMPORTED_MODULE_9__["default"]
+  })), title, icon && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createElement)(_icon__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    icon: icon,
+    className: "components-panel__icon",
+    size: 20
+  })));
+});
+const PanelBody = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.forwardRef)(UnforwardedPanelBody);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PanelBody);
+//# sourceMappingURL=body.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/components/build-module/panel/header.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/panel/header.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * Internal dependencies
+ */
+
+/**
+ * `PanelHeader` renders the header for the `Panel`.
+ * This is used by the `Panel` component under the hood,
+ * so it does not typically need to be used.
+ */
+function PanelHeader({
+  label,
+  children
+}) {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "components-panel__header"
+  }, label && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, label), children);
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PanelHeader);
+//# sourceMappingURL=header.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/components/build-module/panel/index.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/panel/index.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   Panel: () => (/* binding */ Panel),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _header__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./header */ "./node_modules/@wordpress/components/build-module/panel/header.js");
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+function UnforwardedPanel({
+  header,
+  className,
+  children
+}, ref) {
+  const classNames = classnames__WEBPACK_IMPORTED_MODULE_0___default()(className, 'components-panel');
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: classNames,
+    ref: ref
+  }, header && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_header__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    label: header
+  }), children);
+}
+/**
+ * `Panel` expands and collapses multiple sections of content.
+ *
+ * ```jsx
+ * import { Panel, PanelBody, PanelRow } from '@wordpress/components';
+ * import { more } from '@wordpress/icons';
+ *
+ * const MyPanel = () => (
+ * 	<Panel header="My Panel">
+ * 		<PanelBody title="My Block Settings" icon={ more } initialOpen={ true }>
+ * 			<PanelRow>My Panel Inputs and Labels</PanelRow>
+ * 		</PanelBody>
+ * 	</Panel>
+ * );
+ * ```
+ */
+
+
+const Panel = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.forwardRef)(UnforwardedPanel);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Panel);
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/components/build-module/panel/row.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/panel/row.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PanelRow: () => (/* binding */ PanelRow),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * External dependencies
+ */
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+function UnforwardedPanelRow({
+  className,
+  children
+}, ref) {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: classnames__WEBPACK_IMPORTED_MODULE_0___default()('components-panel__row', className),
+    ref: ref
+  }, children);
+}
+/**
+ * `PanelRow` is a generic container for rows within a `PanelBody`.
+ * It is a flex container with a top margin for spacing.
+ */
+
+
+const PanelRow = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.forwardRef)(UnforwardedPanelRow);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (PanelRow);
+//# sourceMappingURL=row.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/components/build-module/popover/index.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/@wordpress/components/build-module/popover/index.js ***!
@@ -7909,270 +8208,6 @@ const getReferenceElement = ({
 
 const computePopoverPosition = c => c === null || Number.isNaN(c) ? undefined : Math.round(c);
 //# sourceMappingURL=utils.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/components/build-module/sandbox/index.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@wordpress/components/build-module/sandbox/index.js ***!
-  \**************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/@wordpress/element/build-module/serialize.js");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/compose */ "./node_modules/@wordpress/compose/build-module/hooks/use-merge-refs/index.js");
-/* harmony import */ var _wordpress_compose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/compose */ "./node_modules/@wordpress/compose/build-module/hooks/use-focusable-iframe/index.js");
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-const observeAndResizeJS = function () {
-  const {
-    MutationObserver
-  } = window;
-
-  if (!MutationObserver || !document.body || !window.parent) {
-    return;
-  }
-
-  function sendResize() {
-    const clientBoundingRect = document.body.getBoundingClientRect();
-    window.parent.postMessage({
-      action: 'resize',
-      width: clientBoundingRect.width,
-      height: clientBoundingRect.height
-    }, '*');
-  }
-
-  const observer = new MutationObserver(sendResize);
-  observer.observe(document.body, {
-    attributes: true,
-    attributeOldValue: false,
-    characterData: true,
-    characterDataOldValue: false,
-    childList: true,
-    subtree: true
-  });
-  window.addEventListener('load', sendResize, true); // Hack: Remove viewport unit styles, as these are relative
-  // the iframe root and interfere with our mechanism for
-  // determining the unconstrained page bounds.
-
-  function removeViewportStyles(ruleOrNode) {
-    if (ruleOrNode.style) {
-      ['width', 'height', 'minHeight', 'maxHeight'].forEach(function (style) {
-        if (/^\\d+(vmin|vmax|vh|vw)$/.test(ruleOrNode.style[style])) {
-          ruleOrNode.style[style] = '';
-        }
-      });
-    }
-  }
-
-  Array.prototype.forEach.call(document.querySelectorAll('[style]'), removeViewportStyles);
-  Array.prototype.forEach.call(document.styleSheets, function (stylesheet) {
-    Array.prototype.forEach.call(stylesheet.cssRules || stylesheet.rules, removeViewportStyles);
-  });
-  document.body.style.position = 'absolute';
-  document.body.style.width = '100%';
-  document.body.setAttribute('data-resizable-iframe-connected', '');
-  sendResize(); // Resize events can change the width of elements with 100% width, but we don't
-  // get an DOM mutations for that, so do the resize when the window is resized, too.
-
-  window.addEventListener('resize', sendResize, true);
-}; // TODO: These styles shouldn't be coupled with WordPress.
-
-
-const style = `
-	body {
-		margin: 0;
-	}
-	html,
-	body,
-	body > div {
-		width: 100%;
-	}
-	html.wp-has-aspect-ratio,
-	body.wp-has-aspect-ratio,
-	body.wp-has-aspect-ratio > div,
-	body.wp-has-aspect-ratio > div iframe {
-		width: 100%;
-		height: 100%;
-		overflow: hidden; /* If it has an aspect ratio, it shouldn't scroll. */
-	}
-	body > div > * {
-		margin-top: 0 !important; /* Has to have !important to override inline styles. */
-		margin-bottom: 0 !important;
-	}
-`;
-/**
- * This component provides an isolated environment for arbitrary HTML via iframes.
- *
- * ```jsx
- * import { SandBox } from '@wordpress/components';
- *
- * const MySandBox = () => (
- * 	<SandBox html="<p>Content</p>" title="SandBox" type="embed" />
- * );
- * ```
- */
-
-function SandBox({
-  html = '',
-  title = '',
-  type,
-  styles = [],
-  scripts = [],
-  onFocus
-}) {
-  const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
-  const [width, setWidth] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-  const [height, setHeight] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
-
-  function isFrameAccessible() {
-    try {
-      return !!ref.current?.contentDocument?.body;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function trySandBox(forceRerender = false) {
-    if (!isFrameAccessible()) {
-      return;
-    }
-
-    const {
-      contentDocument,
-      ownerDocument
-    } = ref.current;
-
-    if (!forceRerender && null !== contentDocument?.body.getAttribute('data-resizable-iframe-connected')) {
-      return;
-    } // Put the html snippet into a html document, and then write it to the iframe's document
-    // we can use this in the future to inject custom styles or scripts.
-    // Scripts go into the body rather than the head, to support embedded content such as Instagram
-    // that expect the scripts to be part of the body.
-
-
-    const htmlDoc = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("html", {
-      lang: ownerDocument.documentElement.lang,
-      className: type
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("head", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("title", null, title), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
-      dangerouslySetInnerHTML: {
-        __html: style
-      }
-    }), styles.map((rules, i) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("style", {
-      key: i,
-      dangerouslySetInnerHTML: {
-        __html: rules
-      }
-    }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("body", {
-      "data-resizable-iframe-connected": "data-resizable-iframe-connected",
-      className: type
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      dangerouslySetInnerHTML: {
-        __html: html
-      }
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("script", {
-      type: "text/javascript",
-      dangerouslySetInnerHTML: {
-        __html: `(${observeAndResizeJS.toString()})();`
-      }
-    }), scripts.map(src => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("script", {
-      key: src,
-      src: src
-    })))); // Writing the document like this makes it act in the same way as if it was
-    // loaded over the network, so DOM creation and mutation, script execution, etc.
-    // all work as expected.
-
-    contentDocument.open();
-    contentDocument.write('<!DOCTYPE html>' + (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__["default"])(htmlDoc));
-    contentDocument.close();
-  }
-
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    trySandBox();
-
-    function tryNoForceSandBox() {
-      trySandBox(false);
-    }
-
-    function checkMessageForResize(event) {
-      const iframe = ref.current; // Verify that the mounted element is the source of the message.
-
-      if (!iframe || iframe.contentWindow !== event.source) {
-        return;
-      } // Attempt to parse the message data as JSON if passed as string.
-
-
-      let data = event.data || {};
-
-      if ('string' === typeof data) {
-        try {
-          data = JSON.parse(data);
-        } catch (e) {}
-      } // Update the state only if the message is formatted as we expect,
-      // i.e. as an object with a 'resize' action.
-
-
-      if ('resize' !== data.action) {
-        return;
-      }
-
-      setWidth(data.width);
-      setHeight(data.height);
-    }
-
-    const iframe = ref.current;
-    const defaultView = iframe?.ownerDocument?.defaultView; // This used to be registered using <iframe onLoad={} />, but it made the iframe blank
-    // after reordering the containing block. See these two issues for more details:
-    // https://github.com/WordPress/gutenberg/issues/6146
-    // https://github.com/facebook/react/issues/18752
-
-    iframe?.addEventListener('load', tryNoForceSandBox, false);
-    defaultView?.addEventListener('message', checkMessageForResize);
-    return () => {
-      iframe?.removeEventListener('load', tryNoForceSandBox, false);
-      defaultView?.addEventListener('message', checkMessageForResize);
-    }; // Ignore reason: passing `exhaustive-deps` will likely involve a more detailed refactor.
-    // See https://github.com/WordPress/gutenberg/pull/44378
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    trySandBox(); // Ignore reason: passing `exhaustive-deps` will likely involve a more detailed refactor.
-    // See https://github.com/WordPress/gutenberg/pull/44378
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, styles, scripts]);
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    trySandBox(true); // Ignore reason: passing `exhaustive-deps` will likely involve a more detailed refactor.
-    // See https://github.com/WordPress/gutenberg/pull/44378
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [html, type]);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("iframe", {
-    ref: (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_2__["default"])([ref, (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__["default"])()]),
-    title: title,
-    className: "components-sandbox",
-    sandbox: "allow-scripts allow-same-origin allow-presentation",
-    onFocus: onFocus,
-    width: Math.ceil(width),
-    height: Math.ceil(height)
-  });
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SandBox);
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -13025,6 +13060,109 @@ function font(value) {
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/components/build-module/utils/hooks/use-controlled-state.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/@wordpress/components/build-module/utils/hooks/use-controlled-state.js ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _values__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../values */ "./node_modules/@wordpress/components/build-module/utils/values.js");
+/**
+ * WordPress dependencies
+ */
+
+/**
+ * Internal dependencies
+ */
+
+
+/**
+ * @template T
+ * @typedef Options
+ * @property {T}      [initial] Initial value
+ * @property {T | ""} fallback  Fallback value
+ */
+
+/** @type {Readonly<{ initial: undefined, fallback: '' }>} */
+
+const defaultOptions = {
+  initial: undefined,
+
+  /**
+   * Defaults to empty string, as that is preferred for usage with
+   * <input />, <textarea />, and <select /> form elements.
+   */
+  fallback: ''
+};
+/**
+ * Custom hooks for "controlled" components to track and consolidate internal
+ * state and incoming values. This is useful for components that render
+ * `input`, `textarea`, or `select` HTML elements.
+ *
+ * https://reactjs.org/docs/forms.html#controlled-components
+ *
+ * At first, a component using useControlledState receives an initial prop
+ * value, which is used as initial internal state.
+ *
+ * This internal state can be maintained and updated without
+ * relying on new incoming prop values.
+ *
+ * Unlike the basic useState hook, useControlledState's state can
+ * be updated if a new incoming prop value is changed.
+ *
+ * @template T
+ *
+ * @param {T | undefined} currentState             The current value.
+ * @param {Options<T>}    [options=defaultOptions] Additional options for the hook.
+ *
+ * @return {[T | "", (nextState: T) => void]} The controlled value and the value setter.
+ */
+
+function useControlledState(currentState, options = defaultOptions) {
+  const {
+    initial,
+    fallback
+  } = { ...defaultOptions,
+    ...options
+  };
+  const [internalState, setInternalState] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(currentState);
+  const hasCurrentState = (0,_values__WEBPACK_IMPORTED_MODULE_1__.isValueDefined)(currentState);
+  /*
+   * Resets internal state if value every changes from uncontrolled <-> controlled.
+   */
+
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (hasCurrentState && internalState) {
+      setInternalState(undefined);
+    }
+  }, [hasCurrentState, internalState]);
+  const state = (0,_values__WEBPACK_IMPORTED_MODULE_1__.getDefinedValue)([currentState, internalState, initial], fallback);
+  /* eslint-disable jsdoc/no-undefined-types */
+
+  /** @type {(nextState: T) => void} */
+
+  const setState = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(nextState => {
+    if (!hasCurrentState) {
+      setInternalState(nextState);
+    }
+  }, [hasCurrentState]);
+  /* eslint-enable jsdoc/no-undefined-types */
+
+  return [state, setState];
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useControlledState);
+//# sourceMappingURL=use-controlled-state.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/components/build-module/utils/hooks/use-cx.js":
 /*!*******************************************************************************!*\
   !*** ./node_modules/@wordpress/components/build-module/utils/hooks/use-cx.js ***!
@@ -14266,11 +14404,12 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+/** @type {Element|null} */
+
+let origin = null;
 /**
- * When opening modals/sidebars/dialogs, the focus
- * must move to the opened area and return to the
- * previously focused element when closed.
- * The current hook implements the returning behavior.
+ * Adds the unmount behavior of returning focus to the element which had it
+ * previously as is expected for roles like menus or dialogs.
  *
  * @param {() => void} [onFocusReturn] Overrides the default return behavior.
  * @return {import('react').RefCallback<HTMLElement>} Element Ref.
@@ -14315,6 +14454,9 @@ function useFocusReturn(onFocusReturn) {
       const isFocused = ref.current?.contains(ref.current?.ownerDocument.activeElement);
 
       if (ref.current?.isConnected && !isFocused) {
+        var _origin;
+
+        (_origin = origin) !== null && _origin !== void 0 ? _origin : origin = focusedBeforeMount.current;
         return;
       } // Defer to the component's own explicit focus return behavior, if
       // specified. This allows for support that the `onFocusReturn`
@@ -14325,72 +14467,16 @@ function useFocusReturn(onFocusReturn) {
       if (onFocusReturnRef.current) {
         onFocusReturnRef.current();
       } else {
-        /** @type {null | HTMLElement} */
-        focusedBeforeMount.current?.focus();
+        /** @type {null|HTMLElement} */
+        (!focusedBeforeMount.current.isConnected ? origin : focusedBeforeMount.current)?.focus();
       }
+
+      origin = null;
     }
   }, []);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useFocusReturn);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/compose/build-module/hooks/use-focusable-iframe/index.js":
-/*!******************************************************************************************!*\
-  !*** ./node_modules/@wordpress/compose/build-module/hooks/use-focusable-iframe/index.js ***!
-  \******************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ useFocusableIframe)
-/* harmony export */ });
-/* harmony import */ var _use_ref_effect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../use-ref-effect */ "./node_modules/@wordpress/compose/build-module/hooks/use-ref-effect/index.js");
-/**
- * External dependencies
- */
-
-/**
- * Internal dependencies
- */
-
-/**
- * Dispatches a bubbling focus event when the iframe receives focus. Use
- * `onFocus` as usual on the iframe or a parent element.
- *
- * @return Ref to pass to the iframe.
- */
-
-function useFocusableIframe() {
-  return (0,_use_ref_effect__WEBPACK_IMPORTED_MODULE_0__["default"])(element => {
-    const {
-      ownerDocument
-    } = element;
-    if (!ownerDocument) return;
-    const {
-      defaultView
-    } = ownerDocument;
-    if (!defaultView) return;
-    /**
-     * Checks whether the iframe is the activeElement, inferring that it has
-     * then received focus, and dispatches a focus event.
-     */
-
-    function checkFocus() {
-      if (ownerDocument && ownerDocument.activeElement === element) {
-        element.focus();
-      }
-    }
-
-    defaultView.addEventListener('blur', checkFocus);
-    return () => {
-      defaultView.removeEventListener('blur', checkFocus);
-    };
-  }, []);
-}
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -14711,6 +14797,35 @@ function usePrevious(value) {
 
   return ref.current;
 }
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/compose/build-module/hooks/use-reduced-motion/index.js":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/@wordpress/compose/build-module/hooks/use-reduced-motion/index.js ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _use_media_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../use-media-query */ "./node_modules/@wordpress/compose/build-module/hooks/use-media-query/index.js");
+/**
+ * Internal dependencies
+ */
+
+/**
+ * Hook returning whether the user has a preference for reduced motion.
+ *
+ * @return {boolean} Reduced motion preference value.
+ */
+
+const useReducedMotion = () => (0,_use_media_query__WEBPACK_IMPORTED_MODULE_0__["default"])('(prefers-reduced-motion: reduce)');
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useReducedMotion);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -18265,62 +18380,6 @@ function assertIsDefined(val, name) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/element/build-module/raw-html.js":
-/*!******************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/raw-html.js ***!
-  \******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ RawHTML)
-/* harmony export */ });
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./react */ "./node_modules/react/index.js");
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_react__WEBPACK_IMPORTED_MODULE_0__);
-/**
- * Internal dependencies
- */
-
-/** @typedef {{children: string} & import('react').ComponentPropsWithoutRef<'div'>} RawHTMLProps */
-
-/**
- * Component used as equivalent of Fragment with unescaped HTML, in cases where
- * it is desirable to render dangerous HTML without needing a wrapper element.
- * To preserve additional props, a `div` wrapper _will_ be created if any props
- * aside from `children` are passed.
- *
- * @param {RawHTMLProps} props Children should be a string of HTML or an array
- *                             of strings. Other props will be passed through
- *                             to the div wrapper.
- *
- * @return {JSX.Element} Dangerously-rendering component.
- */
-
-function RawHTML({
-  children,
-  ...props
-}) {
-  let rawHtml = ''; // Cast children as an array, and concatenate each element if it is a string.
-
-  _react__WEBPACK_IMPORTED_MODULE_0__.Children.toArray(children).forEach(child => {
-    if (typeof child === 'string' && child.trim() !== '') {
-      rawHtml += child;
-    }
-  }); // The `div` wrapper will be stripped by the `renderElement` serializer in
-  // `./serialize.js` unless there are non-children props present.
-
-  return (0,_react__WEBPACK_IMPORTED_MODULE_0__.createElement)('div', {
-    dangerouslySetInnerHTML: {
-      __html: rawHtml
-    },
-    ...props
-  });
-}
-//# sourceMappingURL=raw-html.js.map
-
-/***/ }),
-
 /***/ "./node_modules/@wordpress/element/build-module/react.js":
 /*!***************************************************************!*\
   !*** ./node_modules/@wordpress/element/build-module/react.js ***!
@@ -18626,574 +18685,6 @@ function switchChildrenNodeName(children, nodeName) {
 
 /***/ }),
 
-/***/ "./node_modules/@wordpress/element/build-module/serialize.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@wordpress/element/build-module/serialize.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   hasPrefix: () => (/* binding */ hasPrefix),
-/* harmony export */   renderAttributes: () => (/* binding */ renderAttributes),
-/* harmony export */   renderComponent: () => (/* binding */ renderComponent),
-/* harmony export */   renderElement: () => (/* binding */ renderElement),
-/* harmony export */   renderNativeComponent: () => (/* binding */ renderNativeComponent),
-/* harmony export */   renderStyle: () => (/* binding */ renderStyle)
-/* harmony export */ });
-/* harmony import */ var is_plain_object__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! is-plain-object */ "./node_modules/is-plain-object/dist/is-plain-object.mjs");
-/* harmony import */ var change_case__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! change-case */ "./node_modules/param-case/dist.es2015/index.js");
-/* harmony import */ var _wordpress_escape_html__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/escape-html */ "./node_modules/@wordpress/escape-html/build-module/index.js");
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./react */ "./node_modules/react/index.js");
-/* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _raw_html__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./raw-html */ "./node_modules/@wordpress/element/build-module/raw-html.js");
-/**
- * Parts of this source were derived and modified from fast-react-render,
- * released under the MIT license.
- *
- * https://github.com/alt-j/fast-react-render
- *
- * Copyright (c) 2016 Andrey Morozov
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-/**
- * Internal dependencies
- */
-
-
-
-/** @typedef {import('./react').WPElement} WPElement */
-
-const {
-  Provider,
-  Consumer
-} = (0,_react__WEBPACK_IMPORTED_MODULE_1__.createContext)(undefined);
-const ForwardRef = (0,_react__WEBPACK_IMPORTED_MODULE_1__.forwardRef)(() => {
-  return null;
-});
-/**
- * Valid attribute types.
- *
- * @type {Set<string>}
- */
-
-const ATTRIBUTES_TYPES = new Set(['string', 'boolean', 'number']);
-/**
- * Element tags which can be self-closing.
- *
- * @type {Set<string>}
- */
-
-const SELF_CLOSING_TAGS = new Set(['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
-/**
- * Boolean attributes are attributes whose presence as being assigned is
- * meaningful, even if only empty.
- *
- * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes
- * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
- *
- * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
- *     .filter( ( tr ) => tr.lastChild.textContent.indexOf( 'Boolean attribute' ) !== -1 )
- *     .reduce( ( result, tr ) => Object.assign( result, {
- *         [ tr.firstChild.textContent.trim() ]: true
- *     } ), {} ) ).sort();
- *
- * @type {Set<string>}
- */
-
-const BOOLEAN_ATTRIBUTES = new Set(['allowfullscreen', 'allowpaymentrequest', 'allowusermedia', 'async', 'autofocus', 'autoplay', 'checked', 'controls', 'default', 'defer', 'disabled', 'download', 'formnovalidate', 'hidden', 'ismap', 'itemscope', 'loop', 'multiple', 'muted', 'nomodule', 'novalidate', 'open', 'playsinline', 'readonly', 'required', 'reversed', 'selected', 'typemustmatch']);
-/**
- * Enumerated attributes are attributes which must be of a specific value form.
- * Like boolean attributes, these are meaningful if specified, even if not of a
- * valid enumerated value.
- *
- * See: https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute
- * Extracted from: https://html.spec.whatwg.org/multipage/indices.html#attributes-3
- *
- * Object.keys( [ ...document.querySelectorAll( '#attributes-1 > tbody > tr' ) ]
- *     .filter( ( tr ) => /^("(.+?)";?\s*)+/.test( tr.lastChild.textContent.trim() ) )
- *     .reduce( ( result, tr ) => Object.assign( result, {
- *         [ tr.firstChild.textContent.trim() ]: true
- *     } ), {} ) ).sort();
- *
- * Some notable omissions:
- *
- *  - `alt`: https://blog.whatwg.org/omit-alt
- *
- * @type {Set<string>}
- */
-
-const ENUMERATED_ATTRIBUTES = new Set(['autocapitalize', 'autocomplete', 'charset', 'contenteditable', 'crossorigin', 'decoding', 'dir', 'draggable', 'enctype', 'formenctype', 'formmethod', 'http-equiv', 'inputmode', 'kind', 'method', 'preload', 'scope', 'shape', 'spellcheck', 'translate', 'type', 'wrap']);
-/**
- * Set of CSS style properties which support assignment of unitless numbers.
- * Used in rendering of style properties, where `px` unit is assumed unless
- * property is included in this set or value is zero.
- *
- * Generated via:
- *
- * Object.entries( document.createElement( 'div' ).style )
- *     .filter( ( [ key ] ) => (
- *         ! /^(webkit|ms|moz)/.test( key ) &&
- *         ( e.style[ key ] = 10 ) &&
- *         e.style[ key ] === '10'
- *     ) )
- *     .map( ( [ key ] ) => key )
- *     .sort();
- *
- * @type {Set<string>}
- */
-
-const CSS_PROPERTIES_SUPPORTS_UNITLESS = new Set(['animation', 'animationIterationCount', 'baselineShift', 'borderImageOutset', 'borderImageSlice', 'borderImageWidth', 'columnCount', 'cx', 'cy', 'fillOpacity', 'flexGrow', 'flexShrink', 'floodOpacity', 'fontWeight', 'gridColumnEnd', 'gridColumnStart', 'gridRowEnd', 'gridRowStart', 'lineHeight', 'opacity', 'order', 'orphans', 'r', 'rx', 'ry', 'shapeImageThreshold', 'stopOpacity', 'strokeDasharray', 'strokeDashoffset', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'tabSize', 'widows', 'x', 'y', 'zIndex', 'zoom']);
-/**
- * Returns true if the specified string is prefixed by one of an array of
- * possible prefixes.
- *
- * @param {string}   string   String to check.
- * @param {string[]} prefixes Possible prefixes.
- *
- * @return {boolean} Whether string has prefix.
- */
-
-function hasPrefix(string, prefixes) {
-  return prefixes.some(prefix => string.indexOf(prefix) === 0);
-}
-/**
- * Returns true if the given prop name should be ignored in attributes
- * serialization, or false otherwise.
- *
- * @param {string} attribute Attribute to check.
- *
- * @return {boolean} Whether attribute should be ignored.
- */
-
-function isInternalAttribute(attribute) {
-  return 'key' === attribute || 'children' === attribute;
-}
-/**
- * Returns the normal form of the element's attribute value for HTML.
- *
- * @param {string} attribute Attribute name.
- * @param {*}      value     Non-normalized attribute value.
- *
- * @return {*} Normalized attribute value.
- */
-
-
-function getNormalAttributeValue(attribute, value) {
-  switch (attribute) {
-    case 'style':
-      return renderStyle(value);
-  }
-
-  return value;
-}
-/**
- * This is a map of all SVG attributes that have dashes. Map(lower case prop => dashed lower case attribute).
- * We need this to render e.g strokeWidth as stroke-width.
- *
- * List from: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute.
- */
-
-
-const SVG_ATTRIBUTE_WITH_DASHES_LIST = ['accentHeight', 'alignmentBaseline', 'arabicForm', 'baselineShift', 'capHeight', 'clipPath', 'clipRule', 'colorInterpolation', 'colorInterpolationFilters', 'colorProfile', 'colorRendering', 'dominantBaseline', 'enableBackground', 'fillOpacity', 'fillRule', 'floodColor', 'floodOpacity', 'fontFamily', 'fontSize', 'fontSizeAdjust', 'fontStretch', 'fontStyle', 'fontVariant', 'fontWeight', 'glyphName', 'glyphOrientationHorizontal', 'glyphOrientationVertical', 'horizAdvX', 'horizOriginX', 'imageRendering', 'letterSpacing', 'lightingColor', 'markerEnd', 'markerMid', 'markerStart', 'overlinePosition', 'overlineThickness', 'paintOrder', 'panose1', 'pointerEvents', 'renderingIntent', 'shapeRendering', 'stopColor', 'stopOpacity', 'strikethroughPosition', 'strikethroughThickness', 'strokeDasharray', 'strokeDashoffset', 'strokeLinecap', 'strokeLinejoin', 'strokeMiterlimit', 'strokeOpacity', 'strokeWidth', 'textAnchor', 'textDecoration', 'textRendering', 'underlinePosition', 'underlineThickness', 'unicodeBidi', 'unicodeRange', 'unitsPerEm', 'vAlphabetic', 'vHanging', 'vIdeographic', 'vMathematical', 'vectorEffect', 'vertAdvY', 'vertOriginX', 'vertOriginY', 'wordSpacing', 'writingMode', 'xmlnsXlink', 'xHeight'].reduce((map, attribute) => {
-  // The keys are lower-cased for more robust lookup.
-  map[attribute.toLowerCase()] = attribute;
-  return map;
-}, {});
-/**
- * This is a map of all case-sensitive SVG attributes. Map(lowercase key => proper case attribute).
- * The keys are lower-cased for more robust lookup.
- * Note that this list only contains attributes that contain at least one capital letter.
- * Lowercase attributes don't need mapping, since we lowercase all attributes by default.
- */
-
-const CASE_SENSITIVE_SVG_ATTRIBUTES = ['allowReorder', 'attributeName', 'attributeType', 'autoReverse', 'baseFrequency', 'baseProfile', 'calcMode', 'clipPathUnits', 'contentScriptType', 'contentStyleType', 'diffuseConstant', 'edgeMode', 'externalResourcesRequired', 'filterRes', 'filterUnits', 'glyphRef', 'gradientTransform', 'gradientUnits', 'kernelMatrix', 'kernelUnitLength', 'keyPoints', 'keySplines', 'keyTimes', 'lengthAdjust', 'limitingConeAngle', 'markerHeight', 'markerUnits', 'markerWidth', 'maskContentUnits', 'maskUnits', 'numOctaves', 'pathLength', 'patternContentUnits', 'patternTransform', 'patternUnits', 'pointsAtX', 'pointsAtY', 'pointsAtZ', 'preserveAlpha', 'preserveAspectRatio', 'primitiveUnits', 'refX', 'refY', 'repeatCount', 'repeatDur', 'requiredExtensions', 'requiredFeatures', 'specularConstant', 'specularExponent', 'spreadMethod', 'startOffset', 'stdDeviation', 'stitchTiles', 'suppressContentEditableWarning', 'suppressHydrationWarning', 'surfaceScale', 'systemLanguage', 'tableValues', 'targetX', 'targetY', 'textLength', 'viewBox', 'viewTarget', 'xChannelSelector', 'yChannelSelector'].reduce((map, attribute) => {
-  // The keys are lower-cased for more robust lookup.
-  map[attribute.toLowerCase()] = attribute;
-  return map;
-}, {});
-/**
- * This is a map of all SVG attributes that have colons.
- * Keys are lower-cased and stripped of their colons for more robust lookup.
- */
-
-const SVG_ATTRIBUTES_WITH_COLONS = ['xlink:actuate', 'xlink:arcrole', 'xlink:href', 'xlink:role', 'xlink:show', 'xlink:title', 'xlink:type', 'xml:base', 'xml:lang', 'xml:space', 'xmlns:xlink'].reduce((map, attribute) => {
-  map[attribute.replace(':', '').toLowerCase()] = attribute;
-  return map;
-}, {});
-/**
- * Returns the normal form of the element's attribute name for HTML.
- *
- * @param {string} attribute Non-normalized attribute name.
- *
- * @return {string} Normalized attribute name.
- */
-
-function getNormalAttributeName(attribute) {
-  switch (attribute) {
-    case 'htmlFor':
-      return 'for';
-
-    case 'className':
-      return 'class';
-  }
-
-  const attributeLowerCase = attribute.toLowerCase();
-
-  if (CASE_SENSITIVE_SVG_ATTRIBUTES[attributeLowerCase]) {
-    return CASE_SENSITIVE_SVG_ATTRIBUTES[attributeLowerCase];
-  } else if (SVG_ATTRIBUTE_WITH_DASHES_LIST[attributeLowerCase]) {
-    return (0,change_case__WEBPACK_IMPORTED_MODULE_2__.paramCase)(SVG_ATTRIBUTE_WITH_DASHES_LIST[attributeLowerCase]);
-  } else if (SVG_ATTRIBUTES_WITH_COLONS[attributeLowerCase]) {
-    return SVG_ATTRIBUTES_WITH_COLONS[attributeLowerCase];
-  }
-
-  return attributeLowerCase;
-}
-/**
- * Returns the normal form of the style property name for HTML.
- *
- * - Converts property names to kebab-case, e.g. 'backgroundColor' → 'background-color'
- * - Leaves custom attributes alone, e.g. '--myBackgroundColor' → '--myBackgroundColor'
- * - Converts vendor-prefixed property names to -kebab-case, e.g. 'MozTransform' → '-moz-transform'
- *
- * @param {string} property Property name.
- *
- * @return {string} Normalized property name.
- */
-
-
-function getNormalStylePropertyName(property) {
-  if (property.startsWith('--')) {
-    return property;
-  }
-
-  if (hasPrefix(property, ['ms', 'O', 'Moz', 'Webkit'])) {
-    return '-' + (0,change_case__WEBPACK_IMPORTED_MODULE_2__.paramCase)(property);
-  }
-
-  return (0,change_case__WEBPACK_IMPORTED_MODULE_2__.paramCase)(property);
-}
-/**
- * Returns the normal form of the style property value for HTML. Appends a
- * default pixel unit if numeric, not a unitless property, and not zero.
- *
- * @param {string} property Property name.
- * @param {*}      value    Non-normalized property value.
- *
- * @return {*} Normalized property value.
- */
-
-
-function getNormalStylePropertyValue(property, value) {
-  if (typeof value === 'number' && 0 !== value && !CSS_PROPERTIES_SUPPORTS_UNITLESS.has(property)) {
-    return value + 'px';
-  }
-
-  return value;
-}
-/**
- * Serializes a React element to string.
- *
- * @param {import('react').ReactNode} element         Element to serialize.
- * @param {Object}                    [context]       Context object.
- * @param {Object}                    [legacyContext] Legacy context object.
- *
- * @return {string} Serialized element.
- */
-
-
-function renderElement(element, context, legacyContext = {}) {
-  if (null === element || undefined === element || false === element) {
-    return '';
-  }
-
-  if (Array.isArray(element)) {
-    return renderChildren(element, context, legacyContext);
-  }
-
-  switch (typeof element) {
-    case 'string':
-      return (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_3__.escapeHTML)(element);
-
-    case 'number':
-      return element.toString();
-  }
-
-  const {
-    type,
-    props
-  } =
-  /** @type {{type?: any, props?: any}} */
-  element;
-
-  switch (type) {
-    case _react__WEBPACK_IMPORTED_MODULE_1__.StrictMode:
-    case _react__WEBPACK_IMPORTED_MODULE_1__.Fragment:
-      return renderChildren(props.children, context, legacyContext);
-
-    case _raw_html__WEBPACK_IMPORTED_MODULE_4__["default"]:
-      const {
-        children,
-        ...wrapperProps
-      } = props;
-      return renderNativeComponent(!Object.keys(wrapperProps).length ? null : 'div', { ...wrapperProps,
-        dangerouslySetInnerHTML: {
-          __html: children
-        }
-      }, context, legacyContext);
-  }
-
-  switch (typeof type) {
-    case 'string':
-      return renderNativeComponent(type, props, context, legacyContext);
-
-    case 'function':
-      if (type.prototype && typeof type.prototype.render === 'function') {
-        return renderComponent(type, props, context, legacyContext);
-      }
-
-      return renderElement(type(props, legacyContext), context, legacyContext);
-  }
-
-  switch (type && type.$$typeof) {
-    case Provider.$$typeof:
-      return renderChildren(props.children, props.value, legacyContext);
-
-    case Consumer.$$typeof:
-      return renderElement(props.children(context || type._currentValue), context, legacyContext);
-
-    case ForwardRef.$$typeof:
-      return renderElement(type.render(props), context, legacyContext);
-  }
-
-  return '';
-}
-/**
- * Serializes a native component type to string.
- *
- * @param {?string} type            Native component type to serialize, or null if
- *                                  rendering as fragment of children content.
- * @param {Object}  props           Props object.
- * @param {Object}  [context]       Context object.
- * @param {Object}  [legacyContext] Legacy context object.
- *
- * @return {string} Serialized element.
- */
-
-function renderNativeComponent(type, props, context, legacyContext = {}) {
-  let content = '';
-
-  if (type === 'textarea' && props.hasOwnProperty('value')) {
-    // Textarea children can be assigned as value prop. If it is, render in
-    // place of children. Ensure to omit so it is not assigned as attribute
-    // as well.
-    content = renderChildren(props.value, context, legacyContext);
-    const {
-      value,
-      ...restProps
-    } = props;
-    props = restProps;
-  } else if (props.dangerouslySetInnerHTML && typeof props.dangerouslySetInnerHTML.__html === 'string') {
-    // Dangerous content is left unescaped.
-    content = props.dangerouslySetInnerHTML.__html;
-  } else if (typeof props.children !== 'undefined') {
-    content = renderChildren(props.children, context, legacyContext);
-  }
-
-  if (!type) {
-    return content;
-  }
-
-  const attributes = renderAttributes(props);
-
-  if (SELF_CLOSING_TAGS.has(type)) {
-    return '<' + type + attributes + '/>';
-  }
-
-  return '<' + type + attributes + '>' + content + '</' + type + '>';
-}
-/** @typedef {import('./react').WPComponent} WPComponent */
-
-/**
- * Serializes a non-native component type to string.
- *
- * @param {WPComponent} Component       Component type to serialize.
- * @param {Object}      props           Props object.
- * @param {Object}      [context]       Context object.
- * @param {Object}      [legacyContext] Legacy context object.
- *
- * @return {string} Serialized element
- */
-
-function renderComponent(Component, props, context, legacyContext = {}) {
-  const instance = new
-  /** @type {import('react').ComponentClass} */
-  Component(props, legacyContext);
-
-  if (typeof // Ignore reason: Current prettier reformats parens and mangles type assertion
-  // prettier-ignore
-
-  /** @type {{getChildContext?: () => unknown}} */
-  instance.getChildContext === 'function') {
-    Object.assign(legacyContext,
-    /** @type {{getChildContext?: () => unknown}} */
-    instance.getChildContext());
-  }
-
-  const html = renderElement(instance.render(), context, legacyContext);
-  return html;
-}
-/**
- * Serializes an array of children to string.
- *
- * @param {import('react').ReactNodeArray} children        Children to serialize.
- * @param {Object}                         [context]       Context object.
- * @param {Object}                         [legacyContext] Legacy context object.
- *
- * @return {string} Serialized children.
- */
-
-function renderChildren(children, context, legacyContext = {}) {
-  let result = '';
-  children = Array.isArray(children) ? children : [children];
-
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-    result += renderElement(child, context, legacyContext);
-  }
-
-  return result;
-}
-/**
- * Renders a props object as a string of HTML attributes.
- *
- * @param {Object} props Props object.
- *
- * @return {string} Attributes string.
- */
-
-
-function renderAttributes(props) {
-  let result = '';
-
-  for (const key in props) {
-    const attribute = getNormalAttributeName(key);
-
-    if (!(0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_3__.isValidAttributeName)(attribute)) {
-      continue;
-    }
-
-    let value = getNormalAttributeValue(key, props[key]); // If value is not of serializeable type, skip.
-
-    if (!ATTRIBUTES_TYPES.has(typeof value)) {
-      continue;
-    } // Don't render internal attribute names.
-
-
-    if (isInternalAttribute(key)) {
-      continue;
-    }
-
-    const isBooleanAttribute = BOOLEAN_ATTRIBUTES.has(attribute); // Boolean attribute should be omitted outright if its value is false.
-
-    if (isBooleanAttribute && value === false) {
-      continue;
-    }
-
-    const isMeaningfulAttribute = isBooleanAttribute || hasPrefix(key, ['data-', 'aria-']) || ENUMERATED_ATTRIBUTES.has(attribute); // Only write boolean value as attribute if meaningful.
-
-    if (typeof value === 'boolean' && !isMeaningfulAttribute) {
-      continue;
-    }
-
-    result += ' ' + attribute; // Boolean attributes should write attribute name, but without value.
-    // Mere presence of attribute name is effective truthiness.
-
-    if (isBooleanAttribute) {
-      continue;
-    }
-
-    if (typeof value === 'string') {
-      value = (0,_wordpress_escape_html__WEBPACK_IMPORTED_MODULE_3__.escapeAttribute)(value);
-    }
-
-    result += '="' + value + '"';
-  }
-
-  return result;
-}
-/**
- * Renders a style object as a string attribute value.
- *
- * @param {Object} style Style object.
- *
- * @return {string} Style attribute value.
- */
-
-function renderStyle(style) {
-  // Only generate from object, e.g. tolerate string value.
-  if (!(0,is_plain_object__WEBPACK_IMPORTED_MODULE_0__.isPlainObject)(style)) {
-    return style;
-  }
-
-  let result;
-
-  for (const property in style) {
-    const value = style[property];
-
-    if (null === value || undefined === value) {
-      continue;
-    }
-
-    if (result) {
-      result += ';';
-    } else {
-      result = '';
-    }
-
-    const normalName = getNormalStylePropertyName(property);
-    const normalValue = getNormalStylePropertyValue(property, value);
-    result += normalName + ':' + normalValue;
-  }
-
-  return result;
-}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (renderElement);
-//# sourceMappingURL=serialize.js.map
-
-/***/ }),
-
 /***/ "./node_modules/@wordpress/element/build-module/utils.js":
 /*!***************************************************************!*\
   !*** ./node_modules/@wordpress/element/build-module/utils.js ***!
@@ -19223,179 +18714,6 @@ const isEmptyElement = element => {
   return !element;
 };
 //# sourceMappingURL=utils.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/escape-html/build-module/escape-greater.js":
-/*!****************************************************************************!*\
-  !*** ./node_modules/@wordpress/escape-html/build-module/escape-greater.js ***!
-  \****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ __unstableEscapeGreaterThan)
-/* harmony export */ });
-/**
- * Returns a string with greater-than sign replaced.
- *
- * Note that if a resolution for Trac#45387 comes to fruition, it is no longer
- * necessary for `__unstableEscapeGreaterThan` to exist.
- *
- * See: https://core.trac.wordpress.org/ticket/45387
- *
- * @param {string} value Original string.
- *
- * @return {string} Escaped string.
- */
-function __unstableEscapeGreaterThan(value) {
-  return value.replace(/>/g, '&gt;');
-}
-//# sourceMappingURL=escape-greater.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@wordpress/escape-html/build-module/index.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@wordpress/escape-html/build-module/index.js ***!
-  \*******************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   escapeAmpersand: () => (/* binding */ escapeAmpersand),
-/* harmony export */   escapeAttribute: () => (/* binding */ escapeAttribute),
-/* harmony export */   escapeEditableHTML: () => (/* binding */ escapeEditableHTML),
-/* harmony export */   escapeHTML: () => (/* binding */ escapeHTML),
-/* harmony export */   escapeLessThan: () => (/* binding */ escapeLessThan),
-/* harmony export */   escapeQuotationMark: () => (/* binding */ escapeQuotationMark),
-/* harmony export */   isValidAttributeName: () => (/* binding */ isValidAttributeName)
-/* harmony export */ });
-/* harmony import */ var _escape_greater__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./escape-greater */ "./node_modules/@wordpress/escape-html/build-module/escape-greater.js");
-/**
- * Internal dependencies
- */
-
-/**
- * Regular expression matching invalid attribute names.
- *
- * "Attribute names must consist of one or more characters other than controls,
- * U+0020 SPACE, U+0022 ("), U+0027 ('), U+003E (>), U+002F (/), U+003D (=),
- * and noncharacters."
- *
- * @see https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
- *
- * @type {RegExp}
- */
-
-const REGEXP_INVALID_ATTRIBUTE_NAME = /[\u007F-\u009F "'>/="\uFDD0-\uFDEF]/;
-/**
- * Returns a string with ampersands escaped. Note that this is an imperfect
- * implementation, where only ampersands which do not appear as a pattern of
- * named, decimal, or hexadecimal character references are escaped. Invalid
- * named references (i.e. ambiguous ampersand) are still permitted.
- *
- * @see https://w3c.github.io/html/syntax.html#character-references
- * @see https://w3c.github.io/html/syntax.html#ambiguous-ampersand
- * @see https://w3c.github.io/html/syntax.html#named-character-references
- *
- * @param {string} value Original string.
- *
- * @return {string} Escaped string.
- */
-
-function escapeAmpersand(value) {
-  return value.replace(/&(?!([a-z0-9]+|#[0-9]+|#x[a-f0-9]+);)/gi, '&amp;');
-}
-/**
- * Returns a string with quotation marks replaced.
- *
- * @param {string} value Original string.
- *
- * @return {string} Escaped string.
- */
-
-function escapeQuotationMark(value) {
-  return value.replace(/"/g, '&quot;');
-}
-/**
- * Returns a string with less-than sign replaced.
- *
- * @param {string} value Original string.
- *
- * @return {string} Escaped string.
- */
-
-function escapeLessThan(value) {
-  return value.replace(/</g, '&lt;');
-}
-/**
- * Returns an escaped attribute value.
- *
- * @see https://w3c.github.io/html/syntax.html#elements-attributes
- *
- * "[...] the text cannot contain an ambiguous ampersand [...] must not contain
- * any literal U+0022 QUOTATION MARK characters (")"
- *
- * Note we also escape the greater than symbol, as this is used by wptexturize to
- * split HTML strings. This is a WordPress specific fix
- *
- * Note that if a resolution for Trac#45387 comes to fruition, it is no longer
- * necessary for `__unstableEscapeGreaterThan` to be used.
- *
- * See: https://core.trac.wordpress.org/ticket/45387
- *
- * @param {string} value Attribute value.
- *
- * @return {string} Escaped attribute value.
- */
-
-function escapeAttribute(value) {
-  return (0,_escape_greater__WEBPACK_IMPORTED_MODULE_0__["default"])(escapeQuotationMark(escapeAmpersand(value)));
-}
-/**
- * Returns an escaped HTML element value.
- *
- * @see https://w3c.github.io/html/syntax.html#writing-html-documents-elements
- *
- * "the text must not contain the character U+003C LESS-THAN SIGN (<) or an
- * ambiguous ampersand."
- *
- * @param {string} value Element value.
- *
- * @return {string} Escaped HTML element value.
- */
-
-function escapeHTML(value) {
-  return escapeLessThan(escapeAmpersand(value));
-}
-/**
- * Returns an escaped Editable HTML element value. This is different from
- * `escapeHTML`, because for editable HTML, ALL ampersands must be escaped in
- * order to render the content correctly on the page.
- *
- * @param {string} value Element value.
- *
- * @return {string} Escaped HTML element value.
- */
-
-function escapeEditableHTML(value) {
-  return escapeLessThan(value.replace(/&/g, '&amp;'));
-}
-/**
- * Returns true if the given attribute name is valid, or false otherwise.
- *
- * @param {string} name Attribute name to test.
- *
- * @return {boolean} Whether attribute is valid.
- */
-
-function isValidAttributeName(name) {
-  return !REGEXP_INVALID_ATTRIBUTE_NAME.test(name);
-}
-//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -21251,6 +20569,37 @@ const chevronDown = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createEle
 
 /***/ }),
 
+/***/ "./node_modules/@wordpress/icons/build-module/library/chevron-up.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@wordpress/icons/build-module/library/chevron-up.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "./node_modules/@wordpress/primitives/build-module/svg/index.js");
+
+
+/**
+ * WordPress dependencies
+ */
+
+const chevronUp = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
+  d: "M6.5 12.4L12 8l5.5 4.4-.9 1.2L12 10l-4.5 3.6-1-1.2z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (chevronUp);
+//# sourceMappingURL=chevron-up.js.map
+
+/***/ }),
+
 /***/ "./node_modules/@wordpress/icons/build-module/library/close-small.js":
 /*!***************************************************************************!*\
   !*** ./node_modules/@wordpress/icons/build-module/library/close-small.js ***!
@@ -21310,6 +20659,130 @@ const close = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(
 }));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (close);
 //# sourceMappingURL=close.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/icons/build-module/library/copy.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@wordpress/icons/build-module/library/copy.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "./node_modules/@wordpress/primitives/build-module/svg/index.js");
+
+
+/**
+ * WordPress dependencies
+ */
+
+const copy = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
+  d: "M20.2 8v11c0 .7-.6 1.2-1.2 1.2H6v1.5h13c1.5 0 2.7-1.2 2.7-2.8V8zM18 16.4V4.6c0-.9-.7-1.6-1.6-1.6H4.6C3.7 3 3 3.7 3 4.6v11.8c0 .9.7 1.6 1.6 1.6h11.8c.9 0 1.6-.7 1.6-1.6zm-13.5 0V4.6c0-.1.1-.1.1-.1h11.8c.1 0 .1.1.1.1v11.8c0 .1-.1.1-.1.1H4.6l-.1-.1z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (copy);
+//# sourceMappingURL=copy.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/icons/build-module/library/download.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@wordpress/icons/build-module/library/download.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "./node_modules/@wordpress/primitives/build-module/svg/index.js");
+
+
+/**
+ * WordPress dependencies
+ */
+
+const download = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
+  d: "M18 11.3l-1-1.1-4 4V3h-1.5v11.3L7 10.2l-1 1.1 6.2 5.8 5.8-5.8zm.5 3.7v3.5h-13V15H4v5h16v-5h-1.5z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (download);
+//# sourceMappingURL=download.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/icons/build-module/library/settings.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/@wordpress/icons/build-module/library/settings.js ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "./node_modules/@wordpress/primitives/build-module/svg/index.js");
+
+
+/**
+ * WordPress dependencies
+ */
+
+const settings = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
+  d: "M14.5 13.8c-1.1 0-2.1.7-2.4 1.8H4V17h8.1c.3 1 1.3 1.8 2.4 1.8s2.1-.7 2.4-1.8H20v-1.5h-3.1c-.3-1-1.3-1.7-2.4-1.7zM11.9 7c-.3-1-1.3-1.8-2.4-1.8S7.4 6 7.1 7H4v1.5h3.1c.3 1 1.3 1.8 2.4 1.8s2.1-.7 2.4-1.8H20V7h-8.1z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (settings);
+//# sourceMappingURL=settings.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/icons/build-module/library/share.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@wordpress/icons/build-module/library/share.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/primitives */ "./node_modules/@wordpress/primitives/build-module/svg/index.js");
+
+
+/**
+ * WordPress dependencies
+ */
+
+const share = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.SVG, {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_primitives__WEBPACK_IMPORTED_MODULE_1__.Path, {
+  d: "M9 11.8l6.1-4.5c.1.4.4.7.9.7h2c.6 0 1-.4 1-1V5c0-.6-.4-1-1-1h-2c-.6 0-1 .4-1 1v.4l-6.4 4.8c-.2-.1-.4-.2-.6-.2H6c-.6 0-1 .4-1 1v2c0 .6.4 1 1 1h2c.2 0 .4-.1.6-.2l6.4 4.8v.4c0 .6.4 1 1 1h2c.6 0 1-.4 1-1v-2c0-.6-.4-1-1-1h-2c-.5 0-.8.3-.9.7L9 12.2v-.4z"
+}));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (share);
+//# sourceMappingURL=share.js.map
 
 /***/ }),
 
@@ -22499,16 +21972,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/custom-select-control/index.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/form-token-field/index.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/text-control/index.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/toggle-control/index.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/toggle-group-control/toggle-group-control/component.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/toggle-group-control/toggle-group-control-option/component.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/button/index.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/textarea-control/index.js");
-/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/sandbox/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/panel/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/panel/body.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/custom-select-control/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/form-token-field/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/text-control/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/toggle-control/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/toggle-group-control/toggle-group-control/component.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/toggle-group-control/toggle-group-control-option/component.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/textarea-control/index.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/panel/row.js");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @wordpress/components */ "./node_modules/@wordpress/components/build-module/button/index.js");
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/settings.js");
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/share.js");
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/copy.js");
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/download.js");
 /* harmony import */ var _wordpress_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/url */ "./node_modules/@wordpress/url/build-module/add-query-args.js");
+
 
 
 
@@ -22570,16 +22050,14 @@ function App() {
   const [themesData, setThemesData] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [selectedTheme, setSelectedTheme] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [Url, setUrl] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('/wp-admin/');
-  const [hasSeamlessMode, setSeamlessMode] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
-  const [hasLazyLoading, setLazyLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [hasSeamlessMode, setSeamlessMode] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
+  const [hasLazyLoading, setLazyLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [hasAutoLogin, setAutoLogin] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [selectedStorage, setStorage] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)('temporary');
   var requestOptions = {
     method: 'GET',
     redirect: 'follow'
   };
-
-  // Similar to componentDidMount and componentDidUpdate:
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     fetch(`https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[search]=${themeSuggestion}`, requestOptions).then(response => response.json()).then(result => {
       const pluck = (arr, key) => arr.map(i => i[key]);
@@ -22605,9 +22083,11 @@ function App() {
   hasLazyLoading && (args.lazy = true);
   hasSeamlessMode && (args.mode = 'seamless');
   hasAutoLogin && (args.login = 1);
-  const plugins = selectedPlugins.map(plugin => `plugin=${plugin}`);
   let playgroundUrl = (0,_wordpress_url__WEBPACK_IMPORTED_MODULE_1__.addQueryArgs)(baseUrl, args);
-  playgroundUrl = playgroundUrl + '&' + plugins.join('&');
+  if (selectedPlugins.length) {
+    const plugins = selectedPlugins.map(plugin => `plugin=${plugin}`);
+    playgroundUrl = `${playgroundUrl}&${plugins.join('&')}`;
+  }
   const embedCode = `<iframe src="${playgroundUrl}"></iframe>`;
 
   // For download
@@ -22637,7 +22117,15 @@ function App() {
     type: 'text/html'
   });
   const downloadUrl = URL.createObjectURL(blob);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.StableCustomSelectControl, {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    id: "sidebar"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    header: "Playground"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    title: "Config",
+    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_4__["default"],
+    initialOpen: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.StableCustomSelectControl, {
     __nextUnconstrainedWidth: true,
     label: "Php",
     options: phpOptions,
@@ -22645,7 +22133,7 @@ function App() {
       selectedItem
     }) => setPhpVersion(selectedItem.key),
     value: phpOptions.find(option => option.key === phpVersion)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.StableCustomSelectControl, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__.StableCustomSelectControl, {
     __nextUnconstrainedWidth: true,
     label: "WP",
     options: wpOptions,
@@ -22653,76 +22141,90 @@ function App() {
       selectedItem
     }) => setWpVersion(selectedItem.key),
     value: wpOptions.find(option => option.key === wpVersion)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: "Plugins",
     value: selectedPlugins,
     onChange: tokens => setSelectedPlugins(tokens),
     onInputChange: tokens => setPluginSuggestion(tokens),
     suggestions: pluginsData
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["default"], {
     label: "Theme",
     maxLength: 1,
     value: selectedTheme,
     onChange: tokens => setSelectedTheme(tokens),
     onInputChange: tokens => setThemeSuggestion(tokens),
     suggestions: themesData
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["default"], {
-    label: "Url",
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    label: "Landing Url",
     value: Url,
     onChange: value => setUrl(value)
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: "Seamless Mode",
     checked: hasSeamlessMode,
     onChange: () => {
       setSeamlessMode(state => !state);
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: "Lazy Load",
     checked: hasLazyLoading,
     onChange: () => {
       setLazyLoading(state => !state);
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["default"], {
     label: "Login",
     checked: hasAutoLogin,
     onChange: () => {
       setAutoLogin(state => !state);
     }
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["default"], {
     label: "Storage",
     value: selectedStorage,
     isBlock: true,
     onChange: storage => {
       setStorage(storage);
     }
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["default"], {
     value: "temporary",
     label: "Temporary"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["default"], {
     value: "opfs-browser",
     label: "Browser"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["default"], {
     value: "opfs-host",
     label: "Host"
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    href: playgroundUrl,
-    target: "_blank",
-    variant: "primary"
-  }, "Launch \uD83D\uDE80"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    title: "Share",
+    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_11__["default"],
+    initialOpen: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__["default"], {
     label: "Playground Url",
     value: playgroundUrl
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_12__["default"], {
     help: "use this to embed playground in your html",
     label: "Embed Code",
     value: embedCode
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_13__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    onClick: () => {
+      navigator.clipboard.writeText(playgroundUrl);
+    },
+    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_15__["default"],
+    variant: "secondary"
+  }, "Url"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_14__["default"], {
+    onClick: () => {
+      navigator.clipboard.writeText(embedCode);
+    },
+    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_15__["default"],
+    variant: "secondary"
+  }, "Embed"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_14__["default"], {
     href: downloadUrl,
+    icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_16__["default"],
     download: "my-playground.html",
-    variant: "primary"
-  }, "Download \u2B07"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_10__["default"], {
-    html: `<iframe width="100%" height="800" src="${playgroundUrl}"> </iframe>`,
-    title: "Playground",
-    type: "embed"
+    variant: "secondary"
+  }, "Html"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    id: "preview",
+    dangerouslySetInnerHTML: {
+      __html: embedCode
+    }
   }));
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -22737,21 +22239,23 @@ function App() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react-dom/client.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _wordpress_components_build_style_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/components/build-style/style.css */ "./node_modules/@wordpress/components/build-style/style.css");
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./src/app.js");
+/* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.css */ "./src/app.css");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app */ "./src/app.js");
+
 
 
 
 
 const root = document.getElementById('root');
-if (_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createRoot) {
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.createRoot)(root).render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.createElement)(_app__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+if (_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.createRoot) {
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.createRoot)(root).render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.createElement)(_app__WEBPACK_IMPORTED_MODULE_2__["default"], null));
 } else {
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_3__.createElement)(_app__WEBPACK_IMPORTED_MODULE_1__["default"], null), root);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.createElement)(_app__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
 }
 
 /***/ }),
@@ -28960,6 +28464,19 @@ function lowerCase(str) {
 /*!******************************************************************!*\
   !*** ./node_modules/@wordpress/components/build-style/style.css ***!
   \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/app.css":
+/*!*********************!*\
+  !*** ./src/app.css ***!
+  \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";

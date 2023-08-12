@@ -1,5 +1,6 @@
 import { createRoot, render } from '@wordpress/element';
 import '@wordpress/components/build-style/style.css';
+import './app.css';
 
 import App from './app';
 

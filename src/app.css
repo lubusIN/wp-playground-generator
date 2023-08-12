@@ -1,0 +1,24 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#root {
+    display: flex;
+    height: 100vh;
+    flex-direction: row-reverse;
+}
+
+#sidebar {
+    min-width: 300px;
+}
+
+#preview {
+    flex: 1;
+}
+
+iframe {
+    width: 100%;
+    height: 100vh;
+    border: none;
+}
