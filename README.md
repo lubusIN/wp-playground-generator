@@ -5,7 +5,7 @@ UI Tool to generate WordPress Playground URL, embed and HTML Code
 
 ## Usage
 - Visit https://wp-playground-generator.pages.dev/
-- Config setting in sidebar and view the live preview
+- Config settings in sidebar and view the live preview
 - Copy url, embed code or download html to share
 
 ## Development 

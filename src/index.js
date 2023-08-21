@@ -19,4 +19,4 @@ if ( createRoot ) {
     createRoot( root ).render( <App/> );
 } else {
     render( <App/>, root );
-}    
+}
