@@ -1,3 +1,7 @@
+/**
+ * WordPress Dependencies
+ */
+import { useState, useEffect } from '@wordpress/element';
 import {
     Panel,
     PanelBody,
@@ -12,77 +16,19 @@ import {
     __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 import { copy, settings, share, download } from '@wordpress/icons';
-import { useState, useEffect } from '@wordpress/element';
 import { addQueryArgs } from '@wordpress/url';
 
-const phpOptions = [
-    {
-        key: 'latest',
-        name: 'latest',
-    },
-    {
-        key: '8.2',
-        name: '8.2',
-    },
-    {
-        key: '8.1',
-        name: '8.1',
-    },
-    {
-        key: '8.0',
-        name: '8.0',
-    },
-    {
-        key: '7.4',
-        name: '7.4',
-    },
+/**
+ * Internal Dependencies
+ */
+import phpOptions from './options/php';
+import wpOptions from './options/wp';
 
-    {
-        key: '7.3',
-        name: '7.3',
-    },
-    {
-        key: '7.2',
-        name: '7.2',
-    },
-    {
-        key: '7.1',
-        name: '7.1',
-    },
-    {
-        key: '7.0',
-        name: '7.0',
-    },
-    {
-        key: '5.6',
-        name: '5.6',
-    },
-];
-
-const wpOptions = [
-    {
-        key: 'latest',
-        name: 'latest',
-    },
-    {
-        key: '6.2',
-        name: '6.2',
-    },
-    {
-        key: '6.1',
-        name: '6.1',
-    },
-    {
-        key: '6.0',
-        name: '6.0',
-    },
-    {
-        key: '5.9',
-        name: '5.6',
-    },
-];
-
+/**
+ * Main App Component 
+ */
 function App() {
+    // App state
     const [phpVersion, setPhpVersion] = useState(phpOptions[3].key);
     const [wpVersion, setWpVersion] = useState(phpOptions[0].key);
 
@@ -100,11 +46,18 @@ function App() {
     const [hasAutoLogin, setAutoLogin] = useState(true);
     const [selectedStorage, setStorage] = useState('temporary');
 
+    const [copied, setCopied] = useState({
+        value: '',
+        status: false
+    });
+
+    // Request param
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
 
+    // Fetch Theme Suggestions
     useEffect(() => {
         fetch(`https://api.wordpress.org/themes/info/1.2/?action=query_themes&request[search]=${themeSuggestion}`, requestOptions)
             .then(response => response.json())
@@ -116,6 +69,7 @@ function App() {
             .catch(error => console.log('error', error));
     }, [themeSuggestion]);
 
+    // Fetch Plugin Suggestions
     useEffect(() => {
         fetch(`https://api.wordpress.org/plugins/info/1.2/?action=query_plugins&request[search]=${pluginSuggestion}`, requestOptions)
             .then(response => response.json())
@@ -127,6 +81,7 @@ function App() {
             .catch(error => console.log('error', error));
     }, [pluginSuggestion]);
 
+    // Generate URL
     const baseUrl = 'https://playground.wordpress.net';
     const args = {
         php: phpVersion,
@@ -147,9 +102,10 @@ function App() {
         playgroundUrl = `${playgroundUrl}&${plugins.join('&')}`;
     }
 
+    // Generate EmbeeCode
     const embedCode = `<iframe src="${playgroundUrl}"></iframe>`;
 
-    // For download
+    // Generate HTML download link
     const htmlContent = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -174,7 +130,6 @@ function App() {
     </html>`;
     const blob = new Blob([htmlContent], { type: 'text/html' });
     const downloadUrl = URL.createObjectURL(blob);
-
 
     return (
         <>
@@ -259,13 +214,43 @@ function App() {
                         />
                         <PanelRow>
                             <Button
-                                onClick={() => { navigator.clipboard.writeText(playgroundUrl) }}
+                                onClick={() => { 
+                                    navigator.clipboard.writeText(playgroundUrl);
+                                    setCopied({
+                                        value: 'url',
+                                        status: true
+                                    });
+                                    
+                                    setTimeout(() => {
+                                        setCopied({
+                                            value: '',
+                                            copied: false
+                                        });
+                                    }, 1000);
+                                }}
                                 icon={copy}
-                                variant="secondary">Url</Button>
+                                variant="secondary">
+                                {copied.status && copied.value === 'url' ? 'Copied' : 'Url'}
+                                </Button>
                             <Button
-                                onClick={() => { navigator.clipboard.writeText(embedCode) }}
+                                onClick={() => { 
+                                    navigator.clipboard.writeText(embedCode);
+                                    setCopied({
+                                        value: 'embed',
+                                        status: true
+                                    });
+                                    
+                                    setTimeout(() => {
+                                        setCopied({
+                                            value: '',
+                                            copied: false
+                                        });
+                                    }, 1000); 
+                                }}
                                 icon={copy}
-                                variant="secondary">Embed</Button>
+                                variant="secondary">
+                                    {copied.status && copied.value === 'embed' ? 'Copied' : 'Embed'}
+                                </Button>
 
                             <Button href={downloadUrl} icon={download} download="my-playground.html" variant="secondary">Html</Button>
 
