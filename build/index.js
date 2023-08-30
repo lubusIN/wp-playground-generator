@@ -13868,6 +13868,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Internal dependencies
  */
@@ -13894,74 +13895,62 @@ __webpack_require__.r(__webpack_exports__);
  * }
  * ```
  */
-
 function useConstrainedTabbing() {
-  return (0,_use_ref_effect__WEBPACK_IMPORTED_MODULE_0__["default"])((
-  /** @type {HTMLElement} */
-  node) => {
-    function onKeyDown(
-    /** @type {KeyboardEvent} */
-    event) {
+  return (0,_use_ref_effect__WEBPACK_IMPORTED_MODULE_0__["default"])(( /** @type {HTMLElement} */node) => {
+    function onKeyDown( /** @type {KeyboardEvent} */event) {
       const {
         keyCode,
         shiftKey,
         target
       } = event;
-
       if (keyCode !== _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_1__.TAB) {
         return;
       }
-
       const action = shiftKey ? 'findPrevious' : 'findNext';
-      const nextElement = _wordpress_dom__WEBPACK_IMPORTED_MODULE_2__.focus.tabbable[action](
-      /** @type {HTMLElement} */
-      target) || null; // When the target element contains the element that is about to
+      const nextElement = _wordpress_dom__WEBPACK_IMPORTED_MODULE_2__.focus.tabbable[action]( /** @type {HTMLElement} */target) || null;
+
+      // When the target element contains the element that is about to
       // receive focus, for example when the target is a tabbable
       // container, browsers may disagree on where to move focus next.
       // In this case we can't rely on native browsers behavior. We need
       // to manage focus instead.
       // See https://github.com/WordPress/gutenberg/issues/46041.
-
-      if (
-      /** @type {HTMLElement} */
-      target.contains(nextElement)) {
+      if ( /** @type {HTMLElement} */target.contains(nextElement)) {
         event.preventDefault();
         /** @type {HTMLElement} */
-
         nextElement?.focus();
         return;
-      } // If the element that is about to receive focus is inside the
+      }
+
+      // If the element that is about to receive focus is inside the
       // area, rely on native browsers behavior and let tabbing follow
       // the native tab sequence.
-
-
       if (node.contains(nextElement)) {
         return;
-      } // If the element that is about to receive focus is outside the
+      }
+
+      // If the element that is about to receive focus is outside the
       // area, move focus to a div and insert it at the start or end of
       // the area, depending on the direction. Without preventing default
       // behaviour, the browser will then move focus to the next element.
-
-
       const domAction = shiftKey ? 'append' : 'prepend';
       const {
         ownerDocument
       } = node;
       const trap = ownerDocument.createElement('div');
       trap.tabIndex = -1;
-      node[domAction](trap); // Remove itself when the trap loses focus.
+      node[domAction](trap);
 
+      // Remove itself when the trap loses focus.
       trap.addEventListener('blur', () => node.removeChild(trap));
       trap.focus();
     }
-
     node.addEventListener('keydown', onKeyDown);
     return () => {
       node.removeEventListener('keydown', onKeyDown);
     };
   }, []);
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useConstrainedTabbing);
 //# sourceMappingURL=index.js.map
 
@@ -13985,6 +13974,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * External dependencies
  */
+
 
 /**
  * WordPress dependencies
@@ -14011,7 +14001,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {import('../../utils/debounce').DebounceOptions} [options] The options object.
  * @return {import('../../utils/debounce').DebouncedFunc<TFunc>} Debounced function.
  */
-
 function useDebounce(fn, wait, options) {
   const debounced = (0,use_memo_one__WEBPACK_IMPORTED_MODULE_0__.useMemoOne)(() => (0,_utils_debounce__WEBPACK_IMPORTED_MODULE_1__.debounce)(fn, wait !== null && wait !== void 0 ? wait : 0, options), [fn, wait, options]);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => () => debounced.cancel(), [debounced]);
@@ -14049,11 +14038,10 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Internal dependencies
  */
-
-
 
 
 
@@ -14089,7 +14077,6 @@ function useDialog(options) {
     if (!node) {
       return;
     }
-
     node.addEventListener('keydown', event => {
       // Close on escape.
       if (event.keyCode === _wordpress_keycodes__WEBPACK_IMPORTED_MODULE_5__.ESCAPE && !event.defaultPrevented && currentOptions.current?.onClose) {
@@ -14098,11 +14085,11 @@ function useDialog(options) {
       }
     });
   }, []);
-  return [(0,_use_merge_refs__WEBPACK_IMPORTED_MODULE_6__["default"])([options.focusOnMount !== false ? constrainedTabbingRef : null, options.focusOnMount !== false ? focusReturnRef : null, options.focusOnMount !== false ? focusOnMountRef : null, closeOnEscapeRef]), { ...focusOutsideProps,
+  return [(0,_use_merge_refs__WEBPACK_IMPORTED_MODULE_6__["default"])([options.focusOnMount !== false ? constrainedTabbingRef : null, options.focusOnMount !== false ? focusReturnRef : null, options.focusOnMount !== false ? focusOnMountRef : null, closeOnEscapeRef]), {
+    ...focusOutsideProps,
     tabIndex: -1
   }];
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useDialog);
 //# sourceMappingURL=index.js.map
 
@@ -14127,6 +14114,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Hook used to focus the first tabbable element on mount.
  *
@@ -14148,16 +14136,15 @@ __webpack_require__.r(__webpack_exports__);
  * }
  * ```
  */
-
 function useFocusOnMount(focusOnMount = 'firstElement') {
   const focusOnMountRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(focusOnMount);
+
   /**
    * Sets focus on a DOM element.
    *
    * @param {HTMLElement} target The DOM element to set focus to.
    * @return {void}
    */
-
   const setFocus = target => {
     target.focus({
       // When focusing newly mounted dialogs,
@@ -14166,9 +14153,8 @@ function useFocusOnMount(focusOnMount = 'firstElement') {
       preventScroll: true
     });
   };
+
   /** @type {import('react').MutableRefObject<ReturnType<setTimeout> | undefined>} */
-
-
   const timerId = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     focusOnMountRef.current = focusOnMount;
@@ -14182,28 +14168,21 @@ function useFocusOnMount(focusOnMount = 'firstElement') {
   }, []);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(node => {
     var _node$ownerDocument$a;
-
     if (!node || focusOnMountRef.current === false) {
       return;
     }
-
     if (node.contains((_node$ownerDocument$a = node.ownerDocument?.activeElement) !== null && _node$ownerDocument$a !== void 0 ? _node$ownerDocument$a : null)) {
       return;
     }
-
     if (focusOnMountRef.current === 'firstElement') {
       timerId.current = setTimeout(() => {
         const firstTabbable = _wordpress_dom__WEBPACK_IMPORTED_MODULE_1__.focus.tabbable.find(node)[0];
-
         if (firstTabbable) {
-          setFocus(
-          /** @type {HTMLElement} */
-          firstTabbable);
+          setFocus( /** @type {HTMLElement} */firstTabbable);
         }
       }, 0);
       return;
     }
-
     setFocus(node);
   }, []);
 }
@@ -14232,12 +14211,13 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * Input types which are classified as button types, for use in considering
  * whether element is a (focus-normalized) button.
  */
-
 const INPUT_BUTTON_TYPES = ['button', 'submit'];
+
 /**
  * List of HTML button elements subject to focus normalization
  *
@@ -14258,19 +14238,15 @@ function isFocusNormalizedButton(eventTarget) {
   if (!(eventTarget instanceof window.HTMLElement)) {
     return false;
   }
-
   switch (eventTarget.nodeName) {
     case 'A':
     case 'BUTTON':
       return true;
-
     case 'INPUT':
       return INPUT_BUTTON_TYPES.includes(eventTarget.type);
   }
-
   return false;
 }
-
 /**
  * A react hook that can be used to check whether focus has moved outside the
  * element the event handlers are bound to.
@@ -14288,23 +14264,26 @@ function useFocusOutside(onFocusOutside) {
   }, [onFocusOutside]);
   const preventBlurCheck = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
   const blurCheckTimeoutId = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+
   /**
    * Cancel a blur check timeout.
    */
-
   const cancelBlurCheck = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
     clearTimeout(blurCheckTimeoutId.current);
-  }, []); // Cancel blur checks on unmount.
+  }, []);
 
+  // Cancel blur checks on unmount.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     return () => cancelBlurCheck();
-  }, []); // Cancel a blur check if the callback or ref is no longer provided.
+  }, []);
 
+  // Cancel a blur check if the callback or ref is no longer provided.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (!onFocusOutside) {
       cancelBlurCheck();
     }
   }, [onFocusOutside, cancelBlurCheck]);
+
   /**
    * Handles a mousedown or mouseup event to respectively assign and
    * unassign a flag for preventing blur check on button elements. Some
@@ -14315,20 +14294,19 @@ function useFocusOutside(onFocusOutside) {
    * @param event
    * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#Clicking_and_focus
    */
-
   const normalizeButtonFocus = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(event => {
     const {
       type,
       target
     } = event;
     const isInteractionEnd = ['mouseup', 'touchend'].includes(type);
-
     if (isInteractionEnd) {
       preventBlurCheck.current = false;
     } else if (isFocusNormalizedButton(target)) {
       preventBlurCheck.current = true;
     }
   }, []);
+
   /**
    * A callback triggered when a blur event occurs on the element the handler
    * is bound to.
@@ -14336,29 +14314,27 @@ function useFocusOutside(onFocusOutside) {
    * Calls the `onFocusOutside` callback in an immediate timeout if focus has
    * move outside the bound element and is still within the document.
    */
-
   const queueBlurCheck = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(event => {
     // React does not allow using an event reference asynchronously
     // due to recycling behavior, except when explicitly persisted.
-    event.persist(); // Skip blur check if clicking button. See `normalizeButtonFocus`.
+    event.persist();
 
+    // Skip blur check if clicking button. See `normalizeButtonFocus`.
     if (preventBlurCheck.current) {
       return;
-    } // The usage of this attribute should be avoided. The only use case
+    }
+
+    // The usage of this attribute should be avoided. The only use case
     // would be when we load modals that are not React components and
     // therefore don't exist in the React tree. An example is opening
     // the Media Library modal from another dialog.
     // This attribute should contain a selector of the related target
     // we want to ignore, because we still need to trigger the blur event
     // on all other cases.
-
-
     const ignoreForRelatedTarget = event.target.getAttribute('data-unstable-ignore-focus-outside-for-relatedtarget');
-
     if (ignoreForRelatedTarget && event.relatedTarget?.closest(ignoreForRelatedTarget)) {
       return;
     }
-
     blurCheckTimeoutId.current = setTimeout(() => {
       // If document is not focused then focus should remain
       // inside the wrapped component and therefore we cancel
@@ -14368,7 +14344,6 @@ function useFocusOutside(onFocusOutside) {
         event.preventDefault();
         return;
       }
-
       if ('function' === typeof currentOnFocusOutside.current) {
         currentOnFocusOutside.current(event);
       }
@@ -14404,9 +14379,10 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
-/** @type {Element|null} */
 
+/** @type {Element|null} */
 let origin = null;
+
 /**
  * Adds the unmount behavior of returning focus to the element which had it
  * previously as is expected for roles like menus or dialogs.
@@ -14429,12 +14405,10 @@ let origin = null;
  * }
  * ```
  */
-
 function useFocusReturn(onFocusReturn) {
   /** @type {import('react').MutableRefObject<null | HTMLElement>} */
   const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   /** @type {import('react').MutableRefObject<null | Element>} */
-
   const focusedBeforeMount = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const onFocusReturnRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(onFocusReturn);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -14443,39 +14417,34 @@ function useFocusReturn(onFocusReturn) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(node => {
     if (node) {
       // Set ref to be used when unmounting.
-      ref.current = node; // Only set when the node mounts.
+      ref.current = node;
 
+      // Only set when the node mounts.
       if (focusedBeforeMount.current) {
         return;
       }
-
       focusedBeforeMount.current = node.ownerDocument.activeElement;
     } else if (focusedBeforeMount.current) {
       const isFocused = ref.current?.contains(ref.current?.ownerDocument.activeElement);
-
       if (ref.current?.isConnected && !isFocused) {
         var _origin;
-
         (_origin = origin) !== null && _origin !== void 0 ? _origin : origin = focusedBeforeMount.current;
         return;
-      } // Defer to the component's own explicit focus return behavior, if
+      }
+
+      // Defer to the component's own explicit focus return behavior, if
       // specified. This allows for support that the `onFocusReturn`
       // decides to allow the default behavior to occur under some
       // conditions.
-
-
       if (onFocusReturnRef.current) {
         onFocusReturnRef.current();
       } else {
-        /** @type {null|HTMLElement} */
-        (!focusedBeforeMount.current.isConnected ? origin : focusedBeforeMount.current)?.focus();
+        /** @type {null|HTMLElement} */(!focusedBeforeMount.current.isConnected ? origin : focusedBeforeMount.current)?.focus();
       }
-
       origin = null;
     }
   }, []);
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useFocusReturn);
 //# sourceMappingURL=index.js.map
 
@@ -14499,18 +14468,19 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 const instanceMap = new WeakMap();
+
 /**
  * Creates a new id for a given object.
  *
  * @param object Object reference to create an id for.
  * @return The instance id (index).
  */
-
 function createId(object) {
   const instances = instanceMap.get(object) || 0;
   instanceMap.set(object, instances + 1);
   return instances;
 }
+
 /**
  * Specify the useInstanceId *function* signatures.
  *
@@ -14523,7 +14493,6 @@ function createId(object) {
  *
  * @param object Object reference to create an id for.
  */
-
 
 /**
  * Provides a unique instance ID.
@@ -14540,7 +14509,6 @@ function useInstanceId(object, prefix, preferredId) {
     return prefix ? `${prefix}-${id}` : id;
   }, [object, preferredId, prefix]);
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useInstanceId);
 //# sourceMappingURL=index.js.map
 
@@ -14563,28 +14531,26 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * A new MediaQueryList object for the media query
  *
  * @param {string} [query] Media Query.
  * @return {MediaQueryList|null} A new object for the media query
  */
-
 function getMediaQueryList(query) {
   if (query && typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
     return window.matchMedia(query);
   }
-
   return null;
 }
+
 /**
  * Runs a media query and returns its value when it changes.
  *
  * @param {string} [query] Media Query.
  * @return {boolean} return value of the media query.
  */
-
-
 function useMediaQuery(query) {
   const source = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useMemo)(() => {
     const mediaQueryList = getMediaQueryList(query);
@@ -14594,19 +14560,15 @@ function useMediaQuery(query) {
         if (!mediaQueryList) {
           return () => {};
         }
-
         mediaQueryList.addEventListener('change', onStoreChange);
         return () => {
           mediaQueryList.removeEventListener('change', onStoreChange);
         };
       },
-
       getValue() {
         var _mediaQueryList$match;
-
         return (_mediaQueryList$match = mediaQueryList?.matches) !== null && _mediaQueryList$match !== void 0 ? _mediaQueryList$match : false;
       }
-
     };
   }, [query]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useSyncExternalStore)(source.subscribe, source.getValue, () => false);
@@ -14632,13 +14594,12 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
-/* eslint-disable jsdoc/valid-types */
 
+/* eslint-disable jsdoc/valid-types */
 /**
  * @template T
  * @typedef {T extends import('react').Ref<infer R> ? R : never} TypeFromRef
  */
-
 /* eslint-enable jsdoc/valid-types */
 
 /**
@@ -14646,18 +14607,16 @@ __webpack_require__.r(__webpack_exports__);
  * @param {import('react').Ref<T>} ref
  * @param {T}                      value
  */
-
 function assignRef(ref, value) {
   if (typeof ref === 'function') {
     ref(value);
   } else if (ref && ref.hasOwnProperty('current')) {
     /* eslint-disable jsdoc/no-undefined-types */
-
-    /** @type {import('react').MutableRefObject<T>} */
-    ref.current = value;
+    /** @type {import('react').MutableRefObject<T>} */ref.current = value;
     /* eslint-enable jsdoc/no-undefined-types */
   }
 }
+
 /**
  * Merges refs into one ref callback.
  *
@@ -14701,57 +14660,56 @@ function assignRef(ref, value) {
  *
  * @return {import('react').RefCallback<TypeFromRef<TRef>>} The merged ref callback.
  */
-
-
 function useMergeRefs(refs) {
   const element = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const isAttached = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
   const didElementChange = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
   /* eslint-disable jsdoc/no-undefined-types */
-
   /** @type {import('react').MutableRefObject<TRef[]>} */
-
   /* eslint-enable jsdoc/no-undefined-types */
-
   const previousRefs = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)([]);
-  const currentRefs = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(refs); // Update on render before the ref callback is called, so the ref callback
-  // always has access to the current refs.
+  const currentRefs = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(refs);
 
-  currentRefs.current = refs; // If any of the refs change, call the previous ref with `null` and the new
+  // Update on render before the ref callback is called, so the ref callback
+  // always has access to the current refs.
+  currentRefs.current = refs;
+
+  // If any of the refs change, call the previous ref with `null` and the new
   // ref with the node, except when the element changes in the same cycle, in
   // which case the ref callbacks will already have been called.
-
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect)(() => {
     if (didElementChange.current === false && isAttached.current === true) {
       refs.forEach((ref, index) => {
         const previousRef = previousRefs.current[index];
-
         if (ref !== previousRef) {
           assignRef(previousRef, null);
           assignRef(ref, element.current);
         }
       });
     }
-
     previousRefs.current = refs;
-  }, refs); // No dependencies, must be reset after every render so ref callbacks are
-  // correctly called after a ref change.
+  }, refs);
 
+  // No dependencies, must be reset after every render so ref callbacks are
+  // correctly called after a ref change.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect)(() => {
     didElementChange.current = false;
-  }); // There should be no dependencies so that `callback` is only called when
-  // the node changes.
+  });
 
+  // There should be no dependencies so that `callback` is only called when
+  // the node changes.
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(value => {
     // Update the element so it can be used when calling ref callbacks on a
     // dependency change.
     assignRef(element, value);
     didElementChange.current = true;
-    isAttached.current = value !== null; // When an element changes, the current ref callback should be called
+    isAttached.current = value !== null;
+
+    // When an element changes, the current ref callback should be called
     // with the new element and the previous one with `null`.
+    const refsToAssign = value ? currentRefs.current : previousRefs.current;
 
-    const refsToAssign = value ? currentRefs.current : previousRefs.current; // Update the latest refs.
-
+    // Update the latest refs.
     for (const ref of refsToAssign) {
       assignRef(ref, value);
     }
@@ -14778,6 +14736,7 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * Use something's value from the previous render.
  * Based on https://usehooks.com/usePrevious/.
@@ -14786,15 +14745,15 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return The value from the previous render.
  */
-
 function usePrevious(value) {
-  const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(); // Store current value in ref.
+  const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
 
+  // Store current value in ref.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     ref.current = value;
   }, [value]); // Re-run when value changes.
-  // Return previous value (happens before update in useEffect above).
 
+  // Return previous value (happens before update in useEffect above).
   return ref.current;
 }
 //# sourceMappingURL=index.js.map
@@ -14817,14 +14776,13 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Hook returning whether the user has a preference for reduced motion.
  *
  * @return {boolean} Reduced motion preference value.
  */
-
 const useReducedMotion = () => (0,_use_media_query__WEBPACK_IMPORTED_MODULE_0__["default"])('(prefers-reduced-motion: reduce)');
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useReducedMotion);
 //# sourceMappingURL=index.js.map
 
@@ -14851,6 +14809,7 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * Effect-like ref callback. Just like with `useEffect`, this allows you to
  * return a cleanup function to be run if the ref changes or one of the
@@ -14870,7 +14829,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return Ref callback.
  */
-
 function useRefEffect(callback, dependencies) {
   const cleanup = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(node => {
@@ -14899,7 +14857,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "./node_modules/react/index.js");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 
-
 /**
  * External dependencies
  */
@@ -14907,7 +14864,6 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * WordPress dependencies
  */
-
 
 // This of course could've been more streamlined with internal state instead of
 // refs, but then host hooks / components could not opt out of renders.
@@ -14919,7 +14875,6 @@ function useResolvedElement(subscriber, refOrElement) {
   const cleanupRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const callSubscriber = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
     let element = null;
-
     if (callbackRefElement.current) {
       element = callbackRefElement.current;
     } else if (refOrElement) {
@@ -14929,28 +14884,27 @@ function useResolvedElement(subscriber, refOrElement) {
         element = refOrElement.current;
       }
     }
-
     if (lastReportRef.current && lastReportRef.current.element === element && lastReportRef.current.reporter === callSubscriber) {
       return;
     }
-
     if (cleanupRef.current) {
-      cleanupRef.current(); // Making sure the cleanup is not called accidentally multiple times.
-
+      cleanupRef.current();
+      // Making sure the cleanup is not called accidentally multiple times.
       cleanupRef.current = null;
     }
-
     lastReportRef.current = {
       reporter: callSubscriber,
       element
-    }; // Only calling the subscriber, if there's an actual element to report.
+    };
 
+    // Only calling the subscriber, if there's an actual element to report.
     if (element) {
       cleanupRef.current = subscriber(element);
     }
-  }, [refOrElement, subscriber]); // On each render, we check whether a ref changed, or if we got a new raw
-  // element.
+  }, [refOrElement, subscriber]);
 
+  // On each render, we check whether a ref changed, or if we got a new raw
+  // element.
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     // With this we're *technically* supporting cases where ref objects' current value changes, but only if there's a
     // render accompanying that change as well.
@@ -14963,7 +14917,6 @@ function useResolvedElement(subscriber, refOrElement) {
     callSubscriber();
   }, [callSubscriber]);
 }
-
 // We're only using the first element of the size sequences, until future versions of the spec solidify on how
 // exactly it'll be used for fragments in multi-column scenarios:
 // From the spec:
@@ -14999,17 +14952,16 @@ const extractSize = (entry, boxProp, sizeType) => {
       // In real browser implementations of course these objects differ, but the width/height values should be equivalent.
       return entry.contentRect[sizeType === 'inlineSize' ? 'width' : 'height'];
     }
-
     return undefined;
-  } // A couple bytes smaller than calling Array.isArray() and just as effective here.
+  }
 
-
-  return entry[boxProp][0] ? entry[boxProp][0][sizeType] : // TS complains about this, because the RO entry type follows the spec and does not reflect Firefox's current
+  // A couple bytes smaller than calling Array.isArray() and just as effective here.
+  return entry[boxProp][0] ? entry[boxProp][0][sizeType] :
+  // TS complains about this, because the RO entry type follows the spec and does not reflect Firefox's current
   // behaviour of returning objects instead of arrays for `borderBoxSize` and `contentBoxSize`.
   // @ts-ignore
   entry[boxProp][sizeType];
 };
-
 function useResizeObserver(opts = {}) {
   // Saving the callback as a ref. With this, I don't need to put onResize in the
   // effect dep array, and just passing in an anonymous function without memoising
@@ -15017,30 +14969,34 @@ function useResizeObserver(opts = {}) {
   const onResize = opts.onResize;
   const onResizeRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(undefined);
   onResizeRef.current = onResize;
-  const round = opts.round || Math.round; // Using a single instance throughout the hook's lifetime
+  const round = opts.round || Math.round;
 
+  // Using a single instance throughout the hook's lifetime
   const resizeObserverRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const [size, setSize] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)({
     width: undefined,
     height: undefined
-  }); // In certain edge cases the RO might want to report a size change just after
-  // the component unmounted.
+  });
 
+  // In certain edge cases the RO might want to report a size change just after
+  // the component unmounted.
   const didUnmount = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)(false);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     didUnmount.current = false;
     return () => {
       didUnmount.current = true;
     };
-  }, []); // Using a ref to track the previous width / height to avoid unnecessary renders.
+  }, []);
 
+  // Using a ref to track the previous width / height to avoid unnecessary renders.
   const previous = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useRef)({
     width: undefined,
     height: undefined
-  }); // This block is kinda like a useEffect, only it's called whenever a new
+  });
+
+  // This block is kinda like a useEffect, only it's called whenever a new
   // element could be resolved based on the ref option. It also has a cleanup
   // function.
-
   const refCallback = useResolvedElement((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useCallback)(element => {
     // We only use a single Resize Observer instance, and we're instantiating it on demand, only once there's something to observe.
     // This instance is also recreated when the `box` option changes, so that a new observation is fired if there was a previously observed element with a different box option.
@@ -15051,18 +15007,15 @@ function useResizeObserver(opts = {}) {
         instance: new ResizeObserver(entries => {
           const entry = entries[0];
           let boxProp = 'borderBoxSize';
-
           if (opts.box === 'border-box') {
             boxProp = 'borderBoxSize';
           } else {
             boxProp = opts.box === 'device-pixel-content-box' ? 'devicePixelContentBoxSize' : 'contentBoxSize';
           }
-
           const reportedWidth = extractSize(entry, boxProp, 'inlineSize');
           const reportedHeight = extractSize(entry, boxProp, 'blockSize');
           const newWidth = reportedWidth ? round(reportedWidth) : undefined;
           const newHeight = reportedHeight ? round(reportedHeight) : undefined;
-
           if (previous.current.width !== newWidth || previous.current.height !== newHeight) {
             const newSize = {
               width: newWidth,
@@ -15070,7 +15023,6 @@ function useResizeObserver(opts = {}) {
             };
             previous.current.width = newWidth;
             previous.current.height = newHeight;
-
             if (onResizeRef.current) {
               onResizeRef.current(newSize);
             } else if (!didUnmount.current) {
@@ -15080,7 +15032,6 @@ function useResizeObserver(opts = {}) {
         })
       };
     }
-
     resizeObserverRef.current.instance.observe(element, {
       box: opts.box
     });
@@ -15096,6 +15047,7 @@ function useResizeObserver(opts = {}) {
     height: size.height
   }), [refCallback, size ? size.width : null, size ? size.height : null]);
 }
+
 /**
  * Hook which allows to listen the resize event of any target element when it changes sizes.
  * _Note: `useResizeObserver` will report `null` until after first render.
@@ -15115,8 +15067,6 @@ function useResizeObserver(opts = {}) {
  * };
  * ```
  */
-
-
 function useResizeAware() {
   const {
     ref,
@@ -15168,6 +15118,7 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
@@ -15184,7 +15135,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @type {Record<WPBreakpoint, number>}
  */
-
 const BREAKPOINTS = {
   huge: 1440,
   wide: 1280,
@@ -15193,6 +15143,7 @@ const BREAKPOINTS = {
   small: 600,
   mobile: 480
 };
+
 /**
  * @typedef {">=" | "<"} WPViewportOperator
  */
@@ -15202,24 +15153,22 @@ const BREAKPOINTS = {
  *
  * @type {Record<WPViewportOperator, string>}
  */
-
 const CONDITIONS = {
   '>=': 'min-width',
   '<': 'max-width'
 };
+
 /**
  * Object mapping media query operators to a function that given a breakpointValue and a width evaluates if the operator matches the values.
  *
  * @type {Record<WPViewportOperator, (breakpointValue: number, width: number) => boolean>}
  */
-
 const OPERATOR_EVALUATORS = {
   '>=': (breakpointValue, width) => width >= breakpointValue,
   '<': (breakpointValue, width) => width < breakpointValue
 };
-const ViewportMatchWidthContext = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createContext)(
-/** @type {null | number} */
-null);
+const ViewportMatchWidthContext = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createContext)( /** @type {null | number} */null);
+
 /**
  * Returns true if the viewport matches the given query, or false otherwise.
  *
@@ -15235,19 +15184,15 @@ null);
  *
  * @return {boolean} Whether viewport matches query.
  */
-
 const useViewportMatch = (breakpoint, operator = '>=') => {
   const simulatedWidth = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useContext)(ViewportMatchWidthContext);
   const mediaQuery = !simulatedWidth && `(${CONDITIONS[operator]}: ${BREAKPOINTS[breakpoint]}px)`;
   const mediaQueryResult = (0,_use_media_query__WEBPACK_IMPORTED_MODULE_1__["default"])(mediaQuery || undefined);
-
   if (simulatedWidth) {
     return OPERATOR_EVALUATORS[operator](BREAKPOINTS[breakpoint], simulatedWidth);
   }
-
   return mediaQueryResult;
 };
-
 useViewportMatch.__experimentalWidthProvider = ViewportMatchWidthContext.Provider;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (useViewportMatch);
 //# sourceMappingURL=index.js.map
@@ -15345,18 +15290,14 @@ const debounce = (func, wait, options) => {
   let leading = false;
   let maxing = false;
   let trailing = true;
-
   if (options) {
     leading = !!options.leading;
     maxing = 'maxWait' in options;
-
     if (options.maxWait !== undefined) {
       maxWait = Math.max(options.maxWait, wait);
     }
-
     trailing = 'trailing' in options ? !!options.trailing : trailing;
   }
-
   function invokeFunc(time) {
     const args = lastArgs;
     const thisArg = lastThis;
@@ -15366,115 +15307,96 @@ const debounce = (func, wait, options) => {
     result = func.apply(thisArg, args);
     return result;
   }
-
   function startTimer(pendingFunc, waitTime) {
     timerId = setTimeout(pendingFunc, waitTime);
   }
-
   function cancelTimer() {
     if (timerId !== undefined) {
       clearTimeout(timerId);
     }
   }
-
   function leadingEdge(time) {
     // Reset any `maxWait` timer.
-    lastInvokeTime = time; // Start the timer for the trailing edge.
-
-    startTimer(timerExpired, wait); // Invoke the leading edge.
-
+    lastInvokeTime = time;
+    // Start the timer for the trailing edge.
+    startTimer(timerExpired, wait);
+    // Invoke the leading edge.
     return leading ? invokeFunc(time) : result;
   }
-
   function getTimeSinceLastCall(time) {
     return time - (lastCallTime || 0);
   }
-
   function remainingWait(time) {
     const timeSinceLastCall = getTimeSinceLastCall(time);
     const timeSinceLastInvoke = time - lastInvokeTime;
     const timeWaiting = wait - timeSinceLastCall;
     return maxing ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
   }
-
   function shouldInvoke(time) {
     const timeSinceLastCall = getTimeSinceLastCall(time);
-    const timeSinceLastInvoke = time - lastInvokeTime; // Either this is the first call, activity has stopped and we're at the
+    const timeSinceLastInvoke = time - lastInvokeTime;
+
+    // Either this is the first call, activity has stopped and we're at the
     // trailing edge, the system time has gone backwards and we're treating
     // it as the trailing edge, or we've hit the `maxWait` limit.
-
     return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
   }
-
   function timerExpired() {
     const time = Date.now();
-
     if (shouldInvoke(time)) {
       return trailingEdge(time);
-    } // Restart the timer.
-
-
+    }
+    // Restart the timer.
     startTimer(timerExpired, remainingWait(time));
     return undefined;
   }
-
   function clearTimer() {
     timerId = undefined;
   }
-
   function trailingEdge(time) {
-    clearTimer(); // Only invoke if we have `lastArgs` which means `func` has been
-    // debounced at least once.
+    clearTimer();
 
+    // Only invoke if we have `lastArgs` which means `func` has been
+    // debounced at least once.
     if (trailing && lastArgs) {
       return invokeFunc(time);
     }
-
     lastArgs = lastThis = undefined;
     return result;
   }
-
   function cancel() {
     cancelTimer();
     lastInvokeTime = 0;
     clearTimer();
     lastArgs = lastCallTime = lastThis = undefined;
   }
-
   function flush() {
     return pending() ? trailingEdge(Date.now()) : result;
   }
-
   function pending() {
     return timerId !== undefined;
   }
-
   function debounced(...args) {
     const time = Date.now();
     const isInvoking = shouldInvoke(time);
     lastArgs = args;
     lastThis = this;
     lastCallTime = time;
-
     if (isInvoking) {
       if (!pending()) {
         return leadingEdge(lastCallTime);
       }
-
       if (maxing) {
         // Handle invocations in a tight loop.
         startTimer(timerExpired, wait);
         return invokeFunc(lastCallTime);
       }
     }
-
     if (!pending()) {
       startTimer(timerExpired, wait);
     }
-
     return result;
   }
-
   debounced.cancel = cancel;
   debounced.flush = flush;
   debounced.pending = pending;
@@ -15501,14 +15423,15 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * Object map tracking messages which have been logged, for use in ensuring a
  * message is only logged once.
  *
  * @type {Record<string, true | undefined>}
  */
-
 const logged = Object.create(null);
+
 /**
  * Logs a message to notify developers about a deprecated feature.
  *
@@ -15536,7 +15459,6 @@ const logged = Object.create(null);
  * // Logs: 'Eating meat is deprecated since version 2019.01.01 and will be removed from the earth in version 2020.01.01. Please use vegetables instead. Note: You may find it beneficial to transition gradually.'
  * ```
  */
-
 function deprecated(feature, options = {}) {
   const {
     since,
@@ -15552,11 +15474,13 @@ function deprecated(feature, options = {}) {
   const useInsteadMessage = alternative ? ` Please use ${alternative} instead.` : '';
   const linkMessage = link ? ` See: ${link}` : '';
   const hintMessage = hint ? ` Note: ${hint}` : '';
-  const message = `${feature} is deprecated${sinceMessage}${versionMessage}.${useInsteadMessage}${linkMessage}${hintMessage}`; // Skip if already logged.
+  const message = `${feature} is deprecated${sinceMessage}${versionMessage}.${useInsteadMessage}${linkMessage}${hintMessage}`;
 
+  // Skip if already logged.
   if (message in logged) {
     return;
   }
+
   /**
    * Fires whenever a deprecated feature is encountered
    *
@@ -15570,13 +15494,13 @@ function deprecated(feature, options = {}) {
    * @param {?string} options.hint        Additional message to help transition away from the deprecated feature.
    * @param {?string} message             Message sent to console.warn
    */
+  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.doAction)('deprecated', feature, options, message);
 
-
-  (0,_wordpress_hooks__WEBPACK_IMPORTED_MODULE_0__.doAction)('deprecated', feature, options, message); // eslint-disable-next-line no-console
-
+  // eslint-disable-next-line no-console
   console.warn(message);
   logged[message] = true;
 }
+
 /** @typedef {import('utility-types').NonUndefined<Parameters<typeof deprecated>[1]>} DeprecatedOptions */
 //# sourceMappingURL=index.js.map
 
@@ -15663,7 +15587,6 @@ function getFilesFromDataTransfer(dataTransfer) {
   const files = Array.from(dataTransfer.files);
   Array.from(dataTransfer.items).forEach(item => {
     const file = item.getAsFile();
-
     if (file && !files.find(({
       name,
       type,
@@ -15705,23 +15628,22 @@ function caretRangeFromPoint(doc, x, y) {
   if (doc.caretRangeFromPoint) {
     return doc.caretRangeFromPoint(x, y);
   }
-
   if (!doc.caretPositionFromPoint) {
     return null;
   }
+  const point = doc.caretPositionFromPoint(x, y);
 
-  const point = doc.caretPositionFromPoint(x, y); // If x or y are negative, outside viewport, or there is no text entry node.
+  // If x or y are negative, outside viewport, or there is no text entry node.
   // https://developer.mozilla.org/en-US/docs/Web/API/Document/caretRangeFromPoint
-
   if (!point) {
     return null;
   }
-
   const range = doc.createRange();
   range.setStart(point.offsetNode, point.offset);
   range.collapse(true);
   return range;
 }
+
 /**
  * @typedef {{caretPositionFromPoint?: (x: number, y: number)=> CaretPosition | null} & Document } DocumentMaybeWithCaretPositionFromPoint
  * @typedef {{ readonly offset: number; readonly offsetNode: Node; getClientRect(): DOMRect | null; }} CaretPosition
@@ -15756,10 +15678,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 const noop = () => {};
-/* eslint-disable jsdoc/valid-types */
 
+/* eslint-disable jsdoc/valid-types */
 /**
  * @typedef SchemaItem
  * @property {string[]}                            [attributes] Attributes.
@@ -15771,7 +15692,6 @@ const noop = () => {};
  */
 
 /** @typedef {{ [tag: string]: SchemaItem }} Schema */
-
 /* eslint-enable jsdoc/valid-types */
 
 /**
@@ -15783,15 +15703,12 @@ const noop = () => {};
  * @param {Schema}   schema   An array of functions that can mutate with the provided node.
  * @param {boolean}  inline   Whether to clean for inline mode.
  */
-
-
 function cleanNodeList(nodeList, doc, schema, inline) {
-  Array.from(nodeList).forEach((
-  /** @type {Node & { nextElementSibling?: unknown }} */
-  node) => {
-    const tag = node.nodeName.toLowerCase(); // It's a valid child, if the tag exists in the schema without an isMatch
-    // function, or with an isMatch function that matches the node.
+  Array.from(nodeList).forEach(( /** @type {Node & { nextElementSibling?: unknown }} */node) => {
+    const tag = node.nodeName.toLowerCase();
 
+    // It's a valid child, if the tag exists in the schema without an isMatch
+    // function, or with an isMatch function that matches the node.
     if (schema.hasOwnProperty(tag) && (!schema[tag].isMatch || schema[tag].isMatch?.(node))) {
       if ((0,_is_element__WEBPACK_IMPORTED_MODULE_0__["default"])(node)) {
         const {
@@ -15800,14 +15717,14 @@ function cleanNodeList(nodeList, doc, schema, inline) {
           children,
           require = [],
           allowEmpty
-        } = schema[tag]; // If the node is empty and it's supposed to have children,
-        // remove the node.
+        } = schema[tag];
 
+        // If the node is empty and it's supposed to have children,
+        // remove the node.
         if (children && !allowEmpty && (0,_is_empty__WEBPACK_IMPORTED_MODULE_1__["default"])(node)) {
           (0,_remove__WEBPACK_IMPORTED_MODULE_2__["default"])(node);
           return;
         }
-
         if (node.hasAttributes()) {
           // Strip invalid attributes.
           Array.from(node.attributes).forEach(({
@@ -15816,22 +15733,18 @@ function cleanNodeList(nodeList, doc, schema, inline) {
             if (name !== 'class' && !attributes.includes(name)) {
               node.removeAttribute(name);
             }
-          }); // Strip invalid classes.
+          });
+
+          // Strip invalid classes.
           // In jsdom-jscore, 'node.classList' can be undefined.
           // TODO: Explore patching this in jsdom-jscore.
-
           if (node.classList && node.classList.length) {
             const mattchers = classes.map(item => {
               if (typeof item === 'string') {
-                return (
-                /** @type {string} */
-                className) => className === item;
+                return ( /** @type {string} */className) => className === item;
               } else if (item instanceof RegExp) {
-                return (
-                /** @type {string} */
-                className) => item.test(className);
+                return ( /** @type {string} */className) => item.test(className);
               }
-
               return noop;
             });
             Array.from(node.classList).forEach(name => {
@@ -15839,54 +15752,52 @@ function cleanNodeList(nodeList, doc, schema, inline) {
                 node.classList.remove(name);
               }
             });
-
             if (!node.classList.length) {
               node.removeAttribute('class');
             }
           }
         }
-
         if (node.hasChildNodes()) {
           // Do not filter any content.
           if (children === '*') {
             return;
-          } // Continue if the node is supposed to have children.
+          }
 
-
+          // Continue if the node is supposed to have children.
           if (children) {
             // If a parent requires certain children, but it does
             // not have them, drop the parent and continue.
             if (require.length && !node.querySelector(require.join(','))) {
               cleanNodeList(node.childNodes, doc, schema, inline);
-              (0,_unwrap__WEBPACK_IMPORTED_MODULE_3__["default"])(node); // If the node is at the top, phrasing content, and
+              (0,_unwrap__WEBPACK_IMPORTED_MODULE_3__["default"])(node);
+              // If the node is at the top, phrasing content, and
               // contains children that are block content, unwrap
               // the node because it is invalid.
             } else if (node.parentNode && node.parentNode.nodeName === 'BODY' && (0,_phrasing_content__WEBPACK_IMPORTED_MODULE_4__.isPhrasingContent)(node)) {
               cleanNodeList(node.childNodes, doc, schema, inline);
-
               if (Array.from(node.childNodes).some(child => !(0,_phrasing_content__WEBPACK_IMPORTED_MODULE_4__.isPhrasingContent)(child))) {
                 (0,_unwrap__WEBPACK_IMPORTED_MODULE_3__["default"])(node);
               }
             } else {
               cleanNodeList(node.childNodes, doc, children, inline);
-            } // Remove children if the node is not supposed to have any.
-
+            }
+            // Remove children if the node is not supposed to have any.
           } else {
             while (node.firstChild) {
               (0,_remove__WEBPACK_IMPORTED_MODULE_2__["default"])(node.firstChild);
             }
           }
         }
-      } // Invalid child. Continue with schema at the same place and unwrap.
-
+      }
+      // Invalid child. Continue with schema at the same place and unwrap.
     } else {
-      cleanNodeList(node.childNodes, doc, schema, inline); // For inline mode, insert a line break when unwrapping nodes that
-      // are not phrasing content.
+      cleanNodeList(node.childNodes, doc, schema, inline);
 
+      // For inline mode, insert a line break when unwrapping nodes that
+      // are not phrasing content.
       if (inline && !(0,_phrasing_content__WEBPACK_IMPORTED_MODULE_4__.isPhrasingContent)(node) && node.nextElementSibling) {
         (0,_insert_after__WEBPACK_IMPORTED_MODULE_5__["default"])(doc.createElement('br'), node);
       }
-
       (0,_unwrap__WEBPACK_IMPORTED_MODULE_3__["default"])(node);
     }
   });
@@ -15913,6 +15824,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Get the rectangle for the selection in a container.
  *
@@ -15920,16 +15832,13 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {DOMRect | null} The rectangle.
  */
-
 function computeCaretRect(win) {
   const selection = win.getSelection();
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(selection, 'selection');
   const range = selection.rangeCount ? selection.getRangeAt(0) : null;
-
   if (!range) {
     return null;
   }
-
   return (0,_get_rectangle_from_range__WEBPACK_IMPORTED_MODULE_1__["default"])(range);
 }
 //# sourceMappingURL=compute-caret-rect.js.map
@@ -15956,6 +15865,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Check whether the current document has a selection. This includes focus in
  * input fields, textareas, and general rich-text selection.
@@ -15964,7 +15874,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} True if there is selection, false if not.
  */
-
 function documentHasSelection(doc) {
   return !!doc.activeElement && ((0,_is_html_input_element__WEBPACK_IMPORTED_MODULE_0__["default"])(doc.activeElement) || (0,_is_text_field__WEBPACK_IMPORTED_MODULE_1__["default"])(doc.activeElement) || (0,_document_has_text_selection__WEBPACK_IMPORTED_MODULE_2__["default"])(doc));
 }
@@ -15988,6 +15897,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Check whether the current document has selected text. This applies to ranges
  * of text in the document, and not selection inside `<input>` and `<textarea>`
@@ -15999,7 +15909,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} True if there is selection, false if not.
  */
-
 function documentHasTextSelection(doc) {
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(doc.defaultView, 'doc.defaultView');
   const selection = doc.defaultView.getSelection();
@@ -16029,6 +15938,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Check whether the current document has any sort of (uncollapsed) selection.
  * This includes ranges of text across elements and any selection inside
@@ -16038,7 +15948,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} Whether there is any recognizable text selection in the document.
  */
-
 function documentHasUncollapsedSelection(doc) {
   return (0,_document_has_text_selection__WEBPACK_IMPORTED_MODULE_0__["default"])(doc) || !!doc.activeElement && (0,_input_field_has_uncollapsed_selection__WEBPACK_IMPORTED_MODULE_1__["default"])(doc.activeElement);
 }
@@ -16062,13 +15971,12 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
-/* eslint-disable jsdoc/valid-types */
 
+/* eslint-disable jsdoc/valid-types */
 /**
  * @param {Element} element
  * @return {ReturnType<Window['getComputedStyle']>} The computed style for the element.
  */
-
 function getComputedStyle(element) {
   /* eslint-enable jsdoc/valid-types */
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(element.ownerDocument.defaultView, 'element.ownerDocument.defaultView');
@@ -16094,6 +16002,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Returns the closest positioned element, or null under any of the conditions
  * of the offsetParent specification. Unlike offsetParent, this function is not
@@ -16105,36 +16014,27 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Node | null} Offset parent.
  */
-
 function getOffsetParent(node) {
   // Cannot retrieve computed style or offset parent only anything other than
   // an element node, so find the closest element node.
   let closestElement;
-
-  while (closestElement =
-  /** @type {Node} */
-  node.parentNode) {
+  while (closestElement = /** @type {Node} */node.parentNode) {
     if (closestElement.nodeType === closestElement.ELEMENT_NODE) {
       break;
     }
   }
-
   if (!closestElement) {
     return null;
-  } // If the closest element is already positioned, return it, as offsetParent
+  }
+
+  // If the closest element is already positioned, return it, as offsetParent
   // does not otherwise consider the node itself.
-
-
-  if ((0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])(
-  /** @type {Element} */
-  closestElement).position !== 'static') {
+  if ((0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])( /** @type {Element} */closestElement).position !== 'static') {
     return closestElement;
-  } // offsetParent is undocumented/draft.
+  }
 
-
-  return (
-    /** @type {Node & { offsetParent: Node }} */
-    closestElement.offsetParent
+  // offsetParent is undocumented/draft.
+  return (/** @type {Node & { offsetParent: Node }} */closestElement.offsetParent
   );
 }
 //# sourceMappingURL=get-offset-parent.js.map
@@ -16161,11 +16061,9 @@ __webpack_require__.r(__webpack_exports__);
  */
 function getRangeHeight(range) {
   const rects = Array.from(range.getClientRects());
-
   if (!rects.length) {
     return;
   }
-
   const highestTop = Math.min(...rects.map(({
     top
   }) => top));
@@ -16194,6 +16092,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Get the rectangle of a given Range. Returns `null` if no suitable rectangle
  * can be found.
@@ -16202,38 +16101,36 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {DOMRect?} The rectangle.
  */
-
 function getRectangleFromRange(range) {
   // For uncollapsed ranges, get the rectangle that bounds the contents of the
   // range; this a rectangle enclosing the union of the bounding rectangles
   // for all the elements in the range.
   if (!range.collapsed) {
-    const rects = Array.from(range.getClientRects()); // If there's just a single rect, return it.
+    const rects = Array.from(range.getClientRects());
 
+    // If there's just a single rect, return it.
     if (rects.length === 1) {
       return rects[0];
-    } // Ignore tiny selection at the edge of a range.
+    }
 
-
+    // Ignore tiny selection at the edge of a range.
     const filteredRects = rects.filter(({
       width
-    }) => width > 1); // If it's full of tiny selections, return browser default.
+    }) => width > 1);
 
+    // If it's full of tiny selections, return browser default.
     if (filteredRects.length === 0) {
       return range.getBoundingClientRect();
     }
-
     if (filteredRects.length === 1) {
       return filteredRects[0];
     }
-
     let {
       top: furthestTop,
       bottom: furthestBottom,
       left: furthestLeft,
       right: furthestRight
     } = filteredRects[0];
-
     for (const {
       top,
       bottom,
@@ -16245,55 +16142,51 @@ function getRectangleFromRange(range) {
       if (left < furthestLeft) furthestLeft = left;
       if (right > furthestRight) furthestRight = right;
     }
-
     return new window.DOMRect(furthestLeft, furthestTop, furthestRight - furthestLeft, furthestBottom - furthestTop);
   }
-
   const {
     startContainer
   } = range;
   const {
     ownerDocument
-  } = startContainer; // Correct invalid "BR" ranges. The cannot contain any children.
+  } = startContainer;
 
+  // Correct invalid "BR" ranges. The cannot contain any children.
   if (startContainer.nodeName === 'BR') {
     const {
       parentNode
     } = startContainer;
     (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(parentNode, 'parentNode');
-    const index =
-    /** @type {Node[]} */
-    Array.from(parentNode.childNodes).indexOf(startContainer);
+    const index = /** @type {Node[]} */Array.from(parentNode.childNodes).indexOf(startContainer);
     (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(ownerDocument, 'ownerDocument');
     range = ownerDocument.createRange();
     range.setStart(parentNode, index);
     range.setEnd(parentNode, index);
   }
+  const rects = range.getClientRects();
 
-  const rects = range.getClientRects(); // If we have multiple rectangles for a collapsed range, there's no way to
+  // If we have multiple rectangles for a collapsed range, there's no way to
   // know which it is, so don't return anything.
-
   if (rects.length > 1) {
     return null;
   }
+  let rect = rects[0];
 
-  let rect = rects[0]; // If the collapsed range starts (and therefore ends) at an element node,
+  // If the collapsed range starts (and therefore ends) at an element node,
   // `getClientRects` can be empty in some browsers. This can be resolved
   // by adding a temporary text node with zero-width space to the range.
   //
   // See: https://stackoverflow.com/a/6847328/995445
-
   if (!rect || rect.height === 0) {
     (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(ownerDocument, 'ownerDocument');
-    const padNode = ownerDocument.createTextNode('\u200b'); // Do not modify the live range.
-
+    const padNode = ownerDocument.createTextNode('\u200b');
+    // Do not modify the live range.
     range = range.cloneRange();
     range.insertNode(padNode);
     rect = range.getClientRects()[0];
     (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(padNode.parentNode, 'padNode.parentNode');
     padNode.parentNode.removeChild(padNode);
   }
-
   return rect;
 }
 //# sourceMappingURL=get-rectangle-from-range.js.map
@@ -16316,6 +16209,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Given a DOM node, finds the closest scrollable container node or the node
  * itself, if scrollable.
@@ -16325,12 +16219,10 @@ __webpack_require__.r(__webpack_exports__);
  *                                   Defaults to 'vertical'.
  * @return {Element | undefined} Scrollable container node, if found.
  */
-
 function getScrollContainer(node, direction = 'vertical') {
   if (!node) {
     return undefined;
   }
-
   if (direction === 'vertical' || direction === 'all') {
     // Scrollable if scrollable height exceeds displayed...
     if (node.scrollHeight > node.clientHeight) {
@@ -16338,13 +16230,11 @@ function getScrollContainer(node, direction = 'vertical') {
       const {
         overflowY
       } = (0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])(node);
-
       if (/(auto|scroll)/.test(overflowY)) {
         return node;
       }
     }
   }
-
   if (direction === 'horizontal' || direction === 'all') {
     // Scrollable if scrollable width exceeds displayed...
     if (node.scrollWidth > node.clientWidth) {
@@ -16352,21 +16242,17 @@ function getScrollContainer(node, direction = 'vertical') {
       const {
         overflowX
       } = (0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])(node);
-
       if (/(auto|scroll)/.test(overflowX)) {
         return node;
       }
     }
   }
-
   if (node.ownerDocument === node.parentNode) {
     return node;
-  } // Continue traversing.
+  }
 
-
-  return getScrollContainer(
-  /** @type {Element} */
-  node.parentNode, direction);
+  // Continue traversing.
+  return getScrollContainer( /** @type {Element} */node.parentNode, direction);
 }
 //# sourceMappingURL=get-scroll-container.js.map
 
@@ -16390,6 +16276,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Get a collapsed range for a given point.
  * Gives the container a temporary high z-index (above any UI).
@@ -16402,18 +16289,17 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {?Range} The best range for the given point.
  */
-
 function hiddenCaretRangeFromPoint(doc, x, y, container) {
   const originalZIndex = container.style.zIndex;
   const originalPosition = container.style.position;
   const {
     position = 'static'
-  } = (0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])(container); // A z-index only works if the element position is not static.
+  } = (0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])(container);
 
+  // A z-index only works if the element position is not static.
   if (position === 'static') {
     container.style.position = 'relative';
   }
-
   container.style.zIndex = '10000';
   const range = (0,_caret_range_from_point__WEBPACK_IMPORTED_MODULE_1__["default"])(doc, x, y);
   container.style.zIndex = originalZIndex;
@@ -16534,6 +16420,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Check whether the given input field or textarea contains a (uncollapsed)
  * selection of text.
@@ -16551,26 +16438,25 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} Whether the input/textareaa element has some "selection".
  */
-
 function inputFieldHasUncollapsedSelection(element) {
   if (!(0,_is_html_input_element__WEBPACK_IMPORTED_MODULE_0__["default"])(element) && !(0,_is_text_field__WEBPACK_IMPORTED_MODULE_1__["default"])(element)) {
     return false;
-  } // Safari throws a type error when trying to get `selectionStart` and
+  }
+
+  // Safari throws a type error when trying to get `selectionStart` and
   // `selectionEnd` on non-text <input> elements, so a try/catch construct is
   // necessary.
-
-
   try {
     const {
       selectionStart,
       selectionEnd
-    } =
-    /** @type {HTMLInputElement | HTMLTextAreaElement} */
-    element;
-    return (// `null` means the input type doesn't implement selection, thus we
+    } = /** @type {HTMLInputElement | HTMLTextAreaElement} */element;
+    return (
+      // `null` means the input type doesn't implement selection, thus we
       // cannot determine whether the selection is collapsed, so we
       // default to true.
-      selectionStart === null || // when not null, compare the two points
+      selectionStart === null ||
+      // when not null, compare the two points
       selectionStart !== selectionEnd
     );
   } catch (error) {
@@ -16599,6 +16485,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Given two DOM nodes, inserts the former in the DOM as the next sibling of
  * the latter.
@@ -16607,7 +16494,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Node} referenceNode Node after which to perform the insertion.
  * @return {void}
  */
-
 function insertAfter(newNode, referenceNode) {
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(referenceNode.parentNode, 'referenceNode.parentNode');
   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
@@ -16631,12 +16517,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _get_range_height__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./get-range-height */ "./node_modules/@wordpress/dom/build-module/dom/get-range-height.js");
 /* harmony import */ var _get_rectangle_from_range__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./get-rectangle-from-range */ "./node_modules/@wordpress/dom/build-module/dom/get-rectangle-from-range.js");
 /* harmony import */ var _is_selection_forward__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./is-selection-forward */ "./node_modules/@wordpress/dom/build-module/dom/is-selection-forward.js");
-/* harmony import */ var _hidden_caret_range_from_point__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./hidden-caret-range-from-point */ "./node_modules/@wordpress/dom/build-module/dom/hidden-caret-range-from-point.js");
+/* harmony import */ var _hidden_caret_range_from_point__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./hidden-caret-range-from-point */ "./node_modules/@wordpress/dom/build-module/dom/hidden-caret-range-from-point.js");
 /* harmony import */ var _utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/assert-is-defined */ "./node_modules/@wordpress/dom/build-module/utils/assert-is-defined.js");
 /* harmony import */ var _is_input_or_text_area__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is-input-or-text-area */ "./node_modules/@wordpress/dom/build-module/dom/is-input-or-text-area.js");
+/* harmony import */ var _scroll_if_no_range__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./scroll-if-no-range */ "./node_modules/@wordpress/dom/build-module/dom/scroll-if-no-range.js");
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -16649,32 +16538,25 @@ __webpack_require__.r(__webpack_exports__);
  * horizontal position by default. Set `onlyVertical` to true to check only
  * vertically.
  *
- * @param {Element} container            Focusable element.
- * @param {boolean} isReverse            Set to true to check left, false to check right.
- * @param {boolean} [onlyVertical=false] Set to true to check only vertical position.
+ * @param {HTMLElement} container            Focusable element.
+ * @param {boolean}     isReverse            Set to true to check left, false to check right.
+ * @param {boolean}     [onlyVertical=false] Set to true to check only vertical position.
  *
  * @return {boolean} True if at the edge, false if not.
  */
-
 function isEdge(container, isReverse, onlyVertical = false) {
   if ((0,_is_input_or_text_area__WEBPACK_IMPORTED_MODULE_0__["default"])(container) && typeof container.selectionStart === 'number') {
     if (container.selectionStart !== container.selectionEnd) {
       return false;
     }
-
     if (isReverse) {
       return container.selectionStart === 0;
     }
-
     return container.value.length === container.selectionStart;
   }
-
-  if (!
-  /** @type {HTMLElement} */
-  container.isContentEditable) {
+  if (! /** @type {HTMLElement} */container.isContentEditable) {
     return true;
   }
-
   const {
     ownerDocument
   } = container;
@@ -16683,39 +16565,37 @@ function isEdge(container, isReverse, onlyVertical = false) {
   } = ownerDocument;
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_1__.assertIsDefined)(defaultView, 'defaultView');
   const selection = defaultView.getSelection();
-
   if (!selection || !selection.rangeCount) {
     return false;
   }
-
   const range = selection.getRangeAt(0);
   const collapsedRange = range.cloneRange();
   const isForward = (0,_is_selection_forward__WEBPACK_IMPORTED_MODULE_2__["default"])(selection);
-  const isCollapsed = selection.isCollapsed; // Collapse in direction of selection.
+  const isCollapsed = selection.isCollapsed;
 
+  // Collapse in direction of selection.
   if (!isCollapsed) {
     collapsedRange.collapse(!isForward);
   }
-
   const collapsedRangeRect = (0,_get_rectangle_from_range__WEBPACK_IMPORTED_MODULE_3__["default"])(collapsedRange);
   const rangeRect = (0,_get_rectangle_from_range__WEBPACK_IMPORTED_MODULE_3__["default"])(range);
-
   if (!collapsedRangeRect || !rangeRect) {
     return false;
-  } // Only consider the multiline selection at the edge if the direction is
+  }
+
+  // Only consider the multiline selection at the edge if the direction is
   // towards the edge. The selection is multiline if it is taller than the
   // collapsed  selection.
-
-
   const rangeHeight = (0,_get_range_height__WEBPACK_IMPORTED_MODULE_4__["default"])(range);
-
   if (!isCollapsed && rangeHeight && rangeHeight > collapsedRangeRect.height && isForward === isReverse) {
     return false;
-  } // In the case of RTL scripts, the horizontal edge is at the opposite side.
+  }
 
-
+  // In the case of RTL scripts, the horizontal edge is at the opposite side.
   const isReverseDir = (0,_is_rtl__WEBPACK_IMPORTED_MODULE_5__["default"])(container) ? !isReverse : isReverse;
-  const containerRect = container.getBoundingClientRect(); // To check if a selection is at the edge, we insert a test selection at the
+  const containerRect = container.getBoundingClientRect();
+
+  // To check if a selection is at the edge, we insert a test selection at the
   // edge of the container and check if the selections have the same vertical
   // or horizontal position. If they do, the selection is at the edge.
   // This method proves to be better than a DOM-based calculation for the
@@ -16725,28 +16605,22 @@ function isEdge(container, isReverse, onlyVertical = false) {
   // It also proves better than using the computed style for the vertical
   // edge, because we cannot know the padding and line height reliably in
   // pixels. `getComputedStyle` may return a value with different units.
-
   const x = isReverseDir ? containerRect.left + 1 : containerRect.right - 1;
   const y = isReverse ? containerRect.top + 1 : containerRect.bottom - 1;
-  const testRange = (0,_hidden_caret_range_from_point__WEBPACK_IMPORTED_MODULE_6__["default"])(ownerDocument, x, y,
-  /** @type {HTMLElement} */
-  container);
-
+  const testRange = (0,_scroll_if_no_range__WEBPACK_IMPORTED_MODULE_6__.scrollIfNoRange)(container, isReverse, () => (0,_hidden_caret_range_from_point__WEBPACK_IMPORTED_MODULE_7__["default"])(ownerDocument, x, y, container));
   if (!testRange) {
     return false;
   }
-
   const testRect = (0,_get_rectangle_from_range__WEBPACK_IMPORTED_MODULE_3__["default"])(testRange);
-
   if (!testRect) {
     return false;
   }
-
   const verticalSide = isReverse ? 'top' : 'bottom';
   const horizontalSide = isReverseDir ? 'left' : 'right';
   const verticalDiff = testRect[verticalSide] - rangeRect[verticalSide];
-  const horizontalDiff = testRect[horizontalSide] - collapsedRangeRect[horizontalSide]; // Allow the position to be 1px off.
+  const horizontalDiff = testRect[horizontalSide] - collapsedRangeRect[horizontalSide];
 
+  // Allow the position to be 1px off.
   const hasVerticalDiff = Math.abs(verticalDiff) <= 1;
   const hasHorizontalDiff = Math.abs(horizontalDiff) <= 1;
   return onlyVertical ? hasVerticalDiff : hasVerticalDiff && hasHorizontalDiff;
@@ -16767,7 +16641,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ isElement)
 /* harmony export */ });
 /* eslint-disable jsdoc/valid-types */
-
 /**
  * @param {Node | null | undefined} node
  * @return {node is Element} True if node is an Element node
@@ -16805,19 +16678,14 @@ function isEmpty(element) {
       // We cannot use \s since it includes special spaces which we want
       // to preserve.
       return /^[ \f\n\r\t\v\u00a0]*$/.test(element.nodeValue || '');
-
     case element.ELEMENT_NODE:
       if (element.hasAttributes()) {
         return false;
       } else if (!element.hasChildNodes()) {
         return true;
       }
-
-      return (
-        /** @type {Element[]} */
-        Array.from(element.childNodes).every(isEmpty)
+      return (/** @type {Element[]} */Array.from(element.childNodes).every(isEmpty)
       );
-
     default:
       return true;
   }
@@ -16844,6 +16712,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Check whether the contents of the element have been entirely selected.
  * Returns true if there is no possibility of selection.
@@ -16852,16 +16721,13 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} True if entirely selected, false if not.
  */
-
 function isEntirelySelected(element) {
   if ((0,_is_input_or_text_area__WEBPACK_IMPORTED_MODULE_0__["default"])(element)) {
     return element.selectionStart === 0 && element.value.length === element.selectionEnd;
   }
-
   if (!element.isContentEditable) {
     return true;
   }
-
   const {
     ownerDocument
   } = element;
@@ -16872,29 +16738,24 @@ function isEntirelySelected(element) {
   const selection = defaultView.getSelection();
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_1__.assertIsDefined)(selection, 'selection');
   const range = selection.rangeCount ? selection.getRangeAt(0) : null;
-
   if (!range) {
     return true;
   }
-
   const {
     startContainer,
     endContainer,
     startOffset,
     endOffset
   } = range;
-
   if (startContainer === element && endContainer === element && startOffset === 0 && endOffset === element.childNodes.length) {
     return true;
   }
-
   const lastChild = element.lastChild;
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_1__.assertIsDefined)(lastChild, 'lastChild');
-  const endContainerContentLength = endContainer.nodeType === endContainer.TEXT_NODE ?
-  /** @type {Text} */
-  endContainer.data.length : endContainer.childNodes.length;
+  const endContainerContentLength = endContainer.nodeType === endContainer.TEXT_NODE ? /** @type {Text} */endContainer.data.length : endContainer.childNodes.length;
   return isDeepChild(startContainer, element, 'firstChild') && isDeepChild(endContainer, element, 'lastChild') && startOffset === 0 && endOffset === endContainerContentLength;
 }
+
 /**
  * Check whether the contents of the element have been entirely selected.
  * Returns true if there is no possibility of selection.
@@ -16905,19 +16766,15 @@ function isEntirelySelected(element) {
  *
  * @return {boolean} True if query is a deep first/last child of container, false otherwise.
  */
-
 function isDeepChild(query, container, propName) {
   /** @type {HTMLElement | ChildNode | null} */
   let candidate = container;
-
   do {
     if (query === candidate) {
       return true;
     }
-
     candidate = candidate[propName];
   } while (candidate);
-
   return false;
 }
 //# sourceMappingURL=is-entirely-selected.js.map
@@ -16940,6 +16797,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  *
  * Detects if element is a form element.
@@ -16948,12 +16806,10 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} True if form element and false otherwise.
  */
-
 function isFormElement(element) {
   if (!element) {
     return false;
   }
-
   const {
     tagName
   } = element;
@@ -16980,15 +16836,15 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Check whether the selection is horizontally at the edge of the container.
  *
- * @param {Element} container Focusable element.
- * @param {boolean} isReverse Set to true to check left, false for right.
+ * @param {HTMLElement} container Focusable element.
+ * @param {boolean}     isReverse Set to true to check left, false for right.
  *
  * @return {boolean} True if at the horizontal edge, false if not.
  */
-
 function isHorizontalEdge(container, isReverse) {
   return (0,_is_edge__WEBPACK_IMPORTED_MODULE_0__["default"])(container, isReverse);
 }
@@ -17008,7 +16864,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ isHTMLInputElement)
 /* harmony export */ });
 /* eslint-disable jsdoc/valid-types */
-
 /**
  * @param {Node} node
  * @return {node is HTMLInputElement} Whether the node is an HTMLInputElement.
@@ -17033,7 +16888,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ isInputOrTextArea)
 /* harmony export */ });
 /* eslint-disable jsdoc/valid-types */
-
 /**
  * @param {Element} element
  * @return {element is HTMLInputElement | HTMLTextAreaElement} Whether the element is an input or textarea
@@ -17063,13 +16917,13 @@ __webpack_require__.r(__webpack_exports__);
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
 
 
 /* eslint-disable jsdoc/valid-types */
-
 /**
  * Check whether the given element is an input field of type number.
  *
@@ -17077,14 +16931,12 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {node is HTMLInputElement} True if the node is number input.
  */
-
 function isNumberInput(node) {
   (0,_wordpress_deprecated__WEBPACK_IMPORTED_MODULE_0__["default"])('wp.dom.isNumberInput', {
     since: '6.1',
     version: '6.5'
   });
   /* eslint-enable jsdoc/valid-types */
-
   return (0,_is_html_input_element__WEBPACK_IMPORTED_MODULE_1__["default"])(node) && node.type === 'number' && !isNaN(node.valueAsNumber);
 }
 //# sourceMappingURL=is-number-input.js.map
@@ -17107,6 +16959,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Whether the element's text direction is right-to-left.
  *
@@ -17114,7 +16967,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} True if rtl, false if ltr.
  */
-
 function isRTL(element) {
   return (0,_get_computed_style__WEBPACK_IMPORTED_MODULE_0__["default"])(element).direction === 'rtl';
 }
@@ -17138,6 +16990,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Returns true if the given selection object is in the forward direction, or
  * false otherwise.
@@ -17148,7 +17001,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} Whether the selection is forward.
  */
-
 function isSelectionForward(selection) {
   const {
     anchorNode,
@@ -17158,30 +17010,28 @@ function isSelectionForward(selection) {
   } = selection;
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(anchorNode, 'anchorNode');
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(focusNode, 'focusNode');
-  const position = anchorNode.compareDocumentPosition(focusNode); // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,
-  // so bitwise operators are intended.
+  const position = anchorNode.compareDocumentPosition(focusNode);
 
+  // Disable reason: `Node#compareDocumentPosition` returns a bitmask value,
+  // so bitwise operators are intended.
   /* eslint-disable no-bitwise */
   // Compare whether anchor node precedes focus node. If focus node (where
   // end of selection occurs) is after the anchor node, it is forward.
-
   if (position & anchorNode.DOCUMENT_POSITION_PRECEDING) {
     return false;
   }
-
   if (position & anchorNode.DOCUMENT_POSITION_FOLLOWING) {
     return true;
   }
   /* eslint-enable no-bitwise */
+
   // `compareDocumentPosition` returns 0 when passed the same node, in which
   // case compare offsets.
-
-
   if (position === 0) {
     return anchorOffset <= focusOffset;
-  } // This should never be reached, but return true as default case.
+  }
 
-
+  // This should never be reached, but return true as default case.
   return true;
 }
 //# sourceMappingURL=is-selection-forward.js.map
@@ -17204,8 +17054,8 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
-/* eslint-disable jsdoc/valid-types */
 
+/* eslint-disable jsdoc/valid-types */
 /**
  * Check whether the given element is a text field, where text field is defined
  * by the ability to select within the input, or that it is contenteditable.
@@ -17215,13 +17065,10 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Node} node The HTML element.
  * @return {node is HTMLElement} True if the element is an text field, false if not.
  */
-
 function isTextField(node) {
   /* eslint-enable jsdoc/valid-types */
   const nonTextInputs = ['button', 'checkbox', 'hidden', 'file', 'radio', 'image', 'range', 'reset', 'submit', 'number', 'email', 'time'];
-  return (0,_is_html_input_element__WEBPACK_IMPORTED_MODULE_0__["default"])(node) && node.type && !nonTextInputs.includes(node.type) || node.nodeName === 'TEXTAREA' ||
-  /** @type {HTMLElement} */
-  node.contentEditable === 'true';
+  return (0,_is_html_input_element__WEBPACK_IMPORTED_MODULE_0__["default"])(node) && node.type && !nonTextInputs.includes(node.type) || node.nodeName === 'TEXTAREA' || /** @type {HTMLElement} */node.contentEditable === 'true';
 }
 //# sourceMappingURL=is-text-field.js.map
 
@@ -17243,15 +17090,15 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Check whether the selection is vertically at the edge of the container.
  *
- * @param {Element} container Focusable element.
- * @param {boolean} isReverse Set to true to check top, false for bottom.
+ * @param {HTMLElement} container Focusable element.
+ * @param {boolean}     isReverse Set to true to check top, false for bottom.
  *
  * @return {boolean} True if at the vertical edge, false if not.
  */
-
 function isVerticalEdge(container, isReverse) {
   return (0,_is_edge__WEBPACK_IMPORTED_MODULE_0__["default"])(container, isReverse, true);
 }
@@ -17271,12 +17118,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ placeCaretAtEdge)
 /* harmony export */ });
 /* harmony import */ var _hidden_caret_range_from_point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hidden-caret-range-from-point */ "./node_modules/@wordpress/dom/build-module/dom/hidden-caret-range-from-point.js");
-/* harmony import */ var _utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/assert-is-defined */ "./node_modules/@wordpress/dom/build-module/utils/assert-is-defined.js");
+/* harmony import */ var _utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/assert-is-defined */ "./node_modules/@wordpress/dom/build-module/utils/assert-is-defined.js");
 /* harmony import */ var _is_input_or_text_area__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./is-input-or-text-area */ "./node_modules/@wordpress/dom/build-module/dom/is-input-or-text-area.js");
 /* harmony import */ var _is_rtl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./is-rtl */ "./node_modules/@wordpress/dom/build-module/dom/is-rtl.js");
+/* harmony import */ var _scroll_if_no_range__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scroll-if-no-range */ "./node_modules/@wordpress/dom/build-module/dom/scroll-if-no-range.js");
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -17290,18 +17140,17 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Range|null} The range to place.
  */
-
 function getRange(container, isReverse, x) {
   const {
     ownerDocument
-  } = container; // In the case of RTL scripts, the horizontal edge is at the opposite side.
-
+  } = container;
+  // In the case of RTL scripts, the horizontal edge is at the opposite side.
   const isReverseDir = (0,_is_rtl__WEBPACK_IMPORTED_MODULE_0__["default"])(container) ? !isReverse : isReverse;
-  const containerRect = container.getBoundingClientRect(); // When placing at the end (isReverse), find the closest range to the bottom
+  const containerRect = container.getBoundingClientRect();
+  // When placing at the end (isReverse), find the closest range to the bottom
   // right corner. When placing at the start, to the top left corner.
   // Ensure x is defined and within the container's boundaries. When it's
   // exactly at the boundary, it's not considered within the boundaries.
-
   if (x === undefined) {
     x = isReverse ? containerRect.right - 1 : containerRect.left + 1;
   } else if (x <= containerRect.left) {
@@ -17309,10 +17158,10 @@ function getRange(container, isReverse, x) {
   } else if (x >= containerRect.right) {
     x = containerRect.right - 1;
   }
-
   const y = isReverseDir ? containerRect.bottom - 1 : containerRect.top + 1;
   return (0,_hidden_caret_range_from_point__WEBPACK_IMPORTED_MODULE_1__["default"])(ownerDocument, x, y, container);
 }
+
 /**
  * Places the caret at start or end of a given element.
  *
@@ -17320,21 +17169,16 @@ function getRange(container, isReverse, x) {
  * @param {boolean}          isReverse True for end, false for start.
  * @param {number|undefined} x         X coordinate to vertically position.
  */
-
-
 function placeCaretAtEdge(container, isReverse, x) {
   if (!container) {
     return;
   }
-
   container.focus();
-
   if ((0,_is_input_or_text_area__WEBPACK_IMPORTED_MODULE_2__["default"])(container)) {
     // The element may not support selection setting.
     if (typeof container.selectionStart !== 'number') {
       return;
     }
-
     if (isReverse) {
       container.selectionStart = container.value.length;
       container.selectionEnd = container.value.length;
@@ -17342,35 +17186,22 @@ function placeCaretAtEdge(container, isReverse, x) {
       container.selectionStart = 0;
       container.selectionEnd = 0;
     }
-
     return;
   }
-
   if (!container.isContentEditable) {
     return;
   }
-
-  let range = getRange(container, isReverse, x); // If no range range can be created or it is outside the container, the
-  // element may be out of view.
-
-  if (!range || !range.startContainer || !container.contains(range.startContainer)) {
-    container.scrollIntoView(isReverse);
-    range = range = getRange(container, isReverse, x);
-
-    if (!range || !range.startContainer || !container.contains(range.startContainer)) {
-      return;
-    }
-  }
-
+  const range = (0,_scroll_if_no_range__WEBPACK_IMPORTED_MODULE_3__.scrollIfNoRange)(container, isReverse, () => getRange(container, isReverse, x));
+  if (!range) return;
   const {
     ownerDocument
   } = container;
   const {
     defaultView
   } = ownerDocument;
-  (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_3__.assertIsDefined)(defaultView, 'defaultView');
+  (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_4__.assertIsDefined)(defaultView, 'defaultView');
   const selection = defaultView.getSelection();
-  (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_3__.assertIsDefined)(selection, 'selection');
+  (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_4__.assertIsDefined)(selection, 'selection');
   selection.removeAllRanges();
   selection.addRange(range);
 }
@@ -17394,13 +17225,13 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Places the caret at start or end of a given element.
  *
  * @param {HTMLElement} container Focusable element.
  * @param {boolean}     isReverse True for end, false for start.
  */
-
 function placeCaretAtHorizontalEdge(container, isReverse) {
   return (0,_place_caret_at_edge__WEBPACK_IMPORTED_MODULE_0__["default"])(container, isReverse, undefined);
 }
@@ -17424,6 +17255,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Places the caret at the top or bottom of a given element.
  *
@@ -17431,7 +17263,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {boolean}     isReverse True for bottom, false for top.
  * @param {DOMRect}     [rect]    The rectangle to position the caret with.
  */
-
 function placeCaretAtVerticalEdge(container, isReverse, rect) {
   return (0,_place_caret_at_edge__WEBPACK_IMPORTED_MODULE_0__["default"])(container, isReverse, rect?.left);
 }
@@ -17455,6 +17286,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Given a schema, unwraps or removes nodes, attributes and classes on HTML.
  *
@@ -17464,7 +17296,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {string} The cleaned up HTML.
  */
-
 function removeInvalidHTML(HTML, schema, inline) {
   const doc = document.implementation.createHTMLDocument('');
   doc.body.innerHTML = HTML;
@@ -17491,13 +17322,13 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Given a DOM node, removes it from the DOM.
  *
  * @param {Node} node Node to be removed.
  * @return {void}
  */
-
 function remove(node) {
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(node.parentNode, 'node.parentNode');
   node.parentNode.removeChild(node);
@@ -17522,6 +17353,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Replaces the given node with a new node with the given tag name.
  *
@@ -17530,14 +17362,11 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Element} The new node.
  */
-
 function replaceTag(node, tagName) {
   const newNode = node.ownerDocument.createElement(tagName);
-
   while (node.firstChild) {
     newNode.appendChild(node.firstChild);
   }
-
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(node.parentNode, 'node.parentNode');
   node.parentNode.replaceChild(newNode, node);
   return newNode;
@@ -17566,6 +17395,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Given two DOM nodes, replaces the former with the latter in the DOM.
  *
@@ -17573,7 +17403,6 @@ __webpack_require__.r(__webpack_exports__);
  * @param {Element} newNode       Node to be inserted in its place.
  * @return {void}
  */
-
 function replace(processedNode, newNode) {
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(processedNode.parentNode, 'processedNode.parentNode');
   (0,_insert_after__WEBPACK_IMPORTED_MODULE_1__["default"])(newNode, processedNode.parentNode);
@@ -17599,6 +17428,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Strips scripts and on* attributes from HTML.
  *
@@ -17606,7 +17436,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {string} The sanitized HTML.
  */
-
 function safeHTML(html) {
   const {
     body
@@ -17614,30 +17443,64 @@ function safeHTML(html) {
   body.innerHTML = html;
   const elements = body.getElementsByTagName('*');
   let elementIndex = elements.length;
-
   while (elementIndex--) {
     const element = elements[elementIndex];
-
     if (element.tagName === 'SCRIPT') {
       (0,_remove__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
     } else {
       let attributeIndex = element.attributes.length;
-
       while (attributeIndex--) {
         const {
           name: key
         } = element.attributes[attributeIndex];
-
         if (key.startsWith('on')) {
           element.removeAttribute(key);
         }
       }
     }
   }
-
   return body.innerHTML;
 }
 //# sourceMappingURL=safe-html.js.map
+
+/***/ }),
+
+/***/ "./node_modules/@wordpress/dom/build-module/dom/scroll-if-no-range.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@wordpress/dom/build-module/dom/scroll-if-no-range.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   scrollIfNoRange: () => (/* binding */ scrollIfNoRange)
+/* harmony export */ });
+/**
+ * If no range range can be created or it is outside the container, the element
+ * may be out of view, so scroll it into view and try again.
+ *
+ * @param {HTMLElement} container  The container to scroll.
+ * @param {boolean}     alignToTop True to align to top, false to bottom.
+ * @param {Function}    callback   The callback to create the range.
+ *
+ * @return {?Range} The range returned by the callback.
+ */
+function scrollIfNoRange(container, alignToTop, callback) {
+  let range = callback();
+
+  // If no range range can be created or it is outside the container, the
+  // element may be out of view.
+  if (!range || !range.startContainer || !container.contains(range.startContainer)) {
+    container.scrollIntoView(alignToTop);
+    range = callback();
+    if (!range || !range.startContainer || !container.contains(range.startContainer)) {
+      return null;
+    }
+  }
+  return range;
+}
+//# sourceMappingURL=scroll-if-no-range.js.map
 
 /***/ }),
 
@@ -17657,6 +17520,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Removes any HTML tags from the provided string.
  *
@@ -17664,7 +17528,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {string} The text content with any html removed.
  */
-
 function stripHTML(html) {
   // Remove any script tags or on* attributes otherwise their *contents* will be left
   // in place following removal of HTML tags.
@@ -17693,6 +17556,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Unwrap the given node. This means any child nodes are moved to the parent.
  *
@@ -17700,15 +17564,12 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {void}
  */
-
 function unwrap(node) {
   const parent = node.parentNode;
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(parent, 'node.parentNode');
-
   while (node.firstChild) {
     parent.insertBefore(node.firstChild, node);
   }
-
   parent.removeChild(node);
 }
 //# sourceMappingURL=unwrap.js.map
@@ -17731,13 +17592,13 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Wraps the given node with a new node with the given tag name.
  *
  * @param {Element} newNode       The node to insert.
  * @param {Element} referenceNode The node to wrap.
  */
-
 function wrap(newNode, referenceNode) {
   (0,_utils_assert_is_defined__WEBPACK_IMPORTED_MODULE_0__.assertIsDefined)(referenceNode.parentNode, 'referenceNode.parentNode');
   referenceNode.parentNode.insertBefore(newNode, referenceNode);
@@ -17791,6 +17652,7 @@ __webpack_require__.r(__webpack_exports__);
 function buildSelector(sequential) {
   return [sequential ? '[tabindex]:not([tabindex^="-"])' : '[tabindex]', 'a[href]', 'button:not([disabled])', 'input:not([type="hidden"]):not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])', 'iframe:not([tabindex^="-"])', 'object', 'embed', 'area[href]', '[contenteditable]:not([contenteditable=false])'].join(',');
 }
+
 /**
  * Returns true if the specified element is visible (i.e. neither display: none
  * nor visibility: hidden).
@@ -17799,11 +17661,10 @@ function buildSelector(sequential) {
  *
  * @return {boolean} Whether element is visible.
  */
-
-
 function isVisible(element) {
   return element.offsetWidth > 0 || element.offsetHeight > 0 || element.getClientRects().length > 0;
 }
+
 /**
  * Returns true if the specified area element is a valid focusable element, or
  * false otherwise. Area is only focusable if within a map where a named map
@@ -17813,21 +17674,18 @@ function isVisible(element) {
  *
  * @return {boolean} Whether area element is valid for focus.
  */
-
-
 function isValidFocusableArea(element) {
   /** @type {HTMLMapElement | null} */
   const map = element.closest('map[name]');
-
   if (!map) {
     return false;
   }
+
   /** @type {HTMLImageElement | null} */
-
-
   const img = element.ownerDocument.querySelector('img[usemap="#' + map.name + '"]');
   return !!img && isVisible(img);
 }
+
 /**
  * Returns all focusable elements within a given context.
  *
@@ -17842,32 +17700,23 @@ function isValidFocusableArea(element) {
  *
  * @return {HTMLElement[]} Focusable elements.
  */
-
-
 function find(context, {
   sequential = false
 } = {}) {
   /* eslint-disable jsdoc/no-undefined-types */
-
   /** @type {NodeListOf<HTMLElement>} */
-
   /* eslint-enable jsdoc/no-undefined-types */
   const elements = context.querySelectorAll(buildSelector(sequential));
   return Array.from(elements).filter(element => {
     if (!isVisible(element)) {
       return false;
     }
-
     const {
       nodeName
     } = element;
-
     if ('AREA' === nodeName) {
-      return isValidFocusableArea(
-      /** @type {HTMLAreaElement} */
-      element);
+      return isValidFocusableArea( /** @type {HTMLAreaElement} */element);
     }
-
     return true;
   });
 }
@@ -17926,11 +17775,11 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Object grouping `focusable` and `tabbable` utils
  * under the keys with the same name.
  */
-
 const focus = {
   focusable: _focusable__WEBPACK_IMPORTED_MODULE_0__,
   tabbable: _tabbable__WEBPACK_IMPORTED_MODULE_1__
@@ -18027,10 +17876,11 @@ const textContentSchema = {
   },
   wbr: {},
   '#text': {}
-}; // Recursion is needed.
+};
+
+// Recursion is needed.
 // Possible: strong > em > strong.
 // Impossible: strong > strong.
-
 const excludedElements = ['#text', 'br'];
 Object.keys(textContentSchema).filter(element => !excludedElements.includes(element)).forEach(tag => {
   const {
@@ -18039,6 +17889,7 @@ Object.keys(textContentSchema).filter(element => !excludedElements.includes(elem
   } = textContentSchema;
   textContentSchema[tag].children = restSchema;
 });
+
 /**
  * Embedded content elements.
  *
@@ -18046,7 +17897,6 @@ Object.keys(textContentSchema).filter(element => !excludedElements.includes(elem
  *
  * @type {ContentSchema}
  */
-
 const embeddedContentSchema = {
   audio: {
     attributes: ['src', 'preload', 'autoplay', 'mediagroup', 'loop', 'muted']
@@ -18067,15 +17917,17 @@ const embeddedContentSchema = {
     attributes: ['src', 'poster', 'preload', 'autoplay', 'mediagroup', 'loop', 'muted', 'controls', 'width', 'height']
   }
 };
+
 /**
  * Phrasing content elements.
  *
  * @see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#phrasing-content-0
  */
-
-const phrasingContentSchema = { ...textContentSchema,
+const phrasingContentSchema = {
+  ...textContentSchema,
   ...embeddedContentSchema
 };
+
 /**
  * Get schema of possible paths for phrasing content.
  *
@@ -18086,16 +17938,14 @@ const phrasingContentSchema = { ...textContentSchema,
  *
  * @return {Partial<ContentSchema>} Schema.
  */
-
 function getPhrasingContentSchema(context) {
   if (context !== 'paste') {
     return phrasingContentSchema;
   }
+
   /**
    * @type {Partial<ContentSchema>}
    */
-
-
   const {
     u,
     // Used to mark misspelling. Shouldn't be pasted.
@@ -18112,7 +17962,8 @@ function getPhrasingContentSchema(context) {
     bdo,
     // Invisible.
     ...remainingContentSchema
-  } = { ...phrasingContentSchema,
+  } = {
+    ...phrasingContentSchema,
     // We shouldn't paste potentially sensitive information which is not
     // visible to the user when pasted, so strip the attributes.
     ins: {
@@ -18124,6 +17975,7 @@ function getPhrasingContentSchema(context) {
   };
   return remainingContentSchema;
 }
+
 /**
  * Find out whether or not the given node is phrasing content.
  *
@@ -18133,16 +17985,15 @@ function getPhrasingContentSchema(context) {
  *
  * @return {boolean} True if phrasing content, false if not.
  */
-
 function isPhrasingContent(node) {
   const tag = node.nodeName.toLowerCase();
   return getPhrasingContentSchema().hasOwnProperty(tag) || tag === 'span';
 }
+
 /**
  * @param {Node} node
  * @return {boolean} Node is text content
  */
-
 function isTextContent(node) {
   const tag = node.nodeName.toLowerCase();
   return textContentSchema.hasOwnProperty(tag) || tag === 'span';
@@ -18170,6 +18021,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * Returns the tab index of the given element. In contrast with the tabIndex
  * property, this normalizes the default (0) to avoid browser inconsistencies,
@@ -18182,11 +18034,11 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {number} Tab index of element (default 0).
  */
-
 function getTabIndex(element) {
   const tabIndex = element.getAttribute('tabindex');
   return tabIndex === null ? 0 : parseInt(tabIndex, 10);
 }
+
 /**
  * Returns true if the specified element is tabbable, or false otherwise.
  *
@@ -18194,11 +18046,10 @@ function getTabIndex(element) {
  *
  * @return {boolean} Whether element is tabbable.
  */
-
-
 function isTabbableIndex(element) {
   return getTabIndex(element) !== -1;
 }
+
 /** @typedef {Element & { type?: string, checked?: boolean, name?: string }} MaybeHTMLInputElement */
 
 /**
@@ -18209,46 +18060,41 @@ function isTabbableIndex(element) {
  *
  * @return {(acc: MaybeHTMLInputElement[], el: MaybeHTMLInputElement) => MaybeHTMLInputElement[]} Radio group collapse reducer.
  */
-
 function createStatefulCollapseRadioGroup() {
   /** @type {Record<string, MaybeHTMLInputElement>} */
   const CHOSEN_RADIO_BY_NAME = {};
-  return function collapseRadioGroup(
-  /** @type {MaybeHTMLInputElement[]} */
-  result,
-  /** @type {MaybeHTMLInputElement} */
-  element) {
+  return function collapseRadioGroup( /** @type {MaybeHTMLInputElement[]} */result, /** @type {MaybeHTMLInputElement} */element) {
     const {
       nodeName,
       type,
       checked,
       name
-    } = element; // For all non-radio tabbables, construct to array by concatenating.
+    } = element;
 
+    // For all non-radio tabbables, construct to array by concatenating.
     if (nodeName !== 'INPUT' || type !== 'radio' || !name) {
       return result.concat(element);
     }
+    const hasChosen = CHOSEN_RADIO_BY_NAME.hasOwnProperty(name);
 
-    const hasChosen = CHOSEN_RADIO_BY_NAME.hasOwnProperty(name); // Omit by skipping concatenation if the radio element is not chosen.
-
+    // Omit by skipping concatenation if the radio element is not chosen.
     const isChosen = checked || !hasChosen;
-
     if (!isChosen) {
       return result;
-    } // At this point, if there had been a chosen element, the current
+    }
+
+    // At this point, if there had been a chosen element, the current
     // element is checked and should take priority. Retroactively remove
     // the element which had previously been considered the chosen one.
-
-
     if (hasChosen) {
       const hadChosenElement = CHOSEN_RADIO_BY_NAME[name];
       result = result.filter(e => e !== hadChosenElement);
     }
-
     CHOSEN_RADIO_BY_NAME[name] = element;
     return result.concat(element);
   };
 }
+
 /**
  * An array map callback, returning an object with the element value and its
  * array index location as properties. This is used to emulate a proper stable
@@ -18260,14 +18106,13 @@ function createStatefulCollapseRadioGroup() {
  *
  * @return {{ element: Element, index: number }} Mapped object with element, index.
  */
-
-
 function mapElementToObjectTabbable(element, index) {
   return {
     element,
     index
   };
 }
+
 /**
  * An array map callback, returning an element of the given mapped object's
  * element value.
@@ -18276,11 +18121,10 @@ function mapElementToObjectTabbable(element, index) {
  *
  * @return {Element} Mapped object element.
  */
-
-
 function mapObjectTabbableToElement(object) {
   return object.element;
 }
+
 /**
  * A sort comparator function used in comparing two objects of mapped elements.
  *
@@ -18291,18 +18135,15 @@ function mapObjectTabbableToElement(object) {
  *
  * @return {number} Comparator result.
  */
-
-
 function compareObjectTabbables(a, b) {
   const aTabIndex = getTabIndex(a.element);
   const bTabIndex = getTabIndex(b.element);
-
   if (aTabIndex === bTabIndex) {
     return a.index - b.index;
   }
-
   return aTabIndex - bTabIndex;
 }
+
 /**
  * Givin focusable elements, filters out tabbable element.
  *
@@ -18310,20 +18151,18 @@ function compareObjectTabbables(a, b) {
  *
  * @return {Element[]} Tabbable elements.
  */
-
-
 function filterTabbable(focusables) {
   return focusables.filter(isTabbableIndex).map(mapElementToObjectTabbable).sort(compareObjectTabbables).map(mapObjectTabbableToElement).reduce(createStatefulCollapseRadioGroup(), []);
 }
+
 /**
  * @param {Element} context
  * @return {Element[]} Tabbable elements within the context.
  */
-
-
 function find(context) {
   return filterTabbable((0,_focusable__WEBPACK_IMPORTED_MODULE_0__.find)(context));
 }
+
 /**
  * Given a focusable element, find the preceding tabbable element.
  *
@@ -18332,14 +18171,15 @@ function find(context) {
  *
  * @return {Element|undefined} Preceding tabbable element.
  */
-
 function findPrevious(element) {
   return filterTabbable((0,_focusable__WEBPACK_IMPORTED_MODULE_0__.find)(element.ownerDocument.body)).reverse().find(focusable => {
-    return (// eslint-disable-next-line no-bitwise
+    return (
+      // eslint-disable-next-line no-bitwise
       element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_PRECEDING
     );
   });
 }
+
 /**
  * Given a focusable element, find the next tabbable element.
  *
@@ -18348,10 +18188,10 @@ function findPrevious(element) {
  *
  * @return {Element|undefined} Next tabbable element.
  */
-
 function findNext(element) {
   return filterTabbable((0,_focusable__WEBPACK_IMPORTED_MODULE_0__.find)(element.ownerDocument.body)).find(focusable => {
-    return (// eslint-disable-next-line no-bitwise
+    return (
+      // eslint-disable-next-line no-bitwise
       element.compareDocumentPosition(focusable) & element.DOCUMENT_POSITION_FOLLOWING
     );
   });
@@ -18427,6 +18267,7 @@ __webpack_require__.r(__webpack_exports__);
  * External dependencies
  */
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
+
 
 /**
  * Object containing a React element.
@@ -18639,7 +18480,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {Array} The concatenated value.
  */
-
 function concatChildren(...childrenArguments) {
   return childrenArguments.reduce((accumulator, children, i) => {
     react__WEBPACK_IMPORTED_MODULE_0__.Children.forEach(children, (child, j) => {
@@ -18648,12 +18488,12 @@ function concatChildren(...childrenArguments) {
           key: [i, j].join()
         });
       }
-
       accumulator.push(child);
     });
     return accumulator;
   }, []);
 }
+
 /**
  * Switches the nodeName of all the elements in the children object.
  *
@@ -18662,7 +18502,6 @@ function concatChildren(...childrenArguments) {
  *
  * @return {?Object} The updated children object.
  */
-
 function switchChildrenNodeName(children, nodeName) {
   return children && react__WEBPACK_IMPORTED_MODULE_0__.Children.map(children, (elt, index) => {
     if (typeof elt?.valueOf() === 'string') {
@@ -18670,7 +18509,6 @@ function switchChildrenNodeName(children, nodeName) {
         key: index
       }, elt);
     }
-
     const {
       children: childrenProp,
       ...props
@@ -18706,11 +18544,9 @@ const isEmptyElement = element => {
   if (typeof element === 'number') {
     return false;
   }
-
   if (typeof element?.valueOf() === 'string' || Array.isArray(element)) {
     return !element.length;
   }
-
   return !element;
 };
 //# sourceMappingURL=utils.js.map
@@ -18735,6 +18571,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * @callback AddHook
  *
@@ -18754,63 +18591,55 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {AddHook} Function that adds a new hook.
  */
-
 function createAddHook(hooks, storeKey) {
   return function addHook(hookName, namespace, callback, priority = 10) {
     const hooksStore = hooks[storeKey];
-
     if (!(0,_validateHookName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(hookName)) {
       return;
     }
-
     if (!(0,_validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__["default"])(namespace)) {
       return;
     }
-
     if ('function' !== typeof callback) {
       // eslint-disable-next-line no-console
       console.error('The hook callback must be a function.');
       return;
-    } // Validate numeric priority
+    }
 
-
+    // Validate numeric priority
     if ('number' !== typeof priority) {
       // eslint-disable-next-line no-console
       console.error('If specified, the hook priority must be a number.');
       return;
     }
-
     const handler = {
       callback,
       priority,
       namespace
     };
-
     if (hooksStore[hookName]) {
       // Find the correct insert index of the new hook.
       const handlers = hooksStore[hookName].handlers;
+
       /** @type {number} */
-
       let i;
-
       for (i = handlers.length; i > 0; i--) {
         if (priority >= handlers[i - 1].priority) {
           break;
         }
       }
-
       if (i === handlers.length) {
         // If append, operate via direct assignment.
         handlers[i] = handler;
       } else {
         // Otherwise, insert before index via splice.
         handlers.splice(i, 0, handler);
-      } // We may also be currently executing this hook.  If the callback
+      }
+
+      // We may also be currently executing this hook.  If the callback
       // we're adding would come after the current callback, there's no
       // problem; otherwise we need to increase the execution index of
       // any other runs by 1 to account for the added element.
-
-
       hooksStore.__current.forEach(hookInfo => {
         if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
           hookInfo.currentIndex++;
@@ -18823,13 +18652,11 @@ function createAddHook(hooks, storeKey) {
         runs: 0
       };
     }
-
     if (hookName !== 'hookAdded') {
       hooks.doAction('hookAdded', hookName, namespace, callback, priority);
     }
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createAddHook);
 //# sourceMappingURL=createAddHook.js.map
 
@@ -18859,12 +18686,10 @@ __webpack_require__.r(__webpack_exports__);
 function createCurrentHook(hooks, storeKey) {
   return function currentHook() {
     var _hooksStore$__current;
-
     const hooksStore = hooks[storeKey];
     return (_hooksStore$__current = hooksStore.__current[hooksStore.__current.length - 1]?.name) !== null && _hooksStore$__current !== void 0 ? _hooksStore$__current : null;
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createCurrentHook);
 //# sourceMappingURL=createCurrentHook.js.map
 
@@ -18886,6 +18711,7 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * @callback DidHook
  *
@@ -18905,19 +18731,15 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {DidHook} Function that returns a hook's call count.
  */
-
 function createDidHook(hooks, storeKey) {
   return function didHook(hookName) {
     const hooksStore = hooks[storeKey];
-
     if (!(0,_validateHookName_js__WEBPACK_IMPORTED_MODULE_0__["default"])(hookName)) {
       return;
     }
-
     return hooksStore[hookName] && hooksStore[hookName].runs ? hooksStore[hookName].runs : 0;
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createDidHook);
 //# sourceMappingURL=createDidHook.js.map
 
@@ -18956,17 +18778,17 @@ __webpack_require__.r(__webpack_exports__);
  */
 function createDoingHook(hooks, storeKey) {
   return function doingHook(hookName) {
-    const hooksStore = hooks[storeKey]; // If the hookName was not passed, check for any current hook.
+    const hooksStore = hooks[storeKey];
 
+    // If the hookName was not passed, check for any current hook.
     if ('undefined' === typeof hookName) {
       return 'undefined' !== typeof hooksStore.__current[0];
-    } // Return the __current hook.
+    }
 
-
+    // Return the __current hook.
     return hooksStore.__current[0] ? hookName === hooksStore.__current[0].name : false;
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createDoingHook);
 //# sourceMappingURL=createDoingHook.js.map
 
@@ -18994,7 +18816,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} Whether there are handlers that are attached to the given hook.
  */
-
 /**
  * Returns a function which, when invoked, will return whether any handlers are
  * attached to a particular hook.
@@ -19007,16 +18828,15 @@ __webpack_require__.r(__webpack_exports__);
  */
 function createHasHook(hooks, storeKey) {
   return function hasHook(hookName, namespace) {
-    const hooksStore = hooks[storeKey]; // Use the namespace if provided.
+    const hooksStore = hooks[storeKey];
 
+    // Use the namespace if provided.
     if ('undefined' !== typeof namespace) {
       return hookName in hooksStore && hooksStore[hookName].handlers.some(hook => hook.namespace === namespace);
     }
-
     return hookName in hooksStore;
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createHasHook);
 //# sourceMappingURL=createHasHook.js.map
 
@@ -19051,6 +18871,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * Internal class for constructing hooks. Use `createHooks()` function
  *
@@ -19058,14 +18879,13 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @private
  */
-
 class _Hooks {
   constructor() {
     /** @type {import('.').Store} actions */
     this.actions = Object.create(null);
     this.actions.__current = [];
-    /** @type {import('.').Store} filters */
 
+    /** @type {import('.').Store} filters */
     this.filters = Object.create(null);
     this.filters.__current = [];
     this.addAction = (0,_createAddHook__WEBPACK_IMPORTED_MODULE_0__["default"])(this, 'actions');
@@ -19085,8 +18905,8 @@ class _Hooks {
     this.didAction = (0,_createDidHook__WEBPACK_IMPORTED_MODULE_6__["default"])(this, 'actions');
     this.didFilter = (0,_createDidHook__WEBPACK_IMPORTED_MODULE_6__["default"])(this, 'filters');
   }
-
 }
+
 /** @typedef {_Hooks} Hooks */
 
 /**
@@ -19094,11 +18914,9 @@ class _Hooks {
  *
  * @return {Hooks} A Hooks instance.
  */
-
 function createHooks() {
   return new _Hooks();
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createHooks);
 //# sourceMappingURL=createHooks.js.map
 
@@ -19120,6 +18938,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 
 /**
@@ -19146,26 +18965,21 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {RemoveHook} Function that removes hooks.
  */
-
 function createRemoveHook(hooks, storeKey, removeAll = false) {
   return function removeHook(hookName, namespace) {
     const hooksStore = hooks[storeKey];
-
     if (!(0,_validateHookName_js__WEBPACK_IMPORTED_MODULE_1__["default"])(hookName)) {
       return;
     }
-
     if (!removeAll && !(0,_validateNamespace_js__WEBPACK_IMPORTED_MODULE_0__["default"])(namespace)) {
       return;
-    } // Bail if no hooks exist by this name.
+    }
 
-
+    // Bail if no hooks exist by this name.
     if (!hooksStore[hookName]) {
       return 0;
     }
-
     let handlersRemoved = 0;
-
     if (removeAll) {
       handlersRemoved = hooksStore[hookName].handlers.length;
       hooksStore[hookName] = {
@@ -19175,16 +18989,15 @@ function createRemoveHook(hooks, storeKey, removeAll = false) {
     } else {
       // Try to find the specified callback to remove.
       const handlers = hooksStore[hookName].handlers;
-
       for (let i = handlers.length - 1; i >= 0; i--) {
         if (handlers[i].namespace === namespace) {
           handlers.splice(i, 1);
-          handlersRemoved++; // This callback may also be part of a hook that is
+          handlersRemoved++;
+          // This callback may also be part of a hook that is
           // currently executing.  If the callback we're removing
           // comes after the current callback, there's no problem;
           // otherwise we need to decrease the execution index of any
           // other runs by 1 to account for the removed element.
-
           hooksStore.__current.forEach(hookInfo => {
             if (hookInfo.name === hookName && hookInfo.currentIndex >= i) {
               hookInfo.currentIndex--;
@@ -19193,15 +19006,12 @@ function createRemoveHook(hooks, storeKey, removeAll = false) {
         }
       }
     }
-
     if (hookName !== 'hookRemoved') {
       hooks.doAction('hookRemoved', hookName, namespace);
     }
-
     return handlersRemoved;
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createRemoveHook);
 //# sourceMappingURL=createRemoveHook.js.map
 
@@ -19228,59 +19038,50 @@ __webpack_require__.r(__webpack_exports__);
  * @param {boolean}              [returnFirstArg=false] Whether each hook callback is expected to
  *                                                      return its first argument.
  *
- * @return {(hookName:string, ...args: unknown[]) => unknown} Function that runs hook callbacks.
+ * @return {(hookName:string, ...args: unknown[]) => undefined|unknown} Function that runs hook callbacks.
  */
 function createRunHook(hooks, storeKey, returnFirstArg = false) {
   return function runHooks(hookName, ...args) {
     const hooksStore = hooks[storeKey];
-
     if (!hooksStore[hookName]) {
       hooksStore[hookName] = {
         handlers: [],
         runs: 0
       };
     }
-
     hooksStore[hookName].runs++;
-    const handlers = hooksStore[hookName].handlers; // The following code is stripped from production builds.
+    const handlers = hooksStore[hookName].handlers;
 
+    // The following code is stripped from production builds.
     if (true) {
       // Handle any 'all' hooks registered.
       if ('hookAdded' !== hookName && hooksStore.all) {
         handlers.push(...hooksStore.all.handlers);
       }
     }
-
     if (!handlers || !handlers.length) {
       return returnFirstArg ? args[0] : undefined;
     }
-
     const hookInfo = {
       name: hookName,
       currentIndex: 0
     };
-
     hooksStore.__current.push(hookInfo);
-
     while (hookInfo.currentIndex < handlers.length) {
       const handler = handlers[hookInfo.currentIndex];
       const result = handler.callback.apply(null, args);
-
       if (returnFirstArg) {
         args[0] = result;
       }
-
       hookInfo.currentIndex++;
     }
-
     hooksStore.__current.pop();
-
     if (returnFirstArg) {
       return args[0];
     }
+    return undefined;
   };
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (createRunHook);
 //# sourceMappingURL=createRunHook.js.map
 
@@ -19320,6 +19121,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Internal dependencies
  */
+
 
 /** @typedef {(...args: any[])=>any} Callback */
 
@@ -19406,22 +19208,18 @@ function validateHookName(hookName) {
     console.error('The hook name must be a non-empty string.');
     return false;
   }
-
   if (/^__/.test(hookName)) {
     // eslint-disable-next-line no-console
     console.error('The hook name cannot begin with `__`.');
     return false;
   }
-
   if (!/^[a-zA-Z][a-zA-Z0-9_.-]*$/.test(hookName)) {
     // eslint-disable-next-line no-console
     console.error('The hook name can only contain numbers, letters, dashes, periods and underscores.');
     return false;
   }
-
   return true;
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validateHookName);
 //# sourceMappingURL=validateHookName.js.map
 
@@ -19452,16 +19250,13 @@ function validateNamespace(namespace) {
     console.error('The namespace must be a non-empty string.');
     return false;
   }
-
   if (!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(namespace)) {
     // eslint-disable-next-line no-console
     console.error('The namespace can only contain numbers, letters, dashes, periods, underscores and slashes.');
     return false;
   }
-
   return true;
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validateNamespace);
 //# sourceMappingURL=validateNamespace.js.map
 
@@ -19483,6 +19278,7 @@ __webpack_require__.r(__webpack_exports__);
  * External dependencies
  */
 
+
 /**
  * @typedef {Record<string,any>} LocaleData
  */
@@ -19493,22 +19289,21 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @type {LocaleData}
  */
-
 const DEFAULT_LOCALE_DATA = {
   '': {
     /** @param {number} n */
     plural_forms(n) {
       return n === 1 ? 0 : 1;
     }
-
   }
 };
+
 /*
  * Regular expression that matches i18n hooks like `i18n.gettext`, `i18n.ngettext`,
  * `i18n.gettext_domain` or `i18n.ngettext_with_context` or `i18n.has_translation`.
  */
-
 const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
+
 /**
  * @typedef {(domain?: string) => LocaleData} GetLocaleData
  *
@@ -19517,7 +19312,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see http://messageformat.github.io/Jed/
  */
-
 /**
  * @typedef {(data?: LocaleData, domain?: string) => void} SetLocaleData
  *
@@ -19527,7 +19321,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see http://messageformat.github.io/Jed/
  */
-
 /**
  * @typedef {(data?: LocaleData, domain?: string) => void} AddLocaleData
  *
@@ -19537,7 +19330,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see http://messageformat.github.io/Jed/
  */
-
 /**
  * @typedef {(data?: LocaleData, domain?: string) => void} ResetLocaleData
  *
@@ -19546,22 +19338,17 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see http://messageformat.github.io/Jed/
  */
-
 /** @typedef {() => void} SubscribeCallback */
-
 /** @typedef {() => void} UnsubscribeCallback */
-
 /**
  * @typedef {(callback: SubscribeCallback) => UnsubscribeCallback} Subscribe
  *
  * Subscribes to changes of locale data
  */
-
 /**
  * @typedef {(domain?: string) => string} GetFilterDomain
  * Retrieve the domain to use when calling domain-specific filters.
  */
-
 /**
  * @typedef {(text: string, domain?: string) => string} __
  *
@@ -19569,7 +19356,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see https://developer.wordpress.org/reference/functions/__/
  */
-
 /**
  * @typedef {(text: string, context: string, domain?: string) => string} _x
  *
@@ -19577,7 +19363,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see https://developer.wordpress.org/reference/functions/_x/
  */
-
 /**
  * @typedef {(single: string, plural: string, number: number, domain?: string) => string} _n
  *
@@ -19586,7 +19371,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see https://developer.wordpress.org/reference/functions/_n/
  */
-
 /**
  * @typedef {(single: string, plural: string, number: number, context: string, domain?: string) => string} _nx
  *
@@ -19595,7 +19379,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @see https://developer.wordpress.org/reference/functions/_nx/
  */
-
 /**
  * @typedef {() => boolean} IsRtl
  *
@@ -19606,13 +19389,11 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  * language written RTL. The opposite of RTL, LTR (Left To Right) is used in other languages,
  * including English (`en`, `en-US`, `en-GB`, etc.), Spanish (`es`), and French (`fr`).
  */
-
 /**
  * @typedef {(single: string, context?: string, domain?: string) => boolean} HasTranslation
  *
  * Check if there is a translation for a given string in singular form.
  */
-
 /** @typedef {import('@wordpress/hooks').Hooks} Hooks */
 
 /**
@@ -19648,7 +19429,6 @@ const I18N_HOOK_REGEXP = /^i18n\.(n?gettext|has_translation)(_|$)/;
  *
  * @return {I18n} I18n instance.
  */
-
 const createI18n = (initialData, initialDomain, hooks) => {
   /**
    * The underlying instance of Tannin to which exported functions interface.
@@ -19657,78 +19437,80 @@ const createI18n = (initialData, initialDomain, hooks) => {
    */
   const tannin = new tannin__WEBPACK_IMPORTED_MODULE_0__["default"]({});
   const listeners = new Set();
-
   const notifyListeners = () => {
     listeners.forEach(listener => listener());
   };
+
   /**
    * Subscribe to changes of locale data.
    *
    * @param {SubscribeCallback} callback Subscription callback.
    * @return {UnsubscribeCallback} Unsubscribe callback.
    */
-
-
   const subscribe = callback => {
     listeners.add(callback);
     return () => listeners.delete(callback);
   };
+
   /** @type {GetLocaleData} */
-
-
   const getLocaleData = (domain = 'default') => tannin.data[domain];
+
   /**
    * @param {LocaleData} [data]
    * @param {string}     [domain]
    */
-
-
   const doSetLocaleData = (data, domain = 'default') => {
-    tannin.data[domain] = { ...tannin.data[domain],
+    tannin.data[domain] = {
+      ...tannin.data[domain],
       ...data
-    }; // Populate default domain configuration (supported locale date which omits
+    };
+
+    // Populate default domain configuration (supported locale date which omits
     // a plural forms expression).
-
-    tannin.data[domain][''] = { ...DEFAULT_LOCALE_DATA[''],
+    tannin.data[domain][''] = {
+      ...DEFAULT_LOCALE_DATA[''],
       ...tannin.data[domain]?.['']
-    }; // Clean up cached plural forms functions cache as it might be updated.
+    };
 
+    // Clean up cached plural forms functions cache as it might be updated.
     delete tannin.pluralForms[domain];
   };
+
   /** @type {SetLocaleData} */
-
-
   const setLocaleData = (data, domain) => {
     doSetLocaleData(data, domain);
     notifyListeners();
   };
+
   /** @type {AddLocaleData} */
-
-
   const addLocaleData = (data, domain = 'default') => {
-    tannin.data[domain] = { ...tannin.data[domain],
+    tannin.data[domain] = {
+      ...tannin.data[domain],
       ...data,
       // Populate default domain configuration (supported locale date which omits
       // a plural forms expression).
-      '': { ...DEFAULT_LOCALE_DATA[''],
+      '': {
+        ...DEFAULT_LOCALE_DATA[''],
         ...tannin.data[domain]?.[''],
         ...data?.['']
       }
-    }; // Clean up cached plural forms functions cache as it might be updated.
+    };
 
+    // Clean up cached plural forms functions cache as it might be updated.
     delete tannin.pluralForms[domain];
     notifyListeners();
   };
+
   /** @type {ResetLocaleData} */
-
-
   const resetLocaleData = (data, domain) => {
     // Reset all current Tannin locale data.
-    tannin.data = {}; // Reset cached plural forms functions cache.
+    tannin.data = {};
 
+    // Reset cached plural forms functions cache.
     tannin.pluralForms = {};
     setLocaleData(data, domain);
   };
+
   /**
    * Wrapper for Tannin's `dcnpgettext`. Populates default locale data if not
    * otherwise previously assigned.
@@ -19744,29 +19526,24 @@ const createI18n = (initialData, initialDomain, hooks) => {
    *
    * @return {string} The translated string.
    */
-
-
   const dcnpgettext = (domain = 'default', context, single, plural, number) => {
     if (!tannin.data[domain]) {
       // Use `doSetLocaleData` to set silently, without notifying listeners.
       doSetLocaleData(undefined, domain);
     }
-
     return tannin.dcnpgettext(domain, context, single, plural, number);
   };
+
   /** @type {GetFilterDomain} */
-
-
   const getFilterDomain = (domain = 'default') => domain;
+
   /** @type {__} */
-
-
   const __ = (text, domain) => {
     let translation = dcnpgettext(domain, undefined, text);
-
     if (!hooks) {
       return translation;
     }
+
     /**
      * Filters text with its translation.
      *
@@ -19774,29 +19551,20 @@ const createI18n = (initialData, initialDomain, hooks) => {
      * @param {string} text        Text to translate.
      * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
      */
-
-
-    translation =
-    /** @type {string} */
-
-    /** @type {*} */
-    hooks.applyFilters('i18n.gettext', translation, text, domain);
-    return (
-      /** @type {string} */
-
-      /** @type {*} */
-      hooks.applyFilters('i18n.gettext_' + getFilterDomain(domain), translation, text, domain)
+    translation = /** @type {string} */
+    /** @type {*} */hooks.applyFilters('i18n.gettext', translation, text, domain);
+    return (/** @type {string} */
+      /** @type {*} */hooks.applyFilters('i18n.gettext_' + getFilterDomain(domain), translation, text, domain)
     );
   };
+
   /** @type {_x} */
-
-
   const _x = (text, context, domain) => {
     let translation = dcnpgettext(domain, context, text);
-
     if (!hooks) {
       return translation;
     }
+
     /**
      * Filters text with its translation based on context information.
      *
@@ -19805,29 +19573,20 @@ const createI18n = (initialData, initialDomain, hooks) => {
      * @param {string} context     Context information for the translators.
      * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
      */
-
-
-    translation =
-    /** @type {string} */
-
-    /** @type {*} */
-    hooks.applyFilters('i18n.gettext_with_context', translation, text, context, domain);
-    return (
-      /** @type {string} */
-
-      /** @type {*} */
-      hooks.applyFilters('i18n.gettext_with_context_' + getFilterDomain(domain), translation, text, context, domain)
+    translation = /** @type {string} */
+    /** @type {*} */hooks.applyFilters('i18n.gettext_with_context', translation, text, context, domain);
+    return (/** @type {string} */
+      /** @type {*} */hooks.applyFilters('i18n.gettext_with_context_' + getFilterDomain(domain), translation, text, context, domain)
     );
   };
+
   /** @type {_n} */
-
-
   const _n = (single, plural, number, domain) => {
     let translation = dcnpgettext(domain, undefined, single, plural, number);
-
     if (!hooks) {
       return translation;
     }
+
     /**
      * Filters the singular or plural form of a string.
      *
@@ -19837,29 +19596,20 @@ const createI18n = (initialData, initialDomain, hooks) => {
      * @param {string} number      The number to compare against to use either the singular or plural form.
      * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
      */
-
-
-    translation =
-    /** @type {string} */
-
-    /** @type {*} */
-    hooks.applyFilters('i18n.ngettext', translation, single, plural, number, domain);
-    return (
-      /** @type {string} */
-
-      /** @type {*} */
-      hooks.applyFilters('i18n.ngettext_' + getFilterDomain(domain), translation, single, plural, number, domain)
+    translation = /** @type {string} */
+    /** @type {*} */hooks.applyFilters('i18n.ngettext', translation, single, plural, number, domain);
+    return (/** @type {string} */
+      /** @type {*} */hooks.applyFilters('i18n.ngettext_' + getFilterDomain(domain), translation, single, plural, number, domain)
     );
   };
+
   /** @type {_nx} */
-
-
   const _nx = (single, plural, number, context, domain) => {
     let translation = dcnpgettext(domain, context, single, plural, number);
-
     if (!hooks) {
       return translation;
     }
+
     /**
      * Filters the singular or plural form of a string with gettext context.
      *
@@ -19870,33 +19620,22 @@ const createI18n = (initialData, initialDomain, hooks) => {
      * @param {string} context     Context information for the translators.
      * @param {string} domain      Text domain. Unique identifier for retrieving translated strings.
      */
-
-
-    translation =
-    /** @type {string} */
-
-    /** @type {*} */
-    hooks.applyFilters('i18n.ngettext_with_context', translation, single, plural, number, context, domain);
-    return (
-      /** @type {string} */
-
-      /** @type {*} */
-      hooks.applyFilters('i18n.ngettext_with_context_' + getFilterDomain(domain), translation, single, plural, number, context, domain)
+    translation = /** @type {string} */
+    /** @type {*} */hooks.applyFilters('i18n.ngettext_with_context', translation, single, plural, number, context, domain);
+    return (/** @type {string} */
+      /** @type {*} */hooks.applyFilters('i18n.ngettext_with_context_' + getFilterDomain(domain), translation, single, plural, number, context, domain)
     );
   };
+
   /** @type {IsRtl} */
-
-
   const isRTL = () => {
     return 'rtl' === _x('ltr', 'text direction');
   };
+
   /** @type {HasTranslation} */
-
-
   const hasTranslation = (single, context, domain) => {
     const key = context ? context + '\u0004' + single : single;
     let result = !!tannin.data?.[domain !== null && domain !== void 0 ? domain : 'default']?.[key];
-
     if (hooks) {
       /**
        * Filters the presence of a translation in the locale data.
@@ -19906,25 +19645,16 @@ const createI18n = (initialData, initialDomain, hooks) => {
        * @param {string}  context        Context information for the translators.
        * @param {string}  domain         Text domain. Unique identifier for retrieving translated strings.
        */
-      result =
-      /** @type { boolean } */
-
-      /** @type {*} */
-      hooks.applyFilters('i18n.has_translation', result, single, context, domain);
-      result =
-      /** @type { boolean } */
-
-      /** @type {*} */
-      hooks.applyFilters('i18n.has_translation_' + getFilterDomain(domain), result, single, context, domain);
+      result = /** @type { boolean } */
+      /** @type {*} */hooks.applyFilters('i18n.has_translation', result, single, context, domain);
+      result = /** @type { boolean } */
+      /** @type {*} */hooks.applyFilters('i18n.has_translation_' + getFilterDomain(domain), result, single, context, domain);
     }
-
     return result;
   };
-
   if (initialData) {
     setLocaleData(initialData, initialDomain);
   }
-
   if (hooks) {
     /**
      * @param {string} hookName
@@ -19934,11 +19664,9 @@ const createI18n = (initialData, initialDomain, hooks) => {
         notifyListeners();
       }
     };
-
     hooks.addAction('hookAdded', 'core/i18n', onHookAddedOrRemoved);
     hooks.addAction('hookRemoved', 'core/i18n', onHookAddedOrRemoved);
   }
-
   return {
     getLocaleData,
     setLocaleData,
@@ -19984,17 +19712,18 @@ __webpack_require__.r(__webpack_exports__);
  * Internal dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
 
-
 const i18n = (0,_create_i18n__WEBPACK_IMPORTED_MODULE_0__.createI18n)(undefined, undefined, _wordpress_hooks__WEBPACK_IMPORTED_MODULE_1__.defaultHooks);
+
 /**
  * Default, singleton instance of `I18n`.
  */
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (i18n);
+
 /*
  * Comments in this file are duplicated from ./i18n due to
  * https://github.com/WordPress/gutenberg/pull/20318#issuecomment-590837722
@@ -20014,8 +19743,8 @@ const i18n = (0,_create_i18n__WEBPACK_IMPORTED_MODULE_0__.createI18n)(undefined,
  * @param {string} [domain] Domain for which to get the data.
  * @return {LocaleData} Locale data.
  */
-
 const getLocaleData = i18n.getLocaleData.bind(i18n);
+
 /**
  * Merges locale data into the Tannin instance by domain. Accepts data in a
  * Jed-formatted JSON object shape.
@@ -20025,8 +19754,8 @@ const getLocaleData = i18n.getLocaleData.bind(i18n);
  * @param {LocaleData} [data]   Locale data configuration.
  * @param {string}     [domain] Domain for which configuration applies.
  */
-
 const setLocaleData = i18n.setLocaleData.bind(i18n);
+
 /**
  * Resets all current Tannin instance locale data and sets the specified
  * locale data for the domain. Accepts data in a Jed-formatted JSON object shape.
@@ -20036,16 +19765,16 @@ const setLocaleData = i18n.setLocaleData.bind(i18n);
  * @param {LocaleData} [data]   Locale data configuration.
  * @param {string}     [domain] Domain for which configuration applies.
  */
-
 const resetLocaleData = i18n.resetLocaleData.bind(i18n);
+
 /**
  * Subscribes to changes of locale data
  *
  * @param {SubscribeCallback} callback Subscription callback
  * @return {UnsubscribeCallback} Unsubscribe callback
  */
-
 const subscribe = i18n.subscribe.bind(i18n);
+
 /**
  * Retrieve the translation of text.
  *
@@ -20056,8 +19785,8 @@ const subscribe = i18n.subscribe.bind(i18n);
  *
  * @return {string} Translated text.
  */
-
 const __ = i18n.__.bind(i18n);
+
 /**
  * Retrieve translated string with gettext context.
  *
@@ -20069,8 +19798,8 @@ const __ = i18n.__.bind(i18n);
  *
  * @return {string} Translated context string without pipe.
  */
-
 const _x = i18n._x.bind(i18n);
+
 /**
  * Translates and retrieves the singular or plural form based on the supplied
  * number.
@@ -20085,8 +19814,8 @@ const _x = i18n._x.bind(i18n);
  *
  * @return {string} The translated singular or plural form.
  */
-
 const _n = i18n._n.bind(i18n);
+
 /**
  * Translates and retrieves the singular or plural form based on the supplied
  * number, with gettext context.
@@ -20102,8 +19831,8 @@ const _n = i18n._n.bind(i18n);
  *
  * @return {string} The translated singular or plural form.
  */
-
 const _nx = i18n._nx.bind(i18n);
+
 /**
  * Check if current locale is RTL.
  *
@@ -20114,8 +19843,8 @@ const _nx = i18n._nx.bind(i18n);
  *
  * @return {boolean} Whether locale is RTL.
  */
-
 const isRTL = i18n.isRTL.bind(i18n);
+
 /**
  * Check if there is a translation for a given string (in singular form).
  *
@@ -20124,7 +19853,6 @@ const isRTL = i18n.isRTL.bind(i18n);
  * @param {string} [domain]  Domain to retrieve the translated text.
  * @return {boolean} Whether the translation exists or not.
  */
-
 const hasTranslation = i18n.hasTranslation.bind(i18n);
 //# sourceMappingURL=default-i18n.js.map
 
@@ -20182,6 +19910,7 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 /**
  * Log to console, once per message; or more precisely, per referentially equal
  * argument set. Because Jed throws errors, we log these to the console instead
@@ -20189,7 +19918,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @param {...*} args Arguments to pass to `console.error`
  */
-
 const logErrorOnce = (0,memize__WEBPACK_IMPORTED_MODULE_0__["default"])(console.error); // eslint-disable-line no-console
 
 /**
@@ -20203,7 +19931,6 @@ const logErrorOnce = (0,memize__WEBPACK_IMPORTED_MODULE_0__["default"])(console.
  *
  * @return {string} The formatted string.
  */
-
 function sprintf(format, ...args) {
   try {
     return sprintf_js__WEBPACK_IMPORTED_MODULE_1___default().sprintf(format, ...args);
@@ -20211,7 +19938,6 @@ function sprintf(format, ...args) {
     if (error instanceof Error) {
       logErrorOnce('sprintf error: \n\n' + error.toString());
     }
-
     return format;
   }
 }
@@ -20809,17 +20535,14 @@ function isShallowEqualArrays(a, b) {
   if (a === b) {
     return true;
   }
-
   if (a.length !== b.length) {
     return false;
   }
-
   for (let i = 0, len = a.length; i < len; i++) {
     if (a[i] !== b[i]) {
       return false;
     }
   }
-
   return true;
 }
 //# sourceMappingURL=arrays.js.map
@@ -20848,6 +20571,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 /**
  * @typedef {Record<string, any>} ComparableObject
  */
@@ -20861,7 +20585,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @return {boolean} Whether the two values are shallow equal.
  */
-
 function isShallowEqual(a, b) {
   if (a && b) {
     if (a.constructor === Object && b.constructor === Object) {
@@ -20870,7 +20593,6 @@ function isShallowEqual(a, b) {
       return (0,_arrays__WEBPACK_IMPORTED_MODULE_1__["default"])(a, b);
     }
   }
-
   return a === b;
 }
 //# sourceMappingURL=index.js.map
@@ -20900,21 +20622,17 @@ function isShallowEqualObjects(a, b) {
   if (a === b) {
     return true;
   }
-
   const aKeys = Object.keys(a);
   const bKeys = Object.keys(b);
-
   if (aKeys.length !== bKeys.length) {
     return false;
   }
-
   let i = 0;
-
   while (i < aKeys.length) {
     const key = aKeys[i];
     const aValue = a[key];
-
-    if ( // In iterating only the keys of the first object after verifying
+    if (
+    // In iterating only the keys of the first object after verifying
     // equal lengths, account for the case that an explicit `undefined`
     // value in the first is implicitly undefined in the second.
     //
@@ -20922,10 +20640,8 @@ function isShallowEqualObjects(a, b) {
     aValue === undefined && !b.hasOwnProperty(key) || aValue !== b[key]) {
       return false;
     }
-
     i++;
   }
-
   return true;
 }
 //# sourceMappingURL=objects.js.map
@@ -20987,6 +20703,7 @@ __webpack_require__.r(__webpack_exports__);
  * External dependencies
  */
 
+
 /**
  * WordPress dependencies
  */
@@ -21015,7 +20732,6 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @typedef {(character: string, isApple?: () => boolean) => T} WPKeyHandler
  */
-
 /** @typedef {(event: import('react').KeyboardEvent<HTMLElement> | KeyboardEvent, character: string, isApple?: () => boolean) => boolean} WPEventKeyHandler */
 
 /** @typedef {( isApple: () => boolean ) => WPModifierPart[]} WPModifier */
@@ -21023,103 +20739,103 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Keycode for BACKSPACE key.
  */
-
 const BACKSPACE = 8;
+
 /**
  * Keycode for TAB key.
  */
-
 const TAB = 9;
+
 /**
  * Keycode for ENTER key.
  */
-
 const ENTER = 13;
+
 /**
  * Keycode for ESCAPE key.
  */
-
 const ESCAPE = 27;
+
 /**
  * Keycode for SPACE key.
  */
-
 const SPACE = 32;
+
 /**
  * Keycode for PAGEUP key.
  */
-
 const PAGEUP = 33;
+
 /**
  * Keycode for PAGEDOWN key.
  */
-
 const PAGEDOWN = 34;
+
 /**
  * Keycode for END key.
  */
-
 const END = 35;
+
 /**
  * Keycode for HOME key.
  */
-
 const HOME = 36;
+
 /**
  * Keycode for LEFT key.
  */
-
 const LEFT = 37;
+
 /**
  * Keycode for UP key.
  */
-
 const UP = 38;
+
 /**
  * Keycode for RIGHT key.
  */
-
 const RIGHT = 39;
+
 /**
  * Keycode for DOWN key.
  */
-
 const DOWN = 40;
+
 /**
  * Keycode for DELETE key.
  */
-
 const DELETE = 46;
+
 /**
  * Keycode for F10 key.
  */
-
 const F10 = 121;
+
 /**
  * Keycode for ALT key.
  */
-
 const ALT = 'alt';
+
 /**
  * Keycode for CTRL key.
  */
-
 const CTRL = 'ctrl';
+
 /**
  * Keycode for COMMAND/META key.
  */
-
 const COMMAND = 'meta';
+
 /**
  * Keycode for SHIFT key.
  */
-
 const SHIFT = 'shift';
+
 /**
  * Keycode for ZERO key.
  */
-
 const ZERO = 48;
+
 
 /**
  * Map the values of an object with a specified callback and return the result object.
@@ -21131,18 +20847,16 @@ const ZERO = 48;
  *
  * @return {any} Active modifier constants.
  */
-
 function mapValues(object, mapFn) {
   return Object.fromEntries(Object.entries(object).map(([key, value]) => [key, mapFn(value)]));
 }
+
 /**
  * Object that contains functions that return the available modifier
  * depending on platform.
  *
  * @type {WPModifierHandler< ( isApple: () => boolean ) => WPModifierPart[]>}
  */
-
-
 const modifiers = {
   primary: _isApple => _isApple() ? [COMMAND] : [CTRL],
   primaryShift: _isApple => _isApple() ? [SHIFT, COMMAND] : [CTRL, SHIFT],
@@ -21156,6 +20870,7 @@ const modifiers = {
   shiftAlt: () => [SHIFT, ALT],
   undefined: () => []
 };
+
 /**
  * An object that contains functions to get raw shortcuts.
  *
@@ -21171,17 +20886,13 @@ const modifiers = {
  * @type {WPModifierHandler<WPKeyHandler<string>>} Keyed map of functions to raw
  *                                                 shortcuts.
  */
-
-const rawShortcut = mapValues(modifiers, (
-/** @type {WPModifier} */
-modifier) => {
-  return (
-    /** @type {WPKeyHandler<string>} */
-    (character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
+const rawShortcut = mapValues(modifiers, ( /** @type {WPModifier} */modifier) => {
+  return (/** @type {WPKeyHandler<string>} */(character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
       return [...modifier(_isApple), character.toLowerCase()].join('+');
     }
   );
 });
+
 /**
  * Return an array of the parts of a keyboard shortcut chord for display.
  *
@@ -21195,15 +20906,9 @@ modifier) => {
  * @type {WPModifierHandler<WPKeyHandler<string[]>>} Keyed map of functions to
  *                                                   shortcut sequences.
  */
-
-const displayShortcutList = mapValues(modifiers, (
-/** @type {WPModifier} */
-modifier) => {
-  return (
-    /** @type {WPKeyHandler<string[]>} */
-    (character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
+const displayShortcutList = mapValues(modifiers, ( /** @type {WPModifier} */modifier) => {
+  return (/** @type {WPKeyHandler<string[]>} */(character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
       const isApple = _isApple();
-
       const replacementKeyMap = {
         [ALT]: isApple ? '⌥' : 'Alt',
         [CTRL]: isApple ? '⌃' : 'Ctrl',
@@ -21213,20 +20918,17 @@ modifier) => {
       };
       const modifierKeys = modifier(_isApple).reduce((accumulator, key) => {
         var _replacementKeyMap$ke;
-
-        const replacementKey = (_replacementKeyMap$ke = replacementKeyMap[key]) !== null && _replacementKeyMap$ke !== void 0 ? _replacementKeyMap$ke : key; // If on the Mac, adhere to platform convention and don't show plus between keys.
-
+        const replacementKey = (_replacementKeyMap$ke = replacementKeyMap[key]) !== null && _replacementKeyMap$ke !== void 0 ? _replacementKeyMap$ke : key;
+        // If on the Mac, adhere to platform convention and don't show plus between keys.
         if (isApple) {
           return [...accumulator, replacementKey];
         }
-
         return [...accumulator, replacementKey, '+'];
-      },
-      /** @type {string[]} */
-      []); // Symbols (~`,.) are removed by the default regular expression,
+      }, /** @type {string[]} */[]);
+
+      // Symbols (~`,.) are removed by the default regular expression,
       // so override the rule to allow symbols used for shortcuts.
       // see: https://github.com/blakeembrey/change-case#options
-
       const capitalizedCharacter = (0,change_case__WEBPACK_IMPORTED_MODULE_2__.capitalCase)(character, {
         stripRegexp: /[^A-Z0-9~`,\.\\\-]/gi
       });
@@ -21234,6 +20936,7 @@ modifier) => {
     }
   );
 });
+
 /**
  * An object that contains functions to display shortcuts.
  *
@@ -21247,15 +20950,11 @@ modifier) => {
  * @type {WPModifierHandler<WPKeyHandler<string>>} Keyed map of functions to
  *                                                 display shortcuts.
  */
-
-const displayShortcut = mapValues(displayShortcutList, (
-/** @type {WPKeyHandler<string[]>} */
-shortcutList) => {
-  return (
-    /** @type {WPKeyHandler<string>} */
-    (character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => shortcutList(character, _isApple).join('')
+const displayShortcut = mapValues(displayShortcutList, ( /** @type {WPKeyHandler<string[]>} */shortcutList) => {
+  return (/** @type {WPKeyHandler<string>} */(character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => shortcutList(character, _isApple).join('')
   );
 });
+
 /**
  * An object that contains functions to return an aria label for a keyboard
  * shortcut.
@@ -21270,43 +20969,32 @@ shortcutList) => {
  * @type {WPModifierHandler<WPKeyHandler<string>>} Keyed map of functions to
  *                                                 shortcut ARIA labels.
  */
-
-const shortcutAriaLabel = mapValues(modifiers, (
-/** @type {WPModifier} */
-modifier) => {
-  return (
-    /** @type {WPKeyHandler<string>} */
-    (character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
+const shortcutAriaLabel = mapValues(modifiers, ( /** @type {WPModifier} */modifier) => {
+  return (/** @type {WPKeyHandler<string>} */(character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
       const isApple = _isApple();
       /** @type {Record<string,string>} */
-
-
       const replacementKeyMap = {
         [SHIFT]: 'Shift',
         [COMMAND]: isApple ? 'Command' : 'Control',
         [CTRL]: 'Control',
         [ALT]: isApple ? 'Option' : 'Alt',
-
         /* translators: comma as in the character ',' */
         ',': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Comma'),
-
         /* translators: period as in the character '.' */
         '.': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Period'),
-
         /* translators: backtick as in the character '`' */
         '`': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Backtick'),
-
         /* translators: tilde as in the character '~' */
         '~': (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Tilde')
       };
       return [...modifier(_isApple), character].map(key => {
         var _replacementKeyMap$ke2;
-
         return (0,change_case__WEBPACK_IMPORTED_MODULE_2__.capitalCase)((_replacementKeyMap$ke2 = replacementKeyMap[key]) !== null && _replacementKeyMap$ke2 !== void 0 ? _replacementKeyMap$ke2 : key);
       }).join(isApple ? ' ' : ' + ');
     }
   );
 });
+
 /**
  * From a given KeyboardEvent, returns an array of active modifier constants for
  * the event.
@@ -21315,15 +21003,12 @@ modifier) => {
  *
  * @return {Array<WPModifierPart>} Active modifier constants.
  */
-
 function getEventModifiers(event) {
-  return (
-    /** @type {WPModifierPart[]} */
-    [ALT, CTRL, COMMAND, SHIFT].filter(key => event[
-    /** @type {'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey'} */
+  return (/** @type {WPModifierPart[]} */[ALT, CTRL, COMMAND, SHIFT].filter(key => event[/** @type {'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey'} */
     `${key}Key`])
   );
 }
+
 /**
  * An object that contains functions to check if a keyboard event matches a
  * predefined shortcut combination.
@@ -21338,18 +21023,11 @@ function getEventModifiers(event) {
  * @type {WPModifierHandler<WPEventKeyHandler>} Keyed map of functions
  *                                                       to match events.
  */
-
-
-const isKeyboardEvent = mapValues(modifiers, (
-/** @type {WPModifier} */
-getModifiers) => {
-  return (
-    /** @type {WPEventKeyHandler} */
-    (event, character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
+const isKeyboardEvent = mapValues(modifiers, ( /** @type {WPModifier} */getModifiers) => {
+  return (/** @type {WPEventKeyHandler} */(event, character, _isApple = _platform__WEBPACK_IMPORTED_MODULE_1__.isAppleOS) => {
       const mods = getModifiers(_isApple);
       const eventMods = getEventModifiers(event);
       /** @type {Record<string,string>} */
-
       const replacementWithShiftKeyMap = {
         Comma: ',',
         Backslash: '\\',
@@ -21359,37 +21037,30 @@ getModifiers) => {
       };
       const modsDiff = mods.filter(mod => !eventMods.includes(mod));
       const eventModsDiff = eventMods.filter(mod => !mods.includes(mod));
-
       if (modsDiff.length > 0 || eventModsDiff.length > 0) {
         return false;
       }
-
       let key = event.key.toLowerCase();
-
       if (!character) {
-        return mods.includes(
-        /** @type {WPModifierPart} */
-        key);
+        return mods.includes( /** @type {WPModifierPart} */key);
       }
-
       if (event.altKey && character.length === 1) {
         key = String.fromCharCode(event.keyCode).toLowerCase();
-      } // `event.key` returns the value of the key pressed, taking into the state of
+      }
+
+      // `event.key` returns the value of the key pressed, taking into the state of
       // modifier keys such as `Shift`. If the shift key is pressed, a different
       // value may be returned depending on the keyboard layout. It is necessary to
       // convert to the physical key value that don't take into account keyboard
       // layout or modifier key state.
-
-
       if (event.shiftKey && character.length === 1 && replacementWithShiftKeyMap[event.code]) {
         key = replacementWithShiftKeyMap[event.code];
-      } // For backwards compatibility.
+      }
 
-
+      // For backwards compatibility.
       if (character === 'del') {
         character = 'delete';
       }
-
       return key === character.toLowerCase();
     }
   );
@@ -21421,10 +21092,8 @@ function isAppleOS(_window = null) {
     if (typeof window === 'undefined') {
       return false;
     }
-
     _window = window;
   }
-
   const {
     platform
   } = _window.navigator;
